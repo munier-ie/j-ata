@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -35,11 +35,7 @@ export default function AdminManagement() {
   });
   const { toast } = useToast();
 
-  useEffect(() => {
-    fetchMembers();
-  }, []);
-
-  const fetchMembers = async () => {
+  const fetchMembers = useCallback(async () => {
     try {
       setLoading(true);
       const data = await managementApi.getAll();
@@ -54,7 +50,11 @@ export default function AdminManagement() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [toast]);
+
+  useEffect(() => {
+    fetchMembers();
+  }, [fetchMembers]);
 
   const handleOpenDialog = (member?: ManagementMember) => {
     if (member) {
@@ -217,7 +217,7 @@ export default function AdminManagement() {
                       onCheckedChange={(checked) => setFormData({ ...formData, isCommissioner: checked as boolean })}
                     />
                     <Label htmlFor="isCommissioner" className="text-sm cursor-pointer">
-                      Commissioner (Root Node)
+                      Leadership (Director General)
                     </Label>
                   </div>
                 </div>

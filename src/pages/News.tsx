@@ -34,7 +34,7 @@ const News = () => {
         {/* Hero Section */}
         <HeroCarousel 
           title="News & Updates"
-          subtitle="Stay informed about the latest developments, announcements, and achievements in livestock development."
+          subtitle="Stay informed about the latest developments, announcements, and achievements in agricultural transformation."
         />
 
         {/* News Grid */}

@@ -16,31 +16,32 @@ const contactInfo = [
   {
     icon: MapPin,
     title: "Office Address",
-    details: ["Ministry of Livestock Development", "Government House Complex", "Dutse, Jigawa State, Nigeria"]
+    details: ["5340, Kiyawa Road", "Dutse, Jigawa State, Nigeria"]
   },
   {
     icon: Phone,
-    title: "Phone Numbers",
-    details: ["+234 (0) 800 LIVESTOCK", "+234 (0) 64 123 4567"]
+    title: "Phone Number",
+    details: ["+234 770 000 0000"]
   },
   {
     icon: Mail,
-    title: "Email Address",
-    details: ["info@jigawalivestock.gov.ng", "support@jigawalivestock.gov.ng"]
+    title: "Email Addresses",
+    details: ["support@jata.ng", "dg.jata@jigawastate.gov.ng"]
   },
   {
     icon: Clock,
     title: "Office Hours",
-    details: ["Monday - Friday: 8:00 AM - 4:00 PM", "Saturday: 9:00 AM - 1:00 PM", "Sunday: Closed"]
+    details: ["Monday - Friday: 9:00 AM - 5:00 PM", "Saturday & Sunday: Closed"]
   }
 ];
 
 const subjects = [
   "General Inquiry",
   "Farmer Registration Support",
-  "Veterinary Services",
-  "Revenue & Payments",
-  "Ranch Information",
+  "Extension Agent Services",
+  "Command Center Access",
+  "Soil Mapping Data",
+  "Investment Opportunities",
   "Complaint / Feedback",
   "Media & Press",
   "Partnership Proposal"

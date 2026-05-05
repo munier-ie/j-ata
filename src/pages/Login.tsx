@@ -25,7 +25,7 @@ export default function Login() {
       setIsLoading(false);
       toast({
         title: "Login Successful",
-        description: "Welcome back to Jigawa Livestock Digital Platform!",
+        description: "Welcome back to the Jigawa State Transformation Agency (J-ATA) portal!",
       });
       navigate("/");
     }, 1500);
@@ -60,7 +60,7 @@ export default function Login() {
             </div>
             <CardTitle className="text-2xl">Welcome Back</CardTitle>
             <CardDescription>
-              Access your Jigawa Livestock Digital Platform account
+              Access your Jigawa State Transformation Agency (J-ATA) account
             </CardDescription>
           </CardHeader>
           <CardContent>

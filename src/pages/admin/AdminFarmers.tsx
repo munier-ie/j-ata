@@ -14,7 +14,6 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-
 export default function AdminFarmers() {
   const [farmers, setFarmers] = useState<Farmer[]>([]);
   const [loading, setLoading] = useState(true);
@@ -46,12 +45,12 @@ export default function AdminFarmers() {
   );
 
   return (
-    <AdminLayout title="Registered Farmers">
+    <AdminLayout title="Farmer Registry">
       <div className="space-y-6">
         <Card variant="elevated">
           <CardHeader>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <CardTitle>Farmer Registry</CardTitle>
+              <CardTitle>Central Farmer Database</CardTitle>
               <div className="relative w-full sm:w-64">
                 <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
@@ -85,8 +84,8 @@ export default function AdminFarmers() {
                       <TableHead>Name</TableHead>
                       <TableHead>Phone</TableHead>
                       <TableHead>LGA</TableHead>
-                      <TableHead>Livestock</TableHead>
-                      <TableHead>Herd Size</TableHead>
+                      <TableHead>Crops</TableHead>
+                      <TableHead>Farm Size (Ha)</TableHead>
                       <TableHead>Status</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -103,21 +102,27 @@ export default function AdminFarmers() {
                         <TableCell>{farmer.lga}</TableCell>
                         <TableCell>
                           <div className="flex flex-wrap gap-1">
-                            {farmer.livestockTypes.slice(0, 2).map((type) => (
+                            {farmer.cropTypes.slice(0, 2).map((type) => (
                               <Badge key={type} variant="secondary" className="text-xs">
                                 {type}
                               </Badge>
                             ))}
-                            {farmer.livestockTypes.length > 2 && (
+                            {farmer.cropTypes.length > 2 && (
                               <Badge variant="outline" className="text-xs">
-                                +{farmer.livestockTypes.length - 2}
+                                +{farmer.cropTypes.length - 2}
                               </Badge>
                             )}
                           </div>
                         </TableCell>
-                        <TableCell>{farmer.herdSize}</TableCell>
+                        <TableCell>{farmer.farmSize}</TableCell>
                         <TableCell>
-                          <Badge className={farmer.status === 'active' ? 'bg-green-500' : 'bg-gray-500'}>
+                          <Badge className={
+                            farmer.status === 'approved' || farmer.status === 'active' 
+                            ? 'bg-green-500' 
+                            : farmer.status === 'pending'
+                            ? 'bg-yellow-500'
+                            : 'bg-gray-500'
+                          }>
                             {farmer.status}
                           </Badge>
                         </TableCell>

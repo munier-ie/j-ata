@@ -5,12 +5,11 @@ import 'dotenv/config';
 // Import routes
 import managementRoutes from './routes/management';
 import farmersRoutes from './routes/farmers';
-import ranchesRoutes from './routes/ranches';
+import farmEstatesRoutes from './routes/farm-estates';
 import newsRoutes from './routes/news';
-import clinicsRoutes from './routes/clinics';
+import innovationHubsRoutes from './routes/innovation-hubs';
 import statsRoutes from './routes/stats';
 import reportsRoutes from './routes/reports';
-import grazingPermitsRoutes from './routes/grazing-permits';
 import authRoutes from './routes/auth';
 
 const app = express();
@@ -52,12 +51,11 @@ app.get('/api/health', (req, res) => {
 // ============= API Routes =============
 app.use('/api/management', managementRoutes);
 app.use('/api/farmers', farmersRoutes);
-app.use('/api/ranches', ranchesRoutes);
+app.use('/api/farm-estates', farmEstatesRoutes);
 app.use('/api/news', newsRoutes);
-app.use('/api/clinics', clinicsRoutes);
+app.use('/api/innovation-hubs', innovationHubsRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/reports', reportsRoutes);
-app.use('/api/grazing-permits', grazingPermitsRoutes);
 app.use('/api/auth', authRoutes);
 
 // ============= 404 Handler =============

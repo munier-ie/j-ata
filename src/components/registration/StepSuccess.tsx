@@ -47,7 +47,7 @@ export function StepSuccess({ data }: StepSuccessProps) {
                 <div>
                      <h2 className="text-2xl font-bold text-green-700">Registration Successful!</h2>
                      <p className="text-muted-foreground mt-2 max-w-md mx-auto">
-                        Welcome to the Jigawa Livestock Platform. Your digital identity card has been successfully generated.
+                        Welcome to the J-ATA Platform. Your digital identity card has been successfully generated.
                     </p>
                 </div>
             </div>

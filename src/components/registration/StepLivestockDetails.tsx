@@ -5,13 +5,16 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowRight, ArrowLeft, Loader2 } from "lucide-react";
 import { useState, useEffect } from "react";
 
-const livestockTypes = [
+const farmAssets = [
   { value: "cattle", label: "Cattle" },
   { value: "goats", label: "Goats" },
   { value: "sheep", label: "Sheep" },
   { value: "poultry", label: "Poultry" },
-  { value: "camels", label: "Camels" },
-  { value: "donkeys", label: "Donkeys" },
+  { value: "rice", label: "Rice (Hectares)" },
+  { value: "wheat", label: "Wheat (Hectares)" },
+  { value: "maize", label: "Maize (Hectares)" },
+  { value: "sesame", label: "Sesame (Hectares)" },
+  { value: "tomato", label: "Tomato (Hectares)" },
 ];
 
 interface LivestockData {
@@ -62,17 +65,17 @@ export function StepLivestockDetails({ onNext, onBack, initialData = {} }: StepL
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="space-y-2">
-        <h3 className="text-lg font-medium">Livestock Details</h3>
+        <h3 className="text-lg font-medium">Farm Assets</h3>
         <p className="text-sm text-muted-foreground">
-          Select the types of livestock you own and specify the quantity for each.
+          Select the types of livestock or crops you manage and specify the quantity or hectares.
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-8">
         <div className="space-y-4">
-          <Label>Livestock Types</Label>
+          <Label>Asset Types</Label>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {livestockTypes.map((type) => (
+            {farmAssets.map((type) => (
               <label
                 key={type.value}
                 className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${
@@ -94,18 +97,18 @@ export function StepLivestockDetails({ onNext, onBack, initialData = {} }: StepL
 
         {selectedTypes.length > 0 && (
           <div className="space-y-4 animate-in fade-in zoom-in-95 duration-300">
-            <Label>Quantity Owned</Label>
+            <Label>Quantity / Hectares</Label>
             <div className="grid gap-4">
               {selectedTypes.map(typeValue => {
-                const typeLabel = livestockTypes.find(t => t.value === typeValue)?.label;
+                const typeLabel = farmAssets.find(t => t.value === typeValue)?.label;
                 return (
                   <div key={typeValue} className="grid grid-cols-1 sm:grid-cols-2 gap-2 items-center border p-3 rounded-md bg-secondary/20">
-                    <span className="text-sm font-medium">Number of {typeLabel}</span>
+                    <span className="text-sm font-medium">{typeLabel}</span>
                     <Input
                       type="number"
                       min="1"
                       required
-                      placeholder={`Enter count for ${typeLabel}`}
+                      placeholder={`Enter quantity for ${typeLabel}`}
                       value={counts[typeValue] || ''}
                       onChange={(e) => handleCountChange(typeValue, e.target.value)}
                     />

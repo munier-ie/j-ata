@@ -26,10 +26,9 @@ enum FacilityStatus {
 }
 
 enum FacilityType {
-  lga_clinic
-  zonal_clinic
-  central_referral
-  ranch
+  innovation_hub
+  service_center
+  farm_estate
 }
 
 // ============= MODELS =============
@@ -75,25 +74,25 @@ model ManagementMember {
 }
 
 model Farmer {
-  id            String   @id @default(uuid())
-  farmerId      String   @unique @map("farmer_id")
-  firstName     String   @map("first_name")
-  lastName      String   @map("last_name")
-  phone         String
-  nin           String?
-  lga           String
-  ward          String
-  community     String
-  herdSize      Int      @default(0) @map("herd_size")
-  livestockTypes String[] @map("livestock_types")
-  status        String   @default("pending")
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
+  id        String   @id @default(uuid())
+  farmerId  String   @unique @map("farmer_id")
+  firstName String   @map("first_name")
+  lastName  String   @map("last_name")
+  phone     String
+  nin       String?
+  lga       String
+  ward      String
+  community String
+  farmSize  Float    @default(0) @map("farm_size")
+  cropTypes String[] @map("crop_types")
+  status    String   @default("pending")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("farmers")
 }
 
-model Ranch {
+model FarmEstate {
   id                   String         @id @default(uuid())
   name                 String
   lga                  String
@@ -102,24 +101,21 @@ model Ranch {
   latitude             Float?
   longitude            Float?
   totalHectares        Float?         @map("total_hectares")
-  capacityCattle       Int?           @map("capacity_cattle")
   status               FacilityStatus @default(planned)
   completionPercentage Int?           @map("completion_percentage")
   budgetAllocated      Float?         @map("budget_allocated")
   budgetSpent          Float?         @map("budget_spent")
   hasWater             Boolean?       @map("has_water")
   hasPower             Boolean?       @map("has_power")
-  hasVeterinaryClinic  Boolean?       @map("has_veterinary_clinic")
-  hasFeedFacilities    Boolean?       @map("has_feed_facilities")
-  hasSchool            Boolean?       @map("has_school")
-  hasHealthCenter      Boolean?       @map("has_health_center")
+  hasAccessRoad        Boolean?       @map("has_access_road")
+  hasStorageFacility   Boolean?       @map("has_storage_facility")
   createdAt            DateTime       @default(now()) @map("created_at")
   updatedAt            DateTime       @updatedAt @map("updated_at")
 
-  @@map("ranches")
+  @@map("farm_estates")
 }
 
-model VeterinaryClinic {
+model InnovationHub {
   id                   String         @id @default(uuid())
   name                 String
   facilityType         FacilityType   @map("facility_type")
@@ -141,7 +137,7 @@ model VeterinaryClinic {
   createdAt            DateTime       @default(now()) @map("created_at")
   updatedAt            DateTime       @updatedAt @map("updated_at")
 
-  @@map("veterinary_clinics")
+  @@map("innovation_hubs")
 }
 
 model NewsArticle {
@@ -185,22 +181,4 @@ model ContactSubmission {
   createdAt DateTime @default(now()) @map("created_at")
 
   @@map("contact_submissions")
-}
-
-model GrazingPermit {
-  id            String   @id @default(uuid())
-  receiptId     String   @unique @map("receipt_id")
-  nin           String
-  fullName      String   @map("full_name")
-  phone         String?
-  lga           String
-  ward          String
-  community     String?
-  address       String?
-  yardLength    Int      @map("yard_length")
-  amount        Float
-  paymentStatus String   @default("completed") @map("payment_status")
-  createdAt     DateTime @default(now()) @map("created_at")
-
-  @@map("grazing_permits")
 }

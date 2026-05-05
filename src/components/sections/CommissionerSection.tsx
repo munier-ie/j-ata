@@ -18,8 +18,8 @@ export const CommissionerSection = () => {
             <div className="relative">
                 <div className="w-72 h-80 sm:w-80 sm:h-96 rounded-2xl overflow-hidden border-4 border-primary shadow-2xl relative z-10">
                     <img 
-                    src="/Hon.%20commissioner.png" 
-                    alt="Prof. Saleem Abdurrahman" 
+                    src="/director jata.png" 
+                    alt="Dr. Saifullahi Umar" 
                     className="w-full h-full object-cover"
                     />
                 </div>
@@ -41,31 +41,31 @@ export const CommissionerSection = () => {
             </div>
             
             <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground">
-              Driving Digital Transformation in Agriculture
+              Empowering 1,435 Extension Agents
             </h2>
             
             <div className="relative">
                 <Quote className="absolute -top-4 -left-2 w-8 h-8 text-primary/20 transform -scale-x-100" />
                 <blockquote className="text-xl text-muted-foreground leading-relaxed italic relative z-10 pl-6">
-                    "Our mission is to empower every livestock farmer in Jigawa State with digital identity and modern veterinary services. This platform is not just technology; it is a commitment to sustainable economic growth and food security for our people."
+                    "Our goal is to digitally empower every extension agent to provide real-time field intelligence. J-ATA is transforming into a digital command center, ensuring that our agricultural transformation is backed by data and delivers real impact to our farmers."
                 </blockquote>
             </div>
 
             <div>
-                <h3 className="text-xl font-bold text-foreground">Prof. Saleem Abdurrahman</h3>
-                <p className="text-primary font-medium">Honourable Commissioner for Livestock, Jigawa State</p>
+                <h3 className="text-xl font-bold text-foreground">Dr. Saifullahi Umar</h3>
+                <p className="text-primary font-medium">Director General J-ATA and Council Secretary</p>
             </div>
 
             <div className="pt-4 flex flex-wrap justify-center lg:justify-start gap-4">
                 <Link to="/about">
                     <Button variant="governmentPrimary" className="gap-2">
-                        Read Full Message
+                        Read J-ATA Mandate
                         <ArrowRight className="w-4 h-4" />
                     </Button>
                 </Link>
                 <Link to="/management">
                     <Button variant="outline" className="gap-2">
-                        View Ministry Departments
+                        Meet the Management
                     </Button>
                 </Link>
             </div>

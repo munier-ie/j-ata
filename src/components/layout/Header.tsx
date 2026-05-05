@@ -16,9 +16,10 @@ import { useAuth } from "@/hooks/useAuth";
 
 const navigation = [
   { name: "Home", href: "/" },
-  { name: "Management", href: "/management" },
-  { name: "News", href: "/news" },
-  { name: "Contact", href: "/contact" },
+  { name: "Innovation Hubs", href: "/innovation-hubs" },
+  { name: "Farm Estates", href: "/farm-estates" },
+  { name: "About Us", href: "/management" },
+  { name: "Updates", href: "/news" },
 ];
 
 export function Header() {
@@ -47,9 +48,9 @@ export function Header() {
             />
             <div className="hidden sm:block">
               <p className="font-display font-semibold text-foreground text-lg leading-tight">
-                Jigawa Livestock
+                J-ATA
               </p>
-              <p className="text-xs text-muted-foreground">Digital Platform</p>
+              <p className="text-xs text-muted-foreground">Transformation Agency</p>
             </div>
           </Link>
 
@@ -87,13 +88,13 @@ export function Header() {
                   onClick={() => navigate("/farmer-registration")}
                   className="cursor-pointer"
                 >
-                  Farmer Registration
+                  Farmer Portal
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  onClick={() => navigate("/grazing-permit")}
+                  onClick={() => navigate("/map")}
                   className="cursor-pointer"
                 >
-                  Grazing Permit
+                  Interactive Map
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -144,17 +145,7 @@ export function Header() {
                     setMobileMenuOpen(false);
                   }}
                 >
-                  Farmer Registration
-                </Button>
-                <Button
-                  variant="outline"
-                  className="w-full justify-start"
-                  onClick={() => {
-                    navigate("/grazing-permit");
-                    setMobileMenuOpen(false);
-                  }}
-                >
-                  Grazing Permit
+                  Farmer Portal
                 </Button>
               </div>
             </div>

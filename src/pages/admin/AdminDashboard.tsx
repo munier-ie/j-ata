@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { statsApi, DashboardStats } from '@/lib/api';
-import { Building2, Users, FileText, Newspaper, TrendingUp, MapPin } from 'lucide-react';
+import { statsApi } from '@/lib/api';
+import { Building2, Users, FileText, Newspaper, TrendingUp, Lightbulb } from 'lucide-react';
 
 interface Stats {
-  totalRanches: number;
-  totalClinics: number;
+  totalFarmEstates: number;
+  totalInnovationHubs: number;
   totalFarmers: number;
   totalNews: number;
   totalReports: number;
@@ -15,8 +15,8 @@ interface Stats {
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState<Stats>({
-    totalRanches: 0,
-    totalClinics: 0,
+    totalFarmEstates: 0,
+    totalInnovationHubs: 0,
     totalFarmers: 0,
     totalNews: 0,
     totalReports: 0,
@@ -31,7 +31,7 @@ export default function AdminDashboard() {
   const fetchStats = async () => {
     try {
       const data = await statsApi.get();
-      setStats(data);
+      setStats(data as unknown as Stats);
     } catch (error) {
       console.error('Error fetching stats:', error);
     } finally {
@@ -40,8 +40,8 @@ export default function AdminDashboard() {
   };
 
   const statCards = [
-    { title: 'Total Ranches', value: stats.totalRanches, icon: Building2, color: 'bg-blue-500' },
-    { title: 'Veterinary Clinics', value: stats.totalClinics, icon: MapPin, color: 'bg-green-500' },
+    { title: 'Farm Estates', value: stats.totalFarmEstates, icon: Building2, color: 'bg-blue-500' },
+    { title: 'Innovation Hubs', value: stats.totalInnovationHubs, icon: Lightbulb, color: 'bg-green-500' },
     { title: 'Registered Farmers', value: stats.totalFarmers, icon: Users, color: 'bg-amber-500' },
     { title: 'News Articles', value: stats.totalNews, icon: Newspaper, color: 'bg-purple-500' },
     { title: 'Completed Projects', value: stats.completedProjects, icon: TrendingUp, color: 'bg-emerald-500' },
@@ -49,7 +49,7 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <AdminLayout title="Dashboard">
+    <AdminLayout title="J-ATA Command & Control">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {statCards.map((stat) => (
           <Card key={stat.title} variant="elevated">
@@ -75,26 +75,26 @@ export default function AdminDashboard() {
       <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card variant="elevated">
           <CardHeader>
-            <CardTitle>Welcome, Honourable Commissioner</CardTitle>
+            <CardTitle>Welcome, Director General</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-center gap-6">
               <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-primary/20 shrink-0">
                 <img 
                   src="/Hon.%20commissioner.png" 
-                  alt="Prof. Saleem Abdurrahman"
+                  alt="DG J-ATA"
                   width={80}
                   height={80}
                   className="w-full h-full object-cover"
                 />
               </div>
               <div className="space-y-1">
-                <h3 className="font-display font-bold text-lg">Prof. Saleem Abdurrahman</h3>
-                <p className="text-muted-foreground">Honourable Commissioner for Livestock</p>
+                <h3 className="font-display font-bold text-lg">Dr. Agricultural Director</h3>
+                <p className="text-muted-foreground">Director General, J-ATA</p>
                 <div className="flex items-center gap-2 mt-2">
                   <div className="px-2 py-1 rounded-full bg-green-500/10 text-green-600 text-xs font-medium flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                    System Operational
+                    Command Center Online
                   </div>
                   <span className="text-xs text-muted-foreground">Last login: Just now</span>
                 </div>
@@ -111,19 +111,19 @@ export default function AdminDashboard() {
             <div className="grid grid-cols-2 gap-3">
               <a href="/admin/construction" className="p-4 bg-secondary/50 rounded-lg hover:bg-secondary transition-colors text-center">
                 <Building2 className="h-6 w-6 mx-auto mb-2 text-primary" />
-                <p className="text-sm font-medium">Manage Construction</p>
+                <p className="text-sm font-medium">Manage Assets</p>
               </a>
               <a href="/admin/news" className="p-4 bg-secondary/50 rounded-lg hover:bg-secondary transition-colors text-center">
                 <Newspaper className="h-6 w-6 mx-auto mb-2 text-primary" />
-                <p className="text-sm font-medium">Add News</p>
+                <p className="text-sm font-medium">Post Update</p>
               </a>
               <a href="/admin/reports" className="p-4 bg-secondary/50 rounded-lg hover:bg-secondary transition-colors text-center">
                 <FileText className="h-6 w-6 mx-auto mb-2 text-primary" />
-                <p className="text-sm font-medium">Upload Report</p>
+                <p className="text-sm font-medium">Data Insight</p>
               </a>
               <a href="/admin/farmers" className="p-4 bg-secondary/50 rounded-lg hover:bg-secondary transition-colors text-center">
                 <Users className="h-6 w-6 mx-auto mb-2 text-primary" />
-                <p className="text-sm font-medium">View Farmers</p>
+                <p className="text-sm font-medium">Farmer Database</p>
               </a>
             </div>
           </CardContent>

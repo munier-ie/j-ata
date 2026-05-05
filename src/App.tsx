@@ -11,8 +11,7 @@ import { Loader2 } from "lucide-react";
 // Eager-loaded pages (critical for initial render)
 import Index from "./pages/Index";
 import FarmerRegistration from "./pages/FarmerRegistration";
-import VeterinaryServices from "./pages/VeterinaryServices";
-import RevenuePortal from "./pages/RevenuePortal";
+import InnovationHubs from "./pages/InnovationHubs";
 import About from "./pages/About";
 import Auth from "./pages/Auth";
 import Departments from "./pages/Departments";
@@ -22,12 +21,15 @@ import News from "./pages/News";
 import Contact from "./pages/Contact";
 import Transparency from "./pages/Transparency";
 import NotFound from "./pages/NotFound";
-import Branches from "./pages/Branches";
-import GrazingPermit from "./pages/GrazingPermit";
+import FarmEstates from "./pages/FarmEstates";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 
 // Lazy-loaded pages (heavy components with maps/charts)
 const Map = lazy(() => import("./pages/Map"));
+const SmartExtension = lazy(() => import("./pages/SmartExtension"));
+const CommandCenter = lazy(() => import("./pages/CommandCenter"));
+const DataHub = lazy(() => import("./pages/DataHub"));
+const InvestmentPortal = lazy(() => import("./pages/InvestmentPortal"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
 const AdminConstruction = lazy(() => import("./pages/admin/AdminConstruction"));
 const AdminBudget = lazy(() => import("./pages/admin/AdminBudget"));
@@ -57,9 +59,7 @@ const App = () => (
             <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/farmer-registration" element={<FarmerRegistration />} />
-            <Route path="/grazing-permit" element={<GrazingPermit />} />
-            <Route path="/veterinary" element={<VeterinaryServices />} />
-            <Route path="/revenue" element={<RevenuePortal />} />
+            <Route path="/innovation-hubs" element={<InnovationHubs />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Auth />} />
             <Route path="/management" element={<Departments />} />
@@ -67,10 +67,14 @@ const App = () => (
             <Route path="/programs" element={<Programs />} />
             <Route path="/news" element={<News />} />
 
-            <Route path="/branches" element={<Branches />} />
+            <Route path="/farm-estates" element={<FarmEstates />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/transparency" element={<Transparency />} />
             <Route path="/map" element={<Map />} />
+            <Route path="/extension" element={<SmartExtension />} />
+            <Route path="/command-center" element={<CommandCenter />} />
+            <Route path="/data-hub" element={<DataHub />} />
+            <Route path="/investors" element={<InvestmentPortal />} />
 
             {/* Admin Routes - Protected */}
             <Route path="/admin" element={<ProtectedRoute requireAdmin><AdminDashboard /></ProtectedRoute>} />

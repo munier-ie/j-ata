@@ -92,7 +92,7 @@ export function AdminLayout({ children, title }: AdminLayoutProps) {
                 <img src={jigawaLogo} alt="Jigawa State" className="h-10 w-10" />
                 <div>
                   <p className="font-display font-bold text-foreground">Admin Panel</p>
-                  <p className="text-xs text-muted-foreground">Jigawa Livestock</p>
+                  <p className="text-xs text-muted-foreground">Jigawa J-ATA</p>
                 </div>
               </div>
             </div>
@@ -126,14 +126,14 @@ export function AdminLayout({ children, title }: AdminLayoutProps) {
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20">
                   <img 
-                    src="/Hon.%20commissioner.png" 
-                    alt="Hon. Commissioner" 
+                    src="/director jata.png" 
+                    alt="DG J-ATA" 
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-foreground truncate">Prof. Saleem Abdurrahman</p>
-                  <p className="text-xs text-muted-foreground">Hon. Commissioner</p>
+                  <p className="text-sm font-medium text-foreground truncate">Dr. Saifullahi Umar</p>
+                  <p className="text-xs text-muted-foreground">Director General J-ATA</p>
                 </div>
               </div>
               <Button 

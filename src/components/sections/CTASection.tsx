@@ -9,8 +9,8 @@ export function CTASection() {
 
   const handleContactMinistry = () => {
     toast({
-      title: "Contact Ministry",
-      description: "Call us at +234 800 000 0000 or email info@jigawalivestock.gov.ng",
+      title: "Contact J-ATA",
+      description: "Call us at +234 770 000 0000 or email info@jata.jigawastate.gov.ng",
     });
   };
 
@@ -26,10 +26,10 @@ export function CTASection() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-primary-foreground mb-6">
-            Ready to Transform Livestock Governance?
+            Ready to Transform Agricultural Governance?
           </h2>
           <p className="text-xl text-primary-foreground/80 mb-10 max-w-2xl mx-auto">
-            Join thousands of farmers already benefiting from digital livestock management. 
+            Join thousands of farmers already benefiting from digital agricultural management. 
             Register today and get your unique Farmer ID.
           </p>
 
@@ -50,7 +50,7 @@ export function CTASection() {
               onClick={handleContactMinistry}
             >
               <Phone className="w-5 h-5" />
-              Contact Ministry
+              Contact J-ATA
             </Button>
           </div>
 
@@ -60,7 +60,7 @@ export function CTASection() {
               Official Platform of
             </p>
             <p className="font-display text-lg text-primary-foreground">
-              Ministry of Livestock, Jigawa State Government, Nigeria
+              Jigawa Agricultural Transformation Agency (J-ATA), Jigawa State
             </p>
           </div>
         </div>

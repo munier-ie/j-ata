@@ -12,7 +12,7 @@ const Departments = () => {
         {/* Hero Section */}
         <HeroCarousel 
           title="Our Departments"
-          subtitle="Five specialized departments working together to transform livestock development in Jigawa State."
+          subtitle="Four strategic directorates working together to drive agricultural transformation in Jigawa State."
         />
 
         {/* Leadership Org Chart */}

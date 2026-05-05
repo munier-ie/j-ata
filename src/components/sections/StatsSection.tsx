@@ -4,50 +4,50 @@ import { TrendingUp, Users, Shield, BarChart3, Clock, Zap } from "lucide-react";
 const stats = [
   {
     icon: TrendingUp,
-    value: "40%",
-    label: "Increase in IGR",
-    description: "Projected revenue growth through automated collection"
+    value: "25%",
+    label: "Yield Increase",
+    description: "Projected crop yield growth through extension support"
   },
   {
     icon: Users,
-    value: "500K+",
-    label: "Farmers to Register",
-    description: "Target registration across all 27 LGAs"
+    value: "1,435",
+    label: "Agents Deployed",
+    description: "Extension agents already trained and on the field"
   },
   {
     icon: Shield,
     value: "100%",
-    label: "Data Security",
-    description: "Encrypted storage with backup systems"
+    label: "Traceability",
+    description: "Full tracking of input subsidies and vouchers"
   },
   {
     icon: BarChart3,
     value: "Real-time",
-    label: "Analytics",
-    description: "Live dashboards for policy decisions"
+    label: "Agro-Intelligence",
+    description: "Live dashboards for data-driven policy decisions"
   }
 ];
 
 const benefits = [
   {
     icon: Clock,
-    title: "Eliminate Manual Processes",
-    description: "Replace paper records with instant digital records accessible from anywhere."
+    title: "Real-time Intelligence",
+    description: "Monitor crop health, weather patterns, and market prices instantly."
   },
   {
     icon: Zap,
-    title: "Faster Service Delivery",
-    description: "Reduce permit processing time from days to minutes with digital automation."
+    title: "Faster Field Response",
+    description: "Empower extension agents to report and resolve farm issues immediately."
   },
   {
     icon: TrendingUp,
-    title: "Increase State Revenue",
-    description: "Plug revenue leakages through cashless, traceable transactions."
+    title: "Scale Agribusiness",
+    description: "Connect smallholders to high-value markets and processing zones."
   },
   {
     icon: Shield,
-    title: "Improve Transparency",
-    description: "Full audit trails and real-time reporting for accountability."
+    title: "Improve Accountability",
+    description: "Full audit trails for input distribution and farmer support programs."
   }
 ];
 
@@ -83,7 +83,7 @@ export function StatsSection() {
               <span className="text-primary">Jigawa State</span>
             </h2>
             <p className="text-background/70 text-lg">
-              This platform positions Jigawa as a national leader in livestock digitalization
+              This platform positions Jigawa as a national leader in agricultural digital transformation.
             </p>
           </div>
 

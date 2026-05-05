@@ -92,7 +92,7 @@ export function StepConfirmation({ data, onBack, onSubmit, isSubmitting }: StepC
           </CardContent>
         </Card>
 
-        {/* Livestock Info */}
+        {/* Farm Assets Info */}
         <Card className="border-l-4 border-l-primary/30">
           <CardContent className="pt-6">
              <div className="flex items-start gap-4">
@@ -100,7 +100,7 @@ export function StepConfirmation({ data, onBack, onSubmit, isSubmitting }: StepC
                     <QrCode className="w-4 h-4" />
                 </div>
                 <div className="space-y-3 w-full">
-                    <p className="font-medium">Livestock Details</p>
+                    <p className="font-medium">Farm Assets</p>
                      {data.livestock.types.length > 0 ? (
                         <div className="grid grid-cols-2 gap-2">
                              {data.livestock.types.map(type => (
@@ -113,7 +113,7 @@ export function StepConfirmation({ data, onBack, onSubmit, isSubmitting }: StepC
                              ))}
                         </div>
                      ) : (
-                         <p className="text-sm text-muted-foreground italic">No livestock selected.</p>
+                         <p className="text-sm text-muted-foreground italic">No farm assets selected.</p>
                      )}
                 </div>
              </div>

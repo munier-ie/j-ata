@@ -6,70 +6,70 @@ import { Building2, Shield, Store, Users } from "lucide-react";
 const agencies = [
   {
     icon: Building2,
-    name: "Jigawa State Livestock Development Agency",
-    acronym: "JSLDA",
-    mandate: "Coordinating and implementing livestock development programs across the state to enhance productivity and farmer livelihoods.",
+    name: "Department of Extension Services",
+    acronym: "DES",
+    mandate: "Digitally empowering extension agents and providing real-time field support to farmers.",
     functions: [
-      "Implementation of livestock development policies",
-      "Coordination of ranch establishment projects",
-      "Farmer training and capacity building",
-      "Livestock census and registration",
-      "Extension services delivery"
+      "Mobile app deployment for agents",
+      "Field data collection & reporting",
+      "Farmer advisory notifications",
+      "Pest & disease outbreak monitoring",
+      "Extension staff performance tracking"
     ],
     contact: {
-      address: "Ministry Complex, Dutse",
-      phone: "+234 800 000 0001"
+      address: "J-ATA HQ, Dutse",
+      phone: "+234 800 JATA 001"
     }
   },
   {
     icon: Shield,
-    name: "State Veterinary Services Authority",
-    acronym: "SVSA",
-    mandate: "Regulating and delivering quality veterinary services to protect animal and public health.",
+    name: "Command & Control Center",
+    acronym: "CCC",
+    mandate: "High-level monitoring and coordination of all agricultural programs in real time.",
     functions: [
-      "Veterinary clinic supervision and standards",
-      "Disease surveillance and control",
-      "Veterinary personnel licensing",
-      "Drug quality control",
-      "Meat inspection and food safety"
+      "Farmer database management",
+      "GIS farm mapping & GIS audits",
+      "Input subsidy tracking (Vouchers)",
+      "Irrigation cluster monitoring",
+      "Program performance analytics"
     ],
     contact: {
-      address: "Veterinary House, Dutse",
-      phone: "+234 800 000 0002"
+      address: "J-ATA Digital Ops Center, Dutse",
+      phone: "+234 800 JATA 002"
     }
   },
   {
     icon: Store,
-    name: "Livestock Market Management Board",
-    acronym: "LMMB",
-    mandate: "Managing and developing livestock markets to facilitate efficient trade and fair pricing.",
+    name: "Agricultural Data Hub",
+    acronym: "ADH",
+    mandate: "The intelligence core for soil mapping, weather forecasting, and yield predictions.",
     functions: [
-      "Market infrastructure development",
-      "Trade regulation and dispute resolution",
-      "Price monitoring and market intelligence",
-      "Revenue collection and management",
-      "Market sanitation and animal welfare"
+      "Statewide soil mapping initiative",
+      "Weather sensor network management",
+      "Yield forecasting & AI modeling",
+      "Open data APIs for partners",
+      "Fertilizer recommendation engine"
     ],
     contact: {
-      address: "Market Complex, Hadejia Road",
-      phone: "+234 800 000 0003"
+      address: "The Brain Center, Dutse",
+      phone: "+234 800 JATA 003"
     }
   },
   {
     icon: Users,
-    name: "Pastoral Affairs Coordination Office",
-    acronym: "PACO",
-    mandate: "Promoting peaceful coexistence between pastoral and farming communities while supporting pastoral welfare.",
+    name: "Investment & PPP Department",
+    acronym: "IPD",
+    mandate: "Promoting agricultural investment and managing mechanized farm estates.",
     functions: [
-      "Herder-farmer conflict mediation",
-      "Grazing route management",
-      "Pastoral community engagement",
-      "Emergency response coordination",
-      "Cross-border pastoral coordination"
+      "Investor deal room management",
+      "Farm estate allocation & tracking",
+      "PPP project coordination",
+      "Agribusiness investment promotion",
+      "Site selection & concierge services"
     ],
     contact: {
-      address: "Peace Building Center, Dutse",
-      phone: "+234 800 000 0004"
+      address: "Investment Portal Office, Dutse",
+      phone: "+234 800 JATA 004"
     }
   }
 ];
@@ -83,10 +83,10 @@ const Agencies = () => {
         <section className="bg-hero-gradient text-primary-foreground py-16">
           <div className="container mx-auto px-4">
             <h1 className="font-display text-4xl md:text-5xl font-bold mb-4 animate-fade-up">
-              Our Agencies
+              Departments & Pillars
             </h1>
             <p className="text-xl opacity-90 max-w-2xl animate-fade-up" style={{ animationDelay: "0.1s" }}>
-              Specialized agencies delivering focused services for livestock development across Jigawa State.
+              Specialized departments driving the digital transformation of Jigawa's agricultural sector.
             </p>
           </div>
         </section>

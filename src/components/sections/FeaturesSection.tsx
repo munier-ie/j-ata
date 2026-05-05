@@ -12,18 +12,18 @@ import {
 const features = [
   {
     icon: QrCode,
-    title: "QR Code Verification",
-    description: "Every farmer and permit gets a unique QR code for instant verification in the field."
+    title: "Farmer ID Verification",
+    description: "Every registered farmer gets a unique digital ID for instant verification in the field."
   },
   {
     icon: Smartphone,
     title: "Mobile-First Design",
-    description: "Access the platform from any device. Field officers can work offline and sync later."
+    description: "Access the platform from any device. Extension agents can work offline and sync later."
   },
   {
     icon: Shield,
     title: "Secure & Compliant",
-    description: "Role-based access control, encrypted data, and full compliance with Nigerian data laws."
+    description: "Role-based access control, encrypted data, and full compliance with NDPR data laws."
   },
   {
     icon: Cloud,
@@ -33,22 +33,22 @@ const features = [
   {
     icon: BarChart3,
     title: "Real-Time Dashboards",
-    description: "Live analytics for ministry leadership to make data-driven policy decisions."
+    description: "Live analytics for J-ATA leadership to make data-driven transformation decisions."
   },
   {
     icon: Bell,
     title: "Alert System",
-    description: "Instant notifications for disease outbreaks, vaccination schedules, and permit expiries."
+    description: "Instant notifications for pest outbreaks, planting windows, and subsidy deadlines."
   },
   {
     icon: MapPin,
-    title: "GPS Integration",
-    description: "Location tracking for field reports, market locations, and grazing routes."
+    title: "GIS Integration",
+    description: "Location tracking for farm mapping, soil health zones, and irrigation clusters."
   },
   {
     icon: CreditCard,
-    title: "Cashless Payments",
-    description: "POS, bank transfer, and USSD payment options with instant e-receipts."
+    title: "Digital Finance",
+    description: "Integration with financial partners for input loans and subsidy disbursements."
   }
 ];
 
@@ -63,7 +63,7 @@ export function FeaturesSection() {
           </span>
           <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6">
             Enterprise-Grade Technology for{" "}
-            <span className="text-primary">Government Use</span>
+            <span className="text-primary">Agricultural Governance</span>
           </h2>
           <p className="text-muted-foreground text-lg">
             Built with security, scalability, and accessibility in mind. Ready for statewide deployment.

@@ -3,81 +3,82 @@ import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
-  Stethoscope, 
-  Syringe, 
-  AlertTriangle, 
-  FileText, 
+  Lightbulb,
+  Zap,
+  Leaf,
+  Sprout,
   MapPin,
   Calendar,
   Bell,
-  Pill,
-  ArrowRight
+  Cpu,
+  ArrowRight,
+  TrendingUp
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
-const services = [
+const hubs = [
   {
-    icon: FileText,
-    title: "Digital Health Records",
-    description: "Complete digital health history for every registered animal and herd."
+    icon: Lightbulb,
+    title: "Agribusiness Incubation",
+    description: "Supporting agri-startups with tools, mentorship, and market linkages."
   },
   {
-    icon: Syringe,
-    title: "Vaccination Scheduling",
-    description: "Automated vaccination reminders and scheduling for disease prevention."
+    icon: Sprout,
+    title: "Seed Systems Strengthening",
+    description: "Ensuring availability of high-quality, certified seeds for all farmers."
   },
   {
-    icon: AlertTriangle,
-    title: "Disease Outbreak Alerts",
-    description: "Real-time notifications for disease outbreaks in your area."
+    icon: Leaf,
+    title: "Soil Health Management",
+    description: "Detailed soil mapping and fertility advice to optimize crop yields."
   },
   {
-    icon: Pill,
-    title: "Drug Inventory",
-    description: "Track veterinary drug usage and availability across the state."
+    icon: Cpu,
+    title: "Digital Agriculture",
+    description: "Smart farming solutions using IoT, drones, and data analytics."
   },
   {
-    icon: MapPin,
-    title: "GPS-Tagged Reports",
-    description: "Location-based reporting for accurate disease surveillance."
+    icon: Zap,
+    title: "Solar Irrigation",
+    description: "Promoting sustainable, solar-powered water systems for year-round farming."
   },
   {
-    icon: Calendar,
-    title: "Appointment Booking",
-    description: "Schedule veterinary visits and consultations online."
+    icon: TrendingUp,
+    title: "Market Access",
+    description: "Connecting smallholder farmers to regional and international markets."
   },
 ];
 
-const recentAlerts = [
-  {
-    type: "warning",
-    title: "PPR Vaccination Campaign",
-    location: "Dutse LGA",
-    date: "Dec 15-30, 2024"
-  },
+const recentUpdates = [
   {
     type: "info",
-    title: "Routine Deworming",
-    location: "All LGAs",
-    date: "Ongoing"
+    title: "Rice Seed Distribution",
+    location: "Hadejia Cluster",
+    date: "Jan 10-25, 2025"
   },
   {
-    type: "alert",
-    title: "Foot & Mouth Disease Alert",
-    location: "Hadejia LGA",
-    date: "Dec 18, 2024"
+    type: "success",
+    title: "New Hub Launch",
+    location: "Dutse Central",
+    date: "Feb 05, 2025"
+  },
+  {
+    type: "warning",
+    title: "Pest Control Notice",
+    location: "Northern LGAs",
+    date: "Ongoing"
   },
 ];
 
-export default function VeterinaryServices() {
+export default function InnovationHubs() {
   const navigate = useNavigate();
   const { toast } = useToast();
 
   const handleAccessDashboard = () => {
     toast({
-      title: "Officer Dashboard",
-      description: "Please login with your veterinary officer credentials to access the dashboard.",
+      title: "Extension Portal",
+      description: "Please login with your J-ATA credentials to access the extension system.",
     });
     navigate("/login");
   };
@@ -91,58 +92,55 @@ export default function VeterinaryServices() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl">
               <span className="inline-block px-4 py-2 rounded-full bg-accent-foreground/10 text-accent-foreground text-sm font-medium mb-4">
-                Module 2
+                Pillar 2
               </span>
               <h1 className="font-display text-4xl sm:text-5xl font-bold text-accent-foreground mb-4">
-                Veterinary Services
+                Innovation & Agribusiness Hubs
               </h1>
               <p className="text-xl text-accent-foreground/80">
-                Digital livestock health management and disease surveillance system for Jigawa State.
+                The strategic nodes for technology transfer, training, and agribusiness incubation across Jigawa State.
               </p>
             </div>
           </div>
         </section>
 
-        {/* Services Grid */}
+        {/* Hubs Grid */}
         <section className="py-16">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-2xl mx-auto mb-12">
               <h2 className="font-display text-3xl font-bold text-foreground mb-4">
-                Comprehensive Veterinary Management
+                Driving Agricultural Innovation
               </h2>
               <p className="text-muted-foreground">
-                From health records to disease alerts, manage all veterinary operations digitally.
+                Our hubs provide the infrastructure and knowledge needed to transform subsistence farming into profitable agribusiness.
               </p>
             </div>
 
             <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-6 mb-16">
-              {services.map((service, index) => (
+              {hubs.map((hub, index) => (
                 <Card 
                   key={index} 
                   className="group hover:shadow-lg transition-all duration-300 overflow-hidden border-2 hover:border-primary/30"
                 >
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between gap-6">
-                      {/* Left side - Text content */}
                       <div className="flex-1 space-y-3">
                         <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
-                          {service.title}
+                          {hub.title}
                         </h3>
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                          {service.description}
+                          {hub.description}
                         </p>
                         <button className="text-sm font-medium text-primary hover:underline inline-flex items-center gap-1 mt-2">
-                          Learn more
+                          Explore Programme
                           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </button>
                       </div>
                       
-                      {/* Right side - Icon */}
                       <div className="flex-shrink-0 relative">
                         <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center border-4 border-primary/10 group-hover:border-primary/30 transition-all duration-300 group-hover:scale-105">
-                          <service.icon className="w-12 h-12 text-primary" />
+                          <hub.icon className="w-12 h-12 text-primary" />
                         </div>
-                        {/* Small accent circle */}
                         <div className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-primary/80 border-4 border-background" />
                       </div>
                     </div>
@@ -151,7 +149,7 @@ export default function VeterinaryServices() {
               ))}
             </div>
 
-            {/* Alerts Section */}
+            {/* Updates Section */}
             <div className="grid lg:grid-cols-2 gap-8">
               <Card variant="elevated">
                 <CardHeader>
@@ -160,33 +158,35 @@ export default function VeterinaryServices() {
                       <Bell className="w-5 h-5 text-accent-foreground" />
                     </div>
                     <div>
-                      <CardTitle>Recent Health Alerts</CardTitle>
-                      <CardDescription>Stay informed about livestock health in your area</CardDescription>
+                      <CardTitle>Recent Programme Updates</CardTitle>
+                      <CardDescription>Stay informed about J-ATA initiatives in your area</CardDescription>
                     </div>
                   </div>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {recentAlerts.map((alert, index) => (
+                    {recentUpdates.map((update, index) => (
                       <div 
                         key={index}
                         className={`p-4 rounded-lg border-l-4 ${
-                          alert.type === 'alert' 
+                          update.type === 'alert' 
                             ? 'bg-destructive/5 border-destructive' 
-                            : alert.type === 'warning'
+                            : update.type === 'warning'
                             ? 'bg-yellow-500/5 border-yellow-500'
+                            : update.type === 'success'
+                            ? 'bg-green-500/5 border-green-500'
                             : 'bg-primary/5 border-primary'
                         }`}
                       >
-                        <h4 className="font-medium text-foreground">{alert.title}</h4>
+                        <h4 className="font-medium text-foreground">{update.title}</h4>
                         <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
                           <span className="flex items-center gap-1">
                             <MapPin className="w-4 h-4" />
-                            {alert.location}
+                            {update.location}
                           </span>
                           <span className="flex items-center gap-1">
                             <Calendar className="w-4 h-4" />
-                            {alert.date}
+                            {update.date}
                           </span>
                         </div>
                       </div>
@@ -199,34 +199,34 @@ export default function VeterinaryServices() {
                 <CardHeader>
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-                      <Stethoscope className="w-5 h-5 text-primary-foreground" />
+                      <TrendingUp className="w-5 h-5 text-primary-foreground" />
                     </div>
                     <div>
-                      <CardTitle>For Veterinary Officers</CardTitle>
-                      <CardDescription>Access the field reporting dashboard</CardDescription>
+                      <CardTitle>Extension Portal</CardTitle>
+                      <CardDescription>Digital tools for J-ATA field officers</CardDescription>
                     </div>
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <p className="text-muted-foreground">
-                    Veterinary officers can access the mobile-friendly dashboard to:
+                    Extension agents can access the platform to:
                   </p>
                   <ul className="space-y-2 text-sm">
                     <li className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full bg-primary" />
-                      Submit GPS-tagged field reports
+                      Register smallholder farmers
                     </li>
                     <li className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full bg-primary" />
-                      Update treatment histories
+                      Map farm clusters with GPS
                     </li>
                     <li className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full bg-primary" />
-                      Report disease outbreaks
+                      Provide advisory notifications
                     </li>
                     <li className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full bg-primary" />
-                      Manage vaccination records
+                      Track input subsidy vouchers
                     </li>
                   </ul>
                   <Button 
@@ -234,7 +234,7 @@ export default function VeterinaryServices() {
                     className="w-full group mt-4"
                     onClick={handleAccessDashboard}
                   >
-                    Access Officer Dashboard
+                    Access Extension System
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </CardContent>

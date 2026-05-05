@@ -40,8 +40,8 @@ router.post('/', async (req, res) => {
       firstName, first_name, 
       lastName, last_name, 
       phone, nin, lga, ward, community,
-      herdSize, herd_size,
-      livestockTypes, livestock_types,
+      farmSize, farm_size,
+      cropTypes, crop_types,
       status 
     } = req.body;
     
@@ -55,8 +55,8 @@ router.post('/', async (req, res) => {
         lga,
         ward,
         community,
-        herdSize: herdSize ?? herd_size ?? 0,
-        livestockTypes: livestockTypes || livestock_types || [],
+        farmSize: farmSize ?? farm_size ?? 0,
+        cropTypes: cropTypes || crop_types || [],
         status: status || 'pending'
       }
     });
@@ -74,8 +74,8 @@ router.put('/:id', async (req, res) => {
       firstName, first_name, 
       lastName, last_name, 
       phone, nin, lga, ward, community,
-      herdSize, herd_size,
-      livestockTypes, livestock_types,
+      farmSize, farm_size,
+      cropTypes, crop_types,
       status 
     } = req.body;
     
@@ -89,8 +89,8 @@ router.put('/:id', async (req, res) => {
         lga,
         ward,
         community,
-        herdSize: herdSize ?? herd_size,
-        livestockTypes: livestockTypes || livestock_types,
+        farmSize: farmSize ?? farm_size,
+        cropTypes: cropTypes || crop_types,
         status
       }
     });

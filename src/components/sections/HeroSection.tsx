@@ -1,37 +1,28 @@
-
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Play } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import jigawaLogo from "@/assets/jigawa-logo.png";
 
-
-// Data for the carousel
 const governorData = {
   role: "His Excellency, The Executive Governor",
   name: "Mallam Umar Namadi",
   ministry: "Jigawa State Government",
   image: "/govt.jpg",
-  quote: "Transforming Jigawa's agrarian economy through sustainable livestock development and empowering our rural communities."
+  quote: "Transforming Jigawa's agrarian economy through digital innovation and empowering our rural communities for sustainable agricultural development."
 };
 
 export function HeroSection() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const videoRef = useRef<HTMLVideoElement>(null);
+  
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.muted = true;
     }
   }, []);
-
-  const handleWatchOverview = () => {
-    toast({
-      title: "Coming Soon",
-      description: "The platform overview video will be available shortly.",
-    });
-  };
 
   return (
     <section className="relative min-h-screen flex items-center pt-20">
@@ -57,19 +48,18 @@ export function HeroSection() {
             <div className="space-y-4">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/20 border border-primary/30">
                 <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                <span className="text-sm font-medium text-primary">Official Government Platform</span>
+                <span className="text-sm font-medium text-primary">Official J-ATA Platform</span>
               </div>
               
               <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
-                Jigawa State{" "}
-                <span className="text-primary">Livestock</span>{" "}
-                Digital Platform
+                Jigawa Agricultural <br />
+                <span className="text-primary">Transformation Agency</span> <br />
+                (J-ATA)
               </h1>
               
               <p className="text-lg text-background/80 max-w-xl leading-relaxed">
-                A bold step towards modernizing livestock management, empowering farmers, 
-                strengthening veterinary services, and driving sustainable economic growth 
-                across Jigawa State.
+                Empowering the 1,435 extension agents to digitally support our farmers. 
+                Modernizing the value chain through smart extension and data-driven agribusiness.
               </p>
             </div>
 
@@ -80,7 +70,7 @@ export function HeroSection() {
                 className="group"
                 onClick={() => navigate("/farmer-registration")}
               >
-                Register as Farmer
+                Access Farmer Database
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </div>
@@ -88,16 +78,16 @@ export function HeroSection() {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-6 pt-8 border-t border-background/10">
               <div>
-                <p className="text-3xl font-display font-bold text-primary">27</p>
-                <p className="text-sm text-background/60">Local Government Areas</p>
+                <p className="text-3xl font-display font-bold text-primary">1,435</p>
+                <p className="text-sm text-background/60">Extension Agents</p>
               </div>
               <div>
                 <p className="text-3xl font-display font-bold text-primary">500K+</p>
-                <p className="text-sm text-background/60">Livestock Farmers</p>
+                <p className="text-sm text-background/60">Farmers Supported</p>
               </div>
               <div>
-                <p className="text-3xl font-display font-bold text-primary">2M+</p>
-                <p className="text-sm text-background/60">Animals Registered</p>
+                <p className="text-3xl font-display font-bold text-primary">5</p>
+                <p className="text-sm text-background/60">Innovation Hubs</p>
               </div>
             </div>
           </div>

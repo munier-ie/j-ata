@@ -105,8 +105,8 @@ export interface Farmer {
   lga: string;
   ward: string;
   community: string;
-  herdSize: number;
-  livestockTypes: string[];
+  farmSize: number;
+  cropTypes: string[];
   status: string;
   createdAt: string;
   updatedAt: string;
@@ -127,8 +127,8 @@ export const farmersApi = {
         lga: data.lga,
         ward: data.ward,
         community: data.community,
-        herd_size: data.herdSize,
-        livestock_types: data.livestockTypes,
+        farm_size: data.farmSize,
+        crop_types: data.cropTypes,
         status: data.status,
       },
     }),
@@ -188,8 +188,8 @@ export const newsApi = {
 
 // ============= Stats =============
 export interface DashboardStats {
-  totalRanches: number;
-  totalClinics: number;
+  totalFarmEstates: number;
+  totalInnovationHubs: number;
   totalFarmers: number;
   totalNews: number;
   totalReports: number;
@@ -200,8 +200,8 @@ export const statsApi = {
   get: () => apiRequest<DashboardStats>("/stats"),
 };
 
-// ============= Ranches =============
-export interface Ranch {
+// ============= Farm Estates =============
+export interface FarmEstate {
   id: string;
   name: string;
   lga: string;
@@ -210,42 +210,39 @@ export interface Ranch {
   latitude: number | null;
   longitude: number | null;
   totalHectares: number | null;
-  capacityCattle: number | null;
   status: string;
   completionPercentage: number | null;
   budgetAllocated: number | null;
   budgetSpent: number | null;
   hasWater: boolean;
   hasPower: boolean;
-  hasVeterinaryClinic: boolean;
-  hasFeedFacilities: boolean;
-  hasSchool: boolean;
-  hasHealthCenter: boolean;
+  hasAccessRoad: boolean;
+  hasStorageFacility: boolean;
   createdAt: string;
   updatedAt: string;
 }
 
-export const ranchesApi = {
-  getAll: () => apiRequest<Ranch[]>("/ranches"),
+export const farmEstatesApi = {
+  getAll: () => apiRequest<FarmEstate[]>("/farm-estates"),
 
-  create: (data: Partial<Ranch>) =>
-    apiRequest<Ranch>("/ranches", {
+  create: (data: Partial<FarmEstate>) =>
+    apiRequest<FarmEstate>("/farm-estates", {
       method: "POST",
       body: data as Record<string, unknown>,
     }),
 
-  update: (id: string, data: Partial<Ranch>) =>
-    apiRequest<Ranch>(`/ranches/${id}`, {
+  update: (id: string, data: Partial<FarmEstate>) =>
+    apiRequest<FarmEstate>(`/farm-estates/${id}`, {
       method: "PUT",
       body: data as Record<string, unknown>,
     }),
 
   delete: (id: string) =>
-    apiRequest<void>(`/ranches/${id}`, { method: "DELETE" }),
+    apiRequest<void>(`/farm-estates/${id}`, { method: "DELETE" }),
 };
 
-// ============= Veterinary Clinics =============
-export interface VeterinaryClinic {
+// ============= Innovation Hubs =============
+export interface InnovationHub {
   id: string;
   name: string;
   facilityType: string;
@@ -268,25 +265,25 @@ export interface VeterinaryClinic {
   updatedAt: string;
 }
 
-export const clinicsApi = {
-  getAll: () => apiRequest<VeterinaryClinic[]>("/clinics"),
+export const innovationHubsApi = {
+  getAll: () => apiRequest<InnovationHub[]>("/innovation-hubs"),
 
-  getById: (id: string) => apiRequest<VeterinaryClinic>(`/clinics/${id}`),
+  getById: (id: string) => apiRequest<InnovationHub>(`/innovation-hubs/${id}`),
 
-  create: (data: Partial<VeterinaryClinic>) =>
-    apiRequest<VeterinaryClinic>("/clinics", {
+  create: (data: Partial<InnovationHub>) =>
+    apiRequest<InnovationHub>("/innovation-hubs", {
       method: "POST",
       body: data as Record<string, unknown>,
     }),
 
-  update: (id: string, data: Partial<VeterinaryClinic>) =>
-    apiRequest<VeterinaryClinic>(`/clinics/${id}`, {
+  update: (id: string, data: Partial<InnovationHub>) =>
+    apiRequest<InnovationHub>(`/innovation-hubs/${id}`, {
       method: "PUT",
       body: data as Record<string, unknown>,
     }),
 
   delete: (id: string) =>
-    apiRequest<void>(`/clinics/${id}`, { method: "DELETE" }),
+    apiRequest<void>(`/innovation-hubs/${id}`, { method: "DELETE" }),
 };
 
 // ============= Reports =============
@@ -333,45 +330,4 @@ export const reportsApi = {
 
   delete: (id: string) =>
     apiRequest<void>(`/reports/${id}`, { method: "DELETE" }),
-};
-
-// ============= Grazing Permits =============
-export interface GrazingPermit {
-  id: string;
-  receiptId: string;
-  nin: string;
-  fullName: string;
-  phone: string | null;
-  lga: string;
-  ward: string;
-  community: string | null;
-  address: string | null;
-  yardLength: number;
-  amount: number;
-  paymentStatus: string;
-  createdAt: string;
-}
-
-export const grazingPermitsApi = {
-  getAll: () => apiRequest<GrazingPermit[]>("/grazing-permits"),
-
-  getById: (id: string) => apiRequest<GrazingPermit>(`/grazing-permits/${id}`),
-
-  create: (data: Omit<GrazingPermit, "id" | "createdAt">) =>
-    apiRequest<GrazingPermit>("/grazing-permits", {
-      method: "POST",
-      body: {
-        receiptId: data.receiptId,
-        nin: data.nin,
-        fullName: data.fullName,
-        phone: data.phone,
-        lga: data.lga,
-        ward: data.ward,
-        community: data.community,
-        address: data.address,
-        yardLength: data.yardLength,
-        amount: data.amount,
-        paymentStatus: data.paymentStatus,
-      },
-    }),
 };

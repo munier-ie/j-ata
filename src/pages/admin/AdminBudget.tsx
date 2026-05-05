@@ -2,17 +2,17 @@ import { useEffect, useState } from 'react';
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { ranchesApi, clinicsApi } from '@/lib/api';
+import { farmEstatesApi, innovationHubsApi } from '@/lib/api';
 import { DollarSign, TrendingUp, Building2 } from 'lucide-react';
 
 interface BudgetData {
   totalAllocated: number;
   totalSpent: number;
-  byFacility: {
+  byAsset: {
     name: string;
     allocated: number;
     spent: number;
-    type: 'ranch' | 'clinic';
+    type: 'estate' | 'hub';
   }[];
 }
 
@@ -20,7 +20,7 @@ export default function AdminBudget() {
   const [data, setData] = useState<BudgetData>({
     totalAllocated: 0,
     totalSpent: 0,
-    byFacility: []
+    byAsset: []
   });
   const [loading, setLoading] = useState(true);
 
@@ -30,35 +30,35 @@ export default function AdminBudget() {
 
   const fetchBudgetData = async () => {
     try {
-      const [ranches, clinics] = await Promise.all([
-        ranchesApi.getAll(),
-        clinicsApi.getAll()
+      const [estates, hubs] = await Promise.all([
+        farmEstatesApi.getAll(),
+        innovationHubsApi.getAll()
       ]);
 
       const totalAllocated = 
-        ranches.reduce((sum, r) => sum + (r.budgetAllocated || 0), 0) +
-        clinics.reduce((sum, c) => sum + (c.budgetAllocated || 0), 0);
+        estates.reduce((sum, r) => sum + (r.budgetAllocated || 0), 0) +
+        hubs.reduce((sum, c) => sum + (c.budgetAllocated || 0), 0);
 
       const totalSpent = 
-        ranches.reduce((sum, r) => sum + (r.budgetSpent || 0), 0) +
-        clinics.reduce((sum, c) => sum + (c.budgetSpent || 0), 0);
+        estates.reduce((sum, r) => sum + (r.budgetSpent || 0), 0) +
+        hubs.reduce((sum, c) => sum + (c.budgetSpent || 0), 0);
 
-      const byFacility = [
-        ...ranches.map(r => ({
+      const byAsset = [
+        ...estates.map(r => ({
           name: r.name,
           allocated: r.budgetAllocated || 0,
           spent: r.budgetSpent || 0,
-          type: 'ranch' as const
+          type: 'estate' as const
         })),
-        ...clinics.map(c => ({
+        ...hubs.map(c => ({
           name: c.name,
           allocated: c.budgetAllocated || 0,
           spent: c.budgetSpent || 0,
-          type: 'clinic' as const
+          type: 'hub' as const
         }))
       ].sort((a, b) => b.allocated - a.allocated);
 
-      setData({ totalAllocated, totalSpent, byFacility });
+      setData({ totalAllocated, totalSpent, byAsset });
     } catch (error) {
       console.error('Error fetching budget data:', error);
     } finally {
@@ -81,14 +81,14 @@ export default function AdminBudget() {
     : 0;
 
   return (
-    <AdminLayout title="Budget Allocation">
+    <AdminLayout title="J-ATA Budget Tracking">
       <div className="space-y-6">
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Card variant="elevated">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
-                Total Allocated
+                Total Budget Allocated
               </CardTitle>
               <DollarSign className="h-4 w-4 text-primary" />
             </CardHeader>
@@ -106,7 +106,7 @@ export default function AdminBudget() {
           <Card variant="elevated">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
-                Total Spent
+                Total Expenditure
               </CardTitle>
               <TrendingUp className="h-4 w-4 text-green-500" />
             </CardHeader>
@@ -124,7 +124,7 @@ export default function AdminBudget() {
           <Card variant="elevated">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
-                Utilization Rate
+                Budget Utilization
               </CardTitle>
               <Building2 className="h-4 w-4 text-amber-500" />
             </CardHeader>
@@ -143,10 +143,10 @@ export default function AdminBudget() {
           </Card>
         </div>
 
-        {/* Facility Breakdown */}
+        {/* Asset Breakdown */}
         <Card variant="elevated">
           <CardHeader>
-            <CardTitle>Budget by Facility</CardTitle>
+            <CardTitle>Budget by Agricultural Asset</CardTitle>
           </CardHeader>
           <CardContent>
             {loading ? (
@@ -157,9 +157,9 @@ export default function AdminBudget() {
               </div>
             ) : (
               <div className="space-y-4">
-                {data.byFacility.map((facility, index) => {
-                  const utilization = facility.allocated > 0 
-                    ? (facility.spent / facility.allocated) * 100 
+                {data.byAsset.map((asset, index) => {
+                  const utilization = asset.allocated > 0 
+                    ? (asset.spent / asset.allocated) * 100 
                     : 0;
                   
                   return (
@@ -167,13 +167,13 @@ export default function AdminBudget() {
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center gap-2">
                           <span className={`px-2 py-1 text-xs rounded ${
-                            facility.type === 'ranch' 
+                            asset.type === 'estate' 
                               ? 'bg-blue-100 text-blue-700' 
                               : 'bg-green-100 text-green-700'
                           }`}>
-                            {facility.type === 'ranch' ? 'Ranch' : 'Clinic'}
+                            {asset.type === 'estate' ? 'Estate' : 'Hub'}
                           </span>
-                          <span className="font-medium text-foreground">{facility.name}</span>
+                          <span className="font-medium text-foreground">{asset.name}</span>
                         </div>
                         <span className="text-sm text-muted-foreground">
                           {utilization.toFixed(0)}% utilized
@@ -181,8 +181,8 @@ export default function AdminBudget() {
                       </div>
                       <Progress value={utilization} className="h-2 mb-2" />
                       <div className="flex justify-between text-sm text-muted-foreground">
-                        <span>Spent: {formatCurrency(facility.spent)}</span>
-                        <span>Allocated: {formatCurrency(facility.allocated)}</span>
+                        <span>Spent: {formatCurrency(asset.spent)}</span>
+                        <span>Allocated: {formatCurrency(asset.allocated)}</span>
                       </div>
                     </div>
                   );

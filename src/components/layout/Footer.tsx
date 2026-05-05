@@ -3,17 +3,17 @@ import { MapPin, Phone, Mail, Facebook, Twitter, Linkedin } from "lucide-react";
 import jigawaLogo from "@/assets/jigawa-logo.png";
 
 const quickLinks = [
-  { name: "Farmer Registration", href: "/farmer-registration" },
-  { name: "Veterinary Services", href: "/veterinary" },
-  { name: "Revenue Portal", href: "/revenue" },
-  { name: "About Ministry", href: "/about" },
+  { name: "Farmers Database", href: "/farmer-registration" },
+  { name: "Extension Platform", href: "#" },
+  { name: "About J-ATA", href: "/management" },
+  { name: "Updates", href: "/news" },
 ];
 
 const services = [
-  { name: "Animal Health Records", href: "/veterinary" },
-  { name: "Market Entry Permits", href: "/revenue" },
-  { name: "Livestock Movement", href: "/revenue" },
-  { name: "Disease Reporting", href: "/veterinary" },
+  { name: "Smart Voucher System", href: "#" },
+  { name: "Farmer Assistant", href: "#" },
+  { name: "Climate Smart Agriculture", href: "#" },
+  { name: "Digital Rural Finance", href: "#" },
 ];
 
 export function Footer() {
@@ -32,16 +32,16 @@ export function Footer() {
               />
               <div>
                 <p className="font-display font-semibold text-background text-lg leading-tight">
-                  Jigawa Livestock
+                  J-ATA
                 </p>
                 <p className="text-xs text-background/60">
-                  Digital Platform
+                  Transformation Agency
                 </p>
               </div>
             </div>
             <p className="text-background/70 text-sm leading-relaxed">
-              The official digital platform of the Ministry of Livestock, Jigawa State. 
-              Modernizing livestock administration for a sustainable future.
+              The official digital platform of the Jigawa Agricultural Transformation Agency (J-ATA). 
+              Modernizing agricultural administration for a sustainable future.
             </p>
             <div className="flex gap-3">
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-background/10 flex items-center justify-center hover:bg-primary transition-colors">
@@ -75,7 +75,7 @@ export function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="font-display font-semibold text-lg mb-6">Services</h4>
+            <h4 className="font-display font-semibold text-lg mb-6">Programmes</h4>
             <ul className="space-y-3">
               {services.map((service) => (
                 <li key={service.name}>
@@ -97,20 +97,27 @@ export function Footer() {
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                 <span className="text-background/70 text-sm">
-                  Ministry of Livestock, State Secretariat, Dutse, Jigawa State, Nigeria
+                  5340, Kiyawa Road, Dutse, Jigawa State, Nigeria
                 </span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-primary shrink-0" />
-                <a href="tel:+2348000000000" className="text-background/70 hover:text-primary text-sm transition-colors">
-                  +234 800 000 0000
+                <a href="tel:+2347700000000" className="text-background/70 hover:text-primary text-sm transition-colors">
+                  +234 770 000 0000
                 </a>
               </li>
-              <li className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-primary shrink-0" />
-                <a href="mailto:info@jigawalivestock.gov.ng" className="text-background/70 hover:text-primary text-sm transition-colors">
-                  info@jigawalivestock.gov.ng
-                </a>
+              <li className="flex flex-col gap-2">
+                <div className="flex items-center gap-3">
+                  <Mail className="w-5 h-5 text-primary shrink-0" />
+                  <a href="mailto:support@jata.ng" className="text-background/70 hover:text-primary text-sm transition-colors">
+                    support@jata.ng
+                  </a>
+                </div>
+                <div className="flex items-center gap-3 ml-8">
+                  <a href="mailto:dg.jata@jigawastate.gov.ng" className="text-background/70 hover:text-primary text-sm transition-colors">
+                    dg.jata@jigawastate.gov.ng
+                  </a>
+                </div>
               </li>
             </ul>
           </div>
@@ -122,13 +129,13 @@ export function Footer() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-background/50 text-sm">
-              © {new Date().getFullYear()} Ministry of Livestock, Jigawa State Government. All rights reserved.
+              © {new Date().getFullYear()} Jigawa Agricultural Transformation Agency (J-ATA). All rights reserved.
             </p>
             <div className="flex gap-6">
-              <Link to="/about" className="text-background/50 hover:text-primary text-sm transition-colors">
+              <Link to="#" className="text-background/50 hover:text-primary text-sm transition-colors">
                 Privacy Policy
               </Link>
-              <Link to="/about" className="text-background/50 hover:text-primary text-sm transition-colors">
+              <Link to="#" className="text-background/50 hover:text-primary text-sm transition-colors">
                 Terms of Service
               </Link>
             </div>

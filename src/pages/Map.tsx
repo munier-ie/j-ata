@@ -8,20 +8,21 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { 
   MapPin, 
-  Stethoscope, 
-  Building2, 
+  Lightbulb, 
+  Warehouse, 
   CheckCircle2, 
   Clock, 
   AlertCircle,
   Zap,
   Droplets,
-  Filter
+  Filter,
+  Truck
 } from "lucide-react";
 import { useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 type FacilityStatus = 'planned' | 'under_construction' | 'operational' | 'rehabilitated';
-type FacilityType = 'lga_clinic' | 'zonal_clinic' | 'central_referral' | 'ranch';
+type FacilityType = 'innovation_hub' | 'service_center' | 'farm_estate';
 
 const statusConfig: Record<FacilityStatus, { label: string; color: string; bgColor: string; icon: React.ElementType }> = {
   planned: { label: 'Planned', color: 'text-gray-600', bgColor: 'bg-gray-100', icon: Clock },
@@ -31,68 +32,99 @@ const statusConfig: Record<FacilityStatus, { label: string; color: string; bgCol
 };
 
 const facilityTypeLabels: Record<FacilityType, string> = {
-  lga_clinic: 'LGA Clinic',
-  zonal_clinic: 'Zonal Clinic',
-  central_referral: 'Central Referral',
-  ranch: 'Ranch'
+  innovation_hub: 'Innovation Hub',
+  service_center: 'Agro Service Center',
+  farm_estate: 'Farm Estate'
 };
+
+interface AgriculturalHub {
+  id: string;
+  name: string;
+  lga: string;
+  zone: string;
+  status: FacilityStatus;
+  facility_type: string;
+  total_hectares: number;
+  has_power: boolean;
+  has_water: boolean;
+  completion_percentage: number;
+  latitude: number;
+  longitude: number;
+}
+
+interface FarmEstate {
+  id: string;
+  name: string;
+  lga: string;
+  zone: string;
+  status: FacilityStatus;
+  total_hectares: number;
+  has_power: boolean;
+  has_water: boolean;
+  has_access_road: boolean;
+  completion_percentage: number;
+  latitude: number;
+  longitude: number;
+}
 
 const Map = () => {
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [zoneFilter, setZoneFilter] = useState<string>('all');
 
-  const { data: clinics, isLoading: clinicsLoading } = useQuery({
-    queryKey: ['map-clinics'],
+  const { data: hubs, isLoading: hubsLoading } = useQuery({
+    queryKey: ['map-hubs'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('veterinary_clinics')
+        .from('innovation_hubs' as never)
         .select('*')
         .order('facility_type', { ascending: false })
         .order('name');
       
       if (error) throw error;
-      return data;
+      return data as unknown as AgriculturalHub[];
     }
   });
 
-  const { data: ranches, isLoading: ranchesLoading } = useQuery({
-    queryKey: ['map-ranches'],
+  const { data: estates, isLoading: estatesLoading } = useQuery({
+    queryKey: ['map-estates'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('ranches')
+        .from('farm_estates' as never)
         .select('*')
         .order('name');
       
       if (error) throw error;
-      return data;
+      return data as unknown as FarmEstate[];
     }
   });
 
   // Get unique zones
+  const hubsArray = hubs || [];
+  const estatesArray = estates || [];
+
   const zones = [...new Set([
-    ...(clinics?.map(c => c.zone).filter(Boolean) || []),
-    ...(ranches?.map(r => r.zone).filter(Boolean) || [])
+    ...hubsArray.map(c => c.zone).filter(Boolean),
+    ...estatesArray.map(r => r.zone).filter(Boolean)
   ])].sort();
 
   // Filter facilities
-  const filteredClinics = clinics?.filter(c => {
+  const filteredHubs = hubs?.filter(c => {
     if (statusFilter !== 'all' && c.status !== statusFilter) return false;
     if (zoneFilter !== 'all' && c.zone !== zoneFilter) return false;
     return true;
   });
 
-  const filteredRanches = ranches?.filter(r => {
+  const filteredEstates = estates?.filter(r => {
     if (statusFilter !== 'all' && r.status !== statusFilter) return false;
     if (zoneFilter !== 'all' && r.zone !== zoneFilter) return false;
     return true;
   });
 
-  // Group clinics by type
-  const centralClinics = filteredClinics?.filter(c => c.facility_type === 'central_referral') || [];
-  const zonalClinics = filteredClinics?.filter(c => c.facility_type === 'zonal_clinic') || [];
-  const lgaClinics = filteredClinics?.filter(c => c.facility_type === 'lga_clinic') || [];
+  // Group hubs by type
+  const mainHubs = filteredHubs?.filter(c => c.facility_type === 'innovation_hub') || [];
+  const serviceCenters = filteredHubs?.filter(c => c.facility_type === 'service_center') || [];
 
-  const isLoading = clinicsLoading || ranchesLoading;
+  const isLoading = hubsLoading || estatesLoading;
 
   return (
     <div className="min-h-screen bg-background">
@@ -104,11 +136,11 @@ const Map = () => {
             <div className="flex items-center gap-3 mb-4">
               <MapPin className="w-8 h-8" />
               <h1 className="font-display text-3xl md:text-4xl font-bold animate-fade-up">
-                L-VIMS Interactive Map
+                J-ATA Interactive Map
               </h1>
             </div>
             <p className="text-lg opacity-90 max-w-2xl animate-fade-up" style={{ animationDelay: "0.1s" }}>
-              Livestock & Veterinary Infrastructure Management System - Explore all veterinary clinics and ranches across Jigawa State.
+              Explore our Agribusiness Innovation Hubs and Mechanized Farm Estates across Jigawa State.
             </p>
           </div>
         </section>
@@ -164,19 +196,19 @@ const Map = () => {
 
         {/* Main Content */}
         <section className="container mx-auto px-4 py-6">
-          <Tabs defaultValue="clinics" className="w-full">
+          <Tabs defaultValue="hubs" className="w-full">
             <TabsList className="mb-6">
-              <TabsTrigger value="clinics" className="gap-2">
-                <Stethoscope className="w-4 h-4" />
-                Veterinary Clinics ({filteredClinics?.length || 0})
+              <TabsTrigger value="hubs" className="gap-2">
+                <Lightbulb className="w-4 h-4" />
+                Innovation Hubs ({filteredHubs?.length || 0})
               </TabsTrigger>
-              <TabsTrigger value="ranches" className="gap-2">
-                <Building2 className="w-4 h-4" />
-                Ranches ({filteredRanches?.length || 0})
+              <TabsTrigger value="estates" className="gap-2">
+                <Warehouse className="w-4 h-4" />
+                Farm Estates ({filteredEstates?.length || 0})
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="clinics">
+            <TabsContent value="hubs">
               {isLoading ? (
                 <div className="space-y-6">
                   {[...Array(3)].map((_, i) => (
@@ -185,73 +217,58 @@ const Map = () => {
                 </div>
               ) : (
                 <div className="space-y-8">
-                  {/* Central Referral */}
-                  {centralClinics.length > 0 && (
+                  {/* Innovation Hubs */}
+                  {mainHubs.length > 0 && (
                     <div>
                       <h3 className="font-display text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-accent"></div>
-                        Central Referral Hospital ({centralClinics.length})
+                        Agribusiness Innovation Hubs ({mainHubs.length})
                       </h3>
                       <div className="grid gap-4">
-                        {centralClinics.map(clinic => (
-                          <FacilityCard key={clinic.id} facility={clinic} type="clinic" />
+                        {mainHubs.map(hub => (
+                          <FacilityCard key={hub.id} facility={hub} type="hub" />
                         ))}
                       </div>
                     </div>
                   )}
 
-                  {/* Zonal Clinics */}
-                  {zonalClinics.length > 0 && (
+                  {/* Service Centers */}
+                  {serviceCenters.length > 0 && (
                     <div>
                       <h3 className="font-display text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-primary"></div>
-                        Zonal Clinics ({zonalClinics.length})
+                        Agro Service Centers ({serviceCenters.length})
                       </h3>
                       <div className="grid md:grid-cols-2 gap-4">
-                        {zonalClinics.map(clinic => (
-                          <FacilityCard key={clinic.id} facility={clinic} type="clinic" />
+                        {serviceCenters.map(hub => (
+                          <FacilityCard key={hub.id} facility={hub} type="hub" />
                         ))}
                       </div>
                     </div>
                   )}
 
-                  {/* LGA Clinics */}
-                  {lgaClinics.length > 0 && (
-                    <div>
-                      <h3 className="font-display text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-primary-light"></div>
-                        LGA Clinics ({lgaClinics.length})
-                      </h3>
-                      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {lgaClinics.map(clinic => (
-                          <FacilityCard key={clinic.id} facility={clinic} type="clinic" compact />
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {filteredClinics?.length === 0 && (
-                    <p className="text-center text-muted-foreground py-12">No clinics match the selected filters.</p>
+                  {filteredHubs?.length === 0 && (
+                    <p className="text-center text-muted-foreground py-12">No hubs match the selected filters.</p>
                   )}
                 </div>
               )}
             </TabsContent>
 
-            <TabsContent value="ranches">
+            <TabsContent value="estates">
               {isLoading ? (
                 <div className="grid md:grid-cols-2 gap-4">
                   {[...Array(4)].map((_, i) => (
                     <Skeleton key={i} className="h-48 rounded-xl" />
                   ))}
                 </div>
-              ) : filteredRanches && filteredRanches.length > 0 ? (
+              ) : filteredEstates && filteredEstates.length > 0 ? (
                 <div className="grid md:grid-cols-2 gap-6">
-                  {filteredRanches.map(ranch => (
-                    <FacilityCard key={ranch.id} facility={ranch} type="ranch" />
+                  {filteredEstates.map(estate => (
+                    <FacilityCard key={estate.id} facility={estate} type="estate" />
                   ))}
                 </div>
               ) : (
-                <p className="text-center text-muted-foreground py-12">No ranches match the selected filters.</p>
+                <p className="text-center text-muted-foreground py-12">No estates match the selected filters.</p>
               )}
             </TabsContent>
           </Tabs>
@@ -263,39 +280,17 @@ const Map = () => {
 };
 
 interface FacilityCardProps {
-  facility: any;
-  type: 'clinic' | 'ranch';
+  facility: AgriculturalHub | FarmEstate;
+  type: 'hub' | 'estate';
   compact?: boolean;
 }
 
-const FacilityCard = ({ facility, type, compact }: FacilityCardProps) => {
+const isHub = (f: AgriculturalHub | FarmEstate): f is AgriculturalHub => 'facility_type' in f;
+const isEstate = (f: AgriculturalHub | FarmEstate): f is FarmEstate => 'has_access_road' in f;
+
+const FacilityCard = ({ facility, type }: FacilityCardProps) => {
   const status = facility.status as FacilityStatus;
   const StatusIcon = statusConfig[status]?.icon || Clock;
-
-  if (compact) {
-    return (
-      <Card className="border-border/50 hover:shadow-md transition-shadow">
-        <CardContent className="p-4">
-          <div className="flex items-start justify-between gap-2 mb-2">
-            <h4 className="font-semibold text-sm line-clamp-1">{facility.name}</h4>
-            <Badge className={`${statusConfig[status]?.bgColor} ${statusConfig[status]?.color} text-[10px] px-1.5`}>
-              {statusConfig[status]?.label}
-            </Badge>
-          </div>
-          <p className="text-xs text-muted-foreground mb-2">{facility.lga} LGA</p>
-          <div className="flex items-center gap-2 text-xs">
-            <div className={`flex items-center gap-1 ${facility.has_power ? 'text-green-600' : 'text-muted-foreground/50'}`}>
-              <Zap className="w-3 h-3" />
-            </div>
-            <div className={`flex items-center gap-1 ${facility.has_water ? 'text-blue-600' : 'text-muted-foreground/50'}`}>
-              <Droplets className="w-3 h-3" />
-            </div>
-            <span className="ml-auto font-medium">{facility.completion_percentage}%</span>
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
 
   return (
     <Card className="border-border/50 hover:shadow-md transition-shadow">
@@ -309,7 +304,7 @@ const FacilityCard = ({ facility, type, compact }: FacilityCardProps) => {
               <CardTitle className="text-base font-semibold">{facility.name}</CardTitle>
               <CardDescription className="text-xs mt-0.5">
                 {facility.lga} LGA • {facility.zone || 'N/A'}
-                {type === 'clinic' && facility.facility_type && (
+                {isHub(facility) && facility.facility_type && (
                   <span className="ml-1">• {facilityTypeLabels[facility.facility_type as FacilityType]}</span>
                 )}
               </CardDescription>
@@ -322,18 +317,16 @@ const FacilityCard = ({ facility, type, compact }: FacilityCardProps) => {
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
-          {type === 'ranch' && (
-            <div className="grid grid-cols-2 gap-2 text-sm">
-              <div className="bg-secondary/50 rounded-lg p-2">
-                <p className="text-[10px] text-muted-foreground">Area</p>
-                <p className="font-semibold text-sm">{Number(facility.total_hectares)?.toLocaleString()} Ha</p>
-              </div>
-              <div className="bg-secondary/50 rounded-lg p-2">
-                <p className="text-[10px] text-muted-foreground">Capacity</p>
-                <p className="font-semibold text-sm">{facility.capacity_cattle?.toLocaleString()} cattle</p>
-              </div>
+          <div className="grid grid-cols-2 gap-2 text-sm">
+            <div className="bg-secondary/50 rounded-lg p-2">
+              <p className="text-[10px] text-muted-foreground">Area</p>
+              <p className="font-semibold text-sm">{Number(facility.total_hectares)?.toLocaleString()} Ha</p>
             </div>
-          )}
+            <div className="bg-secondary/50 rounded-lg p-2">
+              <p className="text-[10px] text-muted-foreground">Status</p>
+              <p className="font-semibold text-sm capitalize">{facility.status.replace('_', ' ')}</p>
+            </div>
+          </div>
 
           <div className="flex items-center justify-between text-xs">
             <div className="flex items-center gap-3">
@@ -345,6 +338,12 @@ const FacilityCard = ({ facility, type, compact }: FacilityCardProps) => {
                 <Droplets className="w-3 h-3" />
                 Water
               </div>
+              {isEstate(facility) && (
+                <div className={`flex items-center gap-1 ${facility.has_access_road ? 'text-primary' : 'text-muted-foreground'}`}>
+                  <Truck className="w-3 h-3" />
+                  Roads
+                </div>
+              )}
             </div>
             <span className="font-semibold">{facility.completion_percentage}% Complete</span>
           </div>

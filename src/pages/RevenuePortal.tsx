@@ -17,7 +17,7 @@ import { useToast } from "@/hooks/use-toast";
 const revenueStreams = [
   {
     title: "Market Entry Fees",
-    description: "Digital permits for livestock market entry",
+    description: "Digital permits for agricultural market entry",
     icon: FileCheck,
     amount: "₦500 - ₦2,000"
   },
@@ -29,7 +29,7 @@ const revenueStreams = [
   },
   {
     title: "Movement Permits",
-    description: "Interstate livestock transportation permits",
+    description: "Interstate agricultural transportation permits",
     icon: QrCode,
     amount: "₦2,000 - ₦10,000"
   },
@@ -81,7 +81,7 @@ export default function RevenuePortal() {
                 Revenue Portal
               </h1>
               <p className="text-xl text-background/80">
-                Automated, cashless revenue collection system for livestock-related government fees.
+                Automated, cashless revenue collection system for agricultural government fees.
               </p>
             </div>
           </div>
@@ -116,7 +116,7 @@ export default function RevenuePortal() {
                 Revenue Streams Covered
               </h2>
               <p className="text-muted-foreground">
-                All livestock-related government fees are now digital and cashless.
+                All agricultural government fees are now digital and cashless.
               </p>
             </div>
 

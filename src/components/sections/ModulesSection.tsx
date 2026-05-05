@@ -1,50 +1,64 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Users, Stethoscope, Wallet, ArrowRight } from "lucide-react";
+import { Smartphone, LayoutDashboard, Database, Briefcase, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const modules = [
   {
     id: 1,
-    icon: Users,
-    title: "Farmer Registration & Digital Identity",
-    description: "Centralized digital registry of all livestock farmers and pastoralists across Jigawa State with unique IDs and QR codes.",
+    icon: Smartphone,
+    title: "SMART EXTENSION & FARMER SUPPORT SYSTEM",
+    description: "Digitally empower the 1,435 extension agents already deployed to provide faster response to farm issues and real-time field intelligence.",
     features: [
-      "Online & mobile registration",
-      "Unique Farmer ID generation",
-      "QR Code verification",
-      "Farmer profile dashboard"
+      "Extension Agent Mobile App",
+      "Field data reporting system",
+      "Pest & disease reporting tool",
+      "Farmer advisory notifications (SMS/USSD)"
     ],
     color: "border-l-primary",
-    href: "/farmer-registration"
+    href: "/extension"
   },
   {
     id: 2,
-    icon: Stethoscope,
-    title: "Livestock Health & Veterinary Management",
-    description: "Digitize veterinary operations and improve livestock disease surveillance and control across the state.",
+    icon: LayoutDashboard,
+    title: "INTEGRATED AGRICULTURAL COMMAND & CONTROL PLATFORM",
+    description: "A high-level dashboard for J-ATA leadership to monitor all programs in real time, transforming J-ATA into a digital command center.",
     features: [
-      "Digital health records",
-      "Vaccination scheduling",
-      "Disease outbreak alerts",
-      "Mobile field reporting"
+      "Farmer database management",
+      "GIS farm mapping & Input subsidy tracking",
+      "Crop monitoring & yield forecasting",
+      "Irrigation tracking (including solar systems)"
     ],
     color: "border-l-accent",
-    href: "/veterinary"
+    href: "/command-center"
   },
   {
     id: 3,
-    icon: Wallet,
-    title: "Market & Revenue Automation",
-    description: "Fully automated revenue collection system for livestock markets, slaughterhouses, and permits.",
+    icon: Database,
+    title: "AGRICULTURAL DATA HUB (The Brain)",
+    description: "A centralized intelligence system supporting J-ATA's soil mapping initiative, aggregating soil, weather, and farm data.",
     features: [
-      "Digital permit issuance",
-      "Cashless payments",
-      "Instant e-receipts",
-      "Revenue analytics"
+      "Real-time soil intelligence",
+      "Weather forecasting integration",
+      "Fertilizer & crop recommendation engine",
+      "Data APIs for partners and startups"
     ],
     color: "border-l-primary-light",
-    href: "/revenue"
+    href: "/data-hub"
+  },
+  {
+    id: 4,
+    icon: Briefcase,
+    title: "Agricultural Investment Promotion Portal",
+    description: "Support private investors with an 'InvestJigawa for Agriculture' opportunity portal and deal room.",
+    features: [
+      "Invest-in-Jigawa opportunity portal",
+      "Farm estate availability map",
+      "Deal room / investor data room",
+      "PPP project tracking & approvals workflow"
+    ],
+    color: "border-l-primary",
+    href: "/investors"
   }
 ];
 
@@ -60,12 +74,12 @@ export function ModulesSection() {
             Platform Modules
           </span>
           <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6">
-            Three Integrated Modules,{" "}
+            Four Integrated Modules,{" "}
             <span className="text-primary">One Unified Platform</span>
           </h2>
           <p className="text-muted-foreground text-lg">
             A comprehensive digital infrastructure designed to modernize every aspect of 
-            livestock governance in Jigawa State.
+            agricultural governance and transformation in Jigawa State.
           </p>
         </div>
 

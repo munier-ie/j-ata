@@ -6,9 +6,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
-import { ranchesApi, Ranch } from '@/lib/api';
+import { farmEstatesApi, innovationHubsApi, FarmEstate, InnovationHub } from '@/lib/api';
 import { useToast } from '@/hooks/use-toast';
-import { Edit2, Save, X } from 'lucide-react';
+import { Edit2, Save, X, Building2, Lightbulb } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -22,54 +22,69 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function AdminConstruction() {
   const { toast } = useToast();
-  const [ranches, setRanches] = useState<Ranch[]>([]);
+  const [estates, setEstates] = useState<FarmEstate[]>([]);
+  const [hubs, setHubs] = useState<InnovationHub[]>([]);
   const [loading, setLoading] = useState(true);
-  const [editingRanch, setEditingRanch] = useState<Ranch | null>(null);
+  const [editingItem, setEditingItem] = useState<{ type: 'estate'; data: FarmEstate } | { type: 'hub'; data: InnovationHub } | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
-    fetchRanches();
+    fetchData();
   }, []);
 
-  const fetchRanches = async () => {
+  const fetchData = async () => {
     try {
-      const data = await ranchesApi.getAll();
-      setRanches(data);
+      const [estatesData, hubsData] = await Promise.all([
+        farmEstatesApi.getAll(),
+        innovationHubsApi.getAll()
+      ]);
+      setEstates(estatesData);
+      setHubs(hubsData);
     } catch (error) {
-      console.error('Error fetching ranches:', error);
+      console.error('Error fetching data:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleEdit = (ranch: Ranch) => {
-    setEditingRanch({ ...ranch });
+  const handleEdit = (type: 'estate' | 'hub', data: FarmEstate | InnovationHub) => {
+    setEditingItem({ type, data: { ...data } } as { type: 'estate'; data: FarmEstate } | { type: 'hub'; data: InnovationHub });
     setDialogOpen(true);
   };
 
   const handleSave = async () => {
-    if (!editingRanch) return;
+    if (!editingItem) return;
 
     try {
-      await ranchesApi.update(editingRanch.id, {
-        status: editingRanch.status,
-        completionPercentage: editingRanch.completionPercentage,
-        budgetSpent: editingRanch.budgetSpent
-      });
+      const { type, data } = editingItem;
+      if (type === 'estate') {
+        await farmEstatesApi.update(data.id, {
+          status: data.status,
+          completionPercentage: data.completionPercentage,
+          budgetSpent: data.budgetSpent
+        });
+      } else {
+        await innovationHubsApi.update(data.id, {
+          status: data.status,
+          completionPercentage: data.completionPercentage,
+          budgetSpent: data.budgetSpent
+        });
+      }
       
       toast({
         title: 'Success',
-        description: 'Ranch updated successfully'
+        description: 'Asset updated successfully'
       });
-      fetchRanches();
+      fetchData();
       setDialogOpen(false);
     } catch (error) {
       toast({
         title: 'Error',
-        description: 'Failed to update ranch',
+        description: 'Failed to update asset',
         variant: 'destructive'
       });
     }
@@ -84,74 +99,100 @@ export default function AdminConstruction() {
   };
 
   return (
-    <AdminLayout title="Construction Progress">
+    <AdminLayout title="Agricultural Assets Management">
       <div className="space-y-6">
-        <Card variant="elevated">
-          <CardHeader>
-            <CardTitle>Ranch Construction Status</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {loading ? (
-              <div className="space-y-4">
-                {[1, 2, 3].map(i => (
-                  <div key={i} className="h-20 bg-secondary animate-pulse rounded-lg" />
-                ))}
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {ranches.map((ranch) => (
-                  <div key={ranch.id} className="p-4 border border-border rounded-lg">
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <h3 className="font-semibold text-foreground">{ranch.name}</h3>
-                        <p className="text-sm text-muted-foreground">{ranch.lga} LGA</p>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Badge className={getStatusColor(ranch.status)}>
-                          {ranch.status.replace('_', ' ')}
-                        </Badge>
-                        <Button variant="ghost" size="icon" aria-label="Edit ranch progress" onClick={() => handleEdit(ranch)}>
-                          <Edit2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-muted-foreground">Progress</span>
-                        <span className="font-medium">{ranch.completionPercentage || 0}%</span>
-                      </div>
-                      <Progress value={ranch.completionPercentage || 0} />
-                      <div className="flex items-center justify-between text-sm mt-2">
-                        <span className="text-muted-foreground">Budget Spent</span>
-                        <span className="font-medium">
-                          ₦{((ranch.budgetSpent || 0) / 1000000).toFixed(1)}M / ₦{((ranch.budgetAllocated || 0) / 1000000).toFixed(1)}M
-                        </span>
-                      </div>
-                    </div>
+        <Tabs defaultValue="estates" className="w-full">
+          <TabsList className="mb-6">
+            <TabsTrigger value="estates" className="gap-2">
+              <Building2 className="w-4 h-4" />
+              Farm Estates
+            </TabsTrigger>
+            <TabsTrigger value="hubs" className="gap-2">
+              <Lightbulb className="w-4 h-4" />
+              Innovation Hubs
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="estates">
+            <Card variant="elevated">
+              <CardHeader>
+                <CardTitle>Mechanized Farm Estates Status</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {loading ? (
+                  <div className="space-y-4">
+                    {[1, 2, 3].map(i => (
+                      <div key={i} className="h-20 bg-secondary animate-pulse rounded-lg" />
+                    ))}
                   </div>
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
+                ) : (
+                  <div className="space-y-4">
+                    {estates.map((estate) => (
+                      <AssetCard 
+                        key={estate.id} 
+                        item={estate} 
+                        onEdit={() => handleEdit('estate', estate)} 
+                        getStatusColor={getStatusColor}
+                      />
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="hubs">
+            <Card variant="elevated">
+              <CardHeader>
+                <CardTitle>Innovation & Agro Hub Status</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {loading ? (
+                  <div className="space-y-4">
+                    {[1, 2, 3].map(i => (
+                      <div key={i} className="h-20 bg-secondary animate-pulse rounded-lg" />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {hubs.map((hub) => (
+                      <AssetCard 
+                        key={hub.id} 
+                        item={hub} 
+                        onEdit={() => handleEdit('hub', hub)} 
+                        getStatusColor={getStatusColor}
+                      />
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </div>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit Construction Progress</DialogTitle>
+            <DialogTitle>Edit Asset Progress</DialogTitle>
           </DialogHeader>
-          {editingRanch && (
+          {editingItem && (
             <div className="space-y-4">
               <div>
-                <Label>Ranch Name</Label>
-                <Input value={editingRanch.name} disabled />
+                <Label>Asset Name</Label>
+                <Input value={editingItem.data.name} disabled />
               </div>
               <div>
                 <Label>Status</Label>
                 <Select 
-                  value={editingRanch.status}
-                  onValueChange={(value) => setEditingRanch({...editingRanch, status: value})}
+                  value={editingItem.data.status}
+                  onValueChange={(value) => setEditingItem(prev => {
+                    if (!prev) return null;
+                    if (prev.type === 'estate') {
+                      return { ...prev, data: { ...prev.data, status: value } };
+                    }
+                    return { ...prev, data: { ...prev.data, status: value } };
+                  })}
                 >
                   <SelectTrigger>
                     <SelectValue />
@@ -160,6 +201,7 @@ export default function AdminConstruction() {
                     <SelectItem value="planned">Planned</SelectItem>
                     <SelectItem value="under_construction">Under Construction</SelectItem>
                     <SelectItem value="operational">Operational</SelectItem>
+                    <SelectItem value="rehabilitated">Rehabilitated</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -171,23 +213,36 @@ export default function AdminConstruction() {
                   inputMode="numeric"
                   min="0" 
                   max="100"
-                  value={editingRanch.completionPercentage || 0}
-                  onChange={(e) => setEditingRanch({
-                    ...editingRanch, 
-                    completionPercentage: parseInt(e.target.value) || 0
-                  })}
-                />              </div>
+                  value={editingItem.data.completionPercentage || 0}
+                  onChange={(e) => {
+                    const val = parseInt(e.target.value) || 0;
+                    setEditingItem(prev => {
+                      if (!prev) return null;
+                      if (prev.type === 'estate') {
+                        return { ...prev, data: { ...prev.data, completionPercentage: val } };
+                      }
+                      return { ...prev, data: { ...prev.data, completionPercentage: val } };
+                    });
+                  }}
+                />
+              </div>
               <div>
                 <Label>Budget Spent (₦)</Label>
                 <Input 
                   type="number"
                   autoComplete="off"
                   inputMode="numeric"
-                  value={editingRanch.budgetSpent || 0}
-                  onChange={(e) => setEditingRanch({
-                    ...editingRanch, 
-                    budgetSpent: parseFloat(e.target.value) || 0
-                  })}
+                  value={editingItem.data.budgetSpent || 0}
+                  onChange={(e) => {
+                    const val = parseFloat(e.target.value) || 0;
+                    setEditingItem(prev => {
+                      if (!prev) return null;
+                      if (prev.type === 'estate') {
+                        return { ...prev, data: { ...prev.data, budgetSpent: val } };
+                      }
+                      return { ...prev, data: { ...prev.data, budgetSpent: val } };
+                    });
+                  }}
                 />
               </div>
               <div className="flex gap-2 justify-end">
@@ -205,5 +260,45 @@ export default function AdminConstruction() {
         </DialogContent>
       </Dialog>
     </AdminLayout>
+  );
+}
+
+interface AssetCardProps {
+  item: FarmEstate | InnovationHub;
+  onEdit: () => void;
+  getStatusColor: (status: string) => string;
+}
+
+function AssetCard({ item, onEdit, getStatusColor }: AssetCardProps) {
+  return (
+    <div className="p-4 border border-border rounded-lg">
+      <div className="flex items-start justify-between mb-3">
+        <div>
+          <h3 className="font-semibold text-foreground">{item.name}</h3>
+          <p className="text-sm text-muted-foreground">{item.lga} LGA</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Badge className={getStatusColor(item.status)}>
+            {item.status.replace('_', ' ')}
+          </Badge>
+          <Button variant="ghost" size="icon" onClick={onEdit}>
+            <Edit2 className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+      <div className="space-y-2">
+        <div className="flex items-center justify-between text-sm">
+          <span className="text-muted-foreground">Progress</span>
+          <span className="font-medium">{item.completionPercentage || 0}%</span>
+        </div>
+        <Progress value={item.completionPercentage || 0} />
+        <div className="flex items-center justify-between text-sm mt-2">
+          <span className="text-muted-foreground">Budget Status</span>
+          <span className="font-medium">
+            ₦{((item.budgetSpent || 0) / 1000000).toFixed(1)}M / ₦{((item.budgetAllocated || 0) / 1000000).toFixed(1)}M
+          </span>
+        </div>
+      </div>
+    </div>
   );
 }

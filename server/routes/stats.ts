@@ -7,28 +7,28 @@ const router = Router();
 router.get('/', async (req, res) => {
   try {
     const [
-      totalRanches,
-      totalClinics,
+      totalFarmEstates,
+      totalInnovationHubs,
       totalFarmers,
       totalNews,
       totalReports,
-      operationalRanches
+      operationalFarmEstates
     ] = await Promise.all([
-      prisma.ranch.count(),
-      prisma.veterinaryClinic.count(),
+      prisma.farmEstate.count(),
+      prisma.innovationHub.count(),
       prisma.farmer.count(),
       prisma.newsArticle.count(),
       prisma.report.count(),
-      prisma.ranch.count({ where: { status: 'operational' } })
+      prisma.farmEstate.count({ where: { status: 'operational' } })
     ]);
 
     res.json({
-      totalRanches,
-      totalClinics,
+      totalFarmEstates,
+      totalInnovationHubs,
       totalFarmers,
       totalNews,
       totalReports,
-      completedProjects: operationalRanches
+      completedProjects: operationalFarmEstates
     });
   } catch (error) {
     console.error('Error fetching stats:', error);
@@ -36,29 +36,24 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET detailed ranch stats
-router.get('/ranches', async (req, res) => {
+// GET detailed farm estate stats
+router.get('/farm-estates', async (req, res) => {
   try {
-    const statuses = await prisma.ranch.groupBy({
+    const statuses = await prisma.farmEstate.groupBy({
       by: ['status'],
       _count: { status: true }
     });
     
-    const totalHectares = await prisma.ranch.aggregate({
+    const totalHectares = await prisma.farmEstate.aggregate({
       _sum: { totalHectares: true }
-    });
-    
-    const totalCapacity = await prisma.ranch.aggregate({
-      _sum: { capacityCattle: true }
     });
 
     res.json({
       byStatus: statuses,
-      totalHectares: totalHectares._sum.totalHectares || 0,
-      totalCapacity: totalCapacity._sum.capacityCattle || 0
+      totalHectares: totalHectares._sum.totalHectares || 0
     });
   } catch (error) {
-    console.error('Error fetching ranch stats:', error);
+    console.error('Error fetching farm estate stats:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
@@ -69,7 +64,7 @@ router.get('/farmers', async (req, res) => {
     const byLGA = await prisma.farmer.groupBy({
       by: ['lga'],
       _count: { lga: true },
-      _sum: { herdSize: true }
+      _sum: { farmSize: true }
     });
     
     const byStatus = await prisma.farmer.groupBy({

@@ -15,27 +15,27 @@ const values = [
   {
     icon: Target,
     title: "Our Mission",
-    description: "To modernize livestock administration, empower farmers, and drive sustainable economic growth across Jigawa State through digital transformation."
+    description: "To modernize Jigawa's agrarian economy through digital innovation, empowering farmers, and driving sustainable agricultural development."
   },
   {
     icon: Globe,
     title: "Our Vision",
-    description: "To position Jigawa State as a national leader in livestock governance and digital innovation in Nigeria."
+    description: "To position Jigawa State as a global leader in digital agriculture and smart farming governance."
   },
   {
     icon: Shield,
     title: "Our Commitment",
-    description: "Transparency, accountability, and service excellence in every aspect of livestock management."
+    description: "Transparency, accountability, and service excellence in every aspect of agricultural transformation."
   },
 ];
 
 const objectives = [
-  "Digitally register and authenticate all livestock farmers across Jigawa State",
-  "Digitize veterinary services and livestock health records",
-  "Automate livestock market, slaughterhouse, and related revenue collection",
-  "Eliminate cash handling, paper records, and data fragmentation",
-  "Increase internally generated revenue (IGR) for Jigawa State",
-  "Provide real-time data for policy formulation and decision-making"
+  "Digitally empower the 1,435 extension agents already deployed",
+  "Implement an integrated agricultural command & control platform",
+  "Establish a centralized agricultural data hub (The Brain)",
+  "Scale mechanized farm estates and agribusiness innovation hubs",
+  "Automate input subsidy tracking and voucher systems",
+  "Provide real-time soil intelligence and weather forecasting"
 ];
 
 export default function About() {
@@ -48,16 +48,16 @@ export default function About() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl">
               <h1 className="font-display text-4xl sm:text-5xl font-bold text-primary-foreground mb-4">
-                About the Platform
+                About J-ATA
               </h1>
               <p className="text-xl text-primary-foreground/80">
-                The official digital backbone of the Ministry of Livestock, Jigawa State Government.
+                The Jigawa Agricultural Transformation Agency (J-ATA) is the digital heartbeat of Jigawa's farming revolution.
               </p>
             </div>
           </div>
         </section>
 
-        {/* Commissioner Section */}
+        {/* DG Section */}
         <section className="py-16">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <Card variant="elevated" className="overflow-hidden">
@@ -66,8 +66,8 @@ export default function About() {
                   <div className="relative mb-6">
                     <div className="w-48 h-48 rounded-2xl overflow-hidden border-4 border-primary shadow-xl">
                       <img 
-                        src="/Hon.%20commissioner.png" 
-                        alt="Professor Saleem Abdurrahman - Honourable Commissioner for Livestock" 
+                        src="/director jata.png" 
+                        alt="Dr. Saifullahi Umar - Director General J-ATA" 
                         className="w-full h-full object-cover"
                       />
                     </div>
@@ -76,36 +76,38 @@ export default function About() {
                     </div>
                   </div>
                   <p className="text-sm text-primary font-medium uppercase tracking-wider">
-                    Honourable Commissioner
+                    Director General
                   </p>
                   <h3 className="font-display text-2xl font-bold text-foreground">
-                    Professor Saleem Abdurrahman
+                    Dr. Saifullahi Umar
                   </h3>
-                  <p className="text-sm text-muted-foreground">Ministry of Livestock, Jigawa State</p>
+                  <p className="text-sm text-muted-foreground">DG J-ATA and Council Secretary</p>
                 </div>
                 <div className="md:col-span-2 flex flex-col justify-center">
                   <h2 className="font-display text-2xl font-bold text-foreground mb-4">
-                    Welcome Message
+                    Director General's Message
                   </h2>
                   <blockquote className="text-muted-foreground leading-relaxed space-y-4">
                     <p>
-                      "Welcome to the Jigawa State Livestock Digital Platform — a strategic initiative 
-                      to modernize livestock administration, empower our farmers, strengthen veterinary 
-                      services, and drive sustainable economic growth across Jigawa State.
+                      "Welcome to the J-ATA Digital Hub — a strategic engine designed to transform 
+                      Jigawa's agricultural sector into a modern, data-driven agrarian economy. 
+                      Our mission is to bridge the digital divide for our 1,435 extension agents 
+                      and over 2 million farmers.
                     </p>
                     <p>
-                      This platform represents a bold step towards eliminating manual processes, improving 
-                      livestock governance, and generating sustainable revenue for our great state. Through 
-                      this digital transformation, we are positioning Jigawa as a national leader in 
-                      livestock digitalization.
+                      Through this integrated command and control platform, we are eliminating data 
+                      fragmentation and ensuring that every policy decision is backed by real-time 
+                      field intelligence. We are building a future where technology and soil meet 
+                      to create unprecedented prosperity for our state.
                     </p>
                     <p>
-                      I invite all livestock farmers, veterinary officers, and stakeholders to embrace 
-                      this initiative and join us in building a more prosperous future for our livestock sector."
+                      I invite all stakeholders, partners, and investors to join us on this 
+                      transformative journey. Together, we are planting the seeds of a digital 
+                      future for Jigawa State."
                     </p>
                   </blockquote>
                   <p className="mt-4 font-display font-semibold text-foreground">
-                    — Professor Saleem Abdurrahman
+                    — Dr. Saifullahi Umar
                   </p>
                 </div>
               </div>
@@ -143,7 +145,7 @@ export default function About() {
                   Project Objectives
                 </h2>
                 <p className="text-muted-foreground">
-                  The Jigawa Livestock Digital Platform is designed to achieve the following strategic objectives:
+                  The J-ATA Digital Platform is designed to achieve the following strategic objectives:
                 </p>
               </div>
 
@@ -176,17 +178,17 @@ export default function About() {
                     className="w-20 h-20 object-contain bg-background rounded-full p-2"
                   />
                   <div>
-                    <h2 className="font-display text-2xl font-bold">Ministry of Livestock</h2>
-                    <p className="text-background/60">Jigawa State Government</p>
+                    <h2 className="font-display text-2xl font-bold">J-ATA</h2>
+                    <p className="text-background/60">Jigawa Agricultural Transformation Agency</p>
                   </div>
                 </div>
                 <p className="text-background/80 leading-relaxed mb-6">
-                  The Ministry of Livestock, Jigawa State, is responsible for the development, 
-                  regulation, and promotion of the livestock sector across all 27 Local Government 
+                  The Jigawa Agricultural Transformation Agency (J-ATA) is responsible for the development, 
+                  regulation, and promotion of the agricultural sector across all 27 Local Government 
                   Areas of Jigawa State.
                 </p>
                 <p className="text-background/80 leading-relaxed">
-                  This digital platform is a flagship initiative to transform livestock governance 
+                  This digital platform is a flagship initiative to transform agricultural governance 
                   and position Jigawa State as a leader in agricultural technology adoption in Nigeria.
                 </p>
               </div>
@@ -199,7 +201,7 @@ export default function About() {
                 <div className="p-6 rounded-xl bg-background/5 border border-background/10 text-center">
                   <Award className="w-8 h-8 text-primary mx-auto mb-3" />
                   <p className="text-2xl font-display font-bold text-primary">1st</p>
-                  <p className="text-sm text-background/60">Digital Livestock Platform</p>
+                  <p className="text-sm text-background/60">Agricultural Transformation</p>
                 </div>
               </div>
             </div>

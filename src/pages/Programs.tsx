@@ -20,79 +20,79 @@ import { HeroCarousel } from "@/components/sections/HeroCarousel";
 
 const budgetBreakdown = [
   {
-    category: "Ranch Development",
+    category: "Farm Estate Development",
     amount: 8500000000,
     percentage: 49,
     icon: Building2,
-    description: "Construction of modern ranches with schools, health centers, and veterinary facilities"
+    description: "Establishment of mechanized farm estates with irrigation, power, and agribusiness facilities"
   },
   {
-    category: "Veterinary Infrastructure",
+    category: "Innovation Hub Network",
     amount: 4200000000,
     percentage: 24,
-    icon: Stethoscope,
-    description: "Rehabilitation of 27 LGA clinics, 7 zonal clinics, and 1 central referral hospital"
+    icon: Landmark,
+    description: "Development of agribusiness incubation hubs for technology transfer and startup support"
   },
   {
-    category: "Livestock Health Programs",
+    category: "Smart Extension Support",
     amount: 2800000000,
     percentage: 16,
-    icon: Shield,
-    description: "Mass vaccination campaigns, disease surveillance, and emergency response"
+    icon: TrendingUp,
+    description: "Digital tools for 1,435 extension agents, field data collection, and farmer advisory"
   },
   {
-    category: "Conflict Prevention",
+    category: "Data Hub & Soil Mapping",
     amount: 1900000000,
     percentage: 11,
     icon: Shield,
-    description: "Herder-farmer conflict resolution, grazing route demarcation, and peace building"
+    description: "Centralized intelligence system for soil mapping, weather forecasting, and yield predictions"
   }
 ];
 
 const keyInitiatives = [
   {
-    title: "Ranch Establishment Program",
-    description: "Building modern grazing reserves with complete infrastructure including feed facilities, schools, health centers, veterinary clinics, power, and water supply.",
+    title: "Mechanized Farm Estates",
+    description: "Building modern agricultural clusters with complete infrastructure including irrigation, storage, and processing facilities.",
     targets: [
-      "10 model ranches across all zones",
-      "50,000+ hectares of managed grazing land",
-      "Capacity for 100,000+ cattle"
+      "10 model estates across all zones",
+      "50,000+ hectares of managed farmland",
+      "Support for 200,000+ smallholder farmers"
     ],
     status: "In Progress",
     progress: 55
   },
   {
-    title: "Veterinary Network Expansion",
-    description: "Comprehensive rehabilitation and construction of veterinary facilities to bring quality animal healthcare within reach of every livestock owner.",
+    title: "Agribusiness Innovation Hubs",
+    description: "Establishing technology transfer centers to bridge the gap between research and commercial farming.",
     targets: [
-      "27 LGA-level veterinary clinics",
-      "7 zonal referral clinics",
-      "1 state-of-the-art central referral hospital"
+      "27 LGA-level training hubs",
+      "7 zonal innovation centers",
+      "1 central J-ATA Digital Ops Center"
     ],
     status: "In Progress",
     progress: 68
   },
   {
-    title: "Herder Welfare Initiative",
-    description: "Supporting pastoral communities through education, healthcare access, and alternative livelihood programs.",
+    title: "Digital Extension Service",
+    description: "Equipping all 1,435 extension agents with smart tools for real-time field intelligence and farmer support.",
     targets: [
-      "Mobile schools for pastoral children",
-      "Healthcare outreach programs",
-      "Skills training and livelihood diversification"
+      "100% agent connectivity",
+      "Real-time pest & disease reporting",
+      "Multilingual SMS/USSD advisory reach"
     ],
     status: "Active",
-    progress: 40
+    progress: 85
   },
   {
-    title: "Livestock Productivity Enhancement",
-    description: "Improving livestock breeds and production systems through modern technology and farmer training.",
+    title: "Soil Mapping Initiative",
+    description: "Comprehensive statewide soil analysis to provide data-driven fertilizer and crop recommendations.",
     targets: [
-      "Artificial insemination centers",
-      "Farmer field schools",
-      "Breed improvement programs"
+      "High-resolution mapping for 27 LGAs",
+      "Automated NPK recommendation engine",
+      "Soil health tracking for farm estates"
     ],
     status: "Active",
-    progress: 35
+    progress: 42
   }
 ];
 
@@ -114,7 +114,7 @@ const Programs = () => {
         {/* Hero Section */}
         <HeroCarousel 
           title="Programs & Investments"
-          subtitle="Historic ₦17.4 billion investment in livestock development, ranch establishment, and veterinary infrastructure."
+          subtitle="Historic ₦17.4 billion investment in agricultural transformation, farm estates, and digital extension infrastructure."
         >
           <div className="flex flex-col gap-6">
             <Badge variant="secondary" className="w-fit bg-white/20 text-white border-0">
@@ -133,7 +133,7 @@ const Programs = () => {
                 </div>
               </div>
               <p className="text-sm text-white/80 leading-relaxed">
-                This represents the largest investment in livestock development in Jigawa State's history, 
+                This represents the largest investment in agricultural development in Jigawa State's history, 
                 demonstrating the government's commitment to transforming the sector.
               </p>
             </div>

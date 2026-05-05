@@ -13,7 +13,7 @@ import { HeroCarousel } from "@/components/sections/HeroCarousel";
 const steps = [
   { number: 1, title: "NIN Verification" },
   { number: 2, title: "Personal Information" },
-  { number: 3, title: "Livestock Details" },
+  { number: 3, title: "Farm Assets" },
   { number: 4, title: "Review & Confirm" },
 ];
 
@@ -109,7 +109,7 @@ export default function FarmerRegistration() {
         {/* Hero */}
         <HeroCarousel 
           title="Farmer Registration"
-          subtitle="Register as a livestock farmer and receive your unique digital ID."
+          subtitle="Register as a farmer and receive your unique digital J-ATA ID."
         >
              <span className="inline-block px-4 py-2 rounded-full bg-white/20 backdrop-blur-md text-white border border-white/10 text-sm font-medium mb-4">
                 Module 1

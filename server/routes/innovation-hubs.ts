@@ -3,55 +3,53 @@ import prisma from '../lib/prisma';
 
 const router = Router();
 
-// GET all veterinary clinics
+// GET all innovation hubs
 router.get('/', async (req, res) => {
   try {
-    const clinics = await prisma.veterinaryClinic.findMany({
+    const hubs = await prisma.innovationHub.findMany({
       orderBy: { createdAt: 'desc' }
     });
-    res.json(clinics);
+    res.json(hubs);
   } catch (error) {
-    console.error('Error fetching clinics:', error);
+    console.error('Error fetching innovation hubs:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
-// GET single clinic
+// GET single innovation hub
 router.get('/:id', async (req, res) => {
   try {
-    const clinic = await prisma.veterinaryClinic.findUnique({
+    const hub = await prisma.innovationHub.findUnique({
       where: { id: req.params.id }
     });
-    if (!clinic) {
-      return res.status(404).json({ error: 'Clinic not found' });
+    if (!hub) {
+      return res.status(404).json({ error: 'Innovation Hub not found' });
     }
-    res.json(clinic);
+    res.json(hub);
   } catch (error) {
-    console.error('Error fetching clinic:', error);
+    console.error('Error fetching innovation hub:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
-// POST create clinic
+// POST create innovation hub
 router.post('/', async (req, res) => {
   try {
     const {
-      name, facilityType, facility_type, lga, zone, address, 
-      latitude, longitude, capacity, status,
+      name, facilityType, facility_type, lga, zone, address, latitude, longitude,
+      capacity, status,
       completionPercentage, completion_percentage,
       budgetAllocated, budget_allocated,
       budgetSpent, budget_spent,
       hasWater, has_water,
       hasPower, has_power,
-      services,
-      contactPhone, contact_phone,
-      contactEmail, contact_email
+      services, contactPhone, contact_phone, contactEmail, contact_email
     } = req.body;
     
-    const newClinic = await prisma.veterinaryClinic.create({
+    const newHub = await prisma.innovationHub.create({
       data: {
         name,
-        facilityType: facilityType || facility_type,
+        facilityType: facilityType || facility_type || 'innovation_hub',
         lga,
         zone: zone || null,
         address: address || null,
@@ -69,30 +67,28 @@ router.post('/', async (req, res) => {
         contactEmail: contactEmail || contact_email || null
       }
     });
-    res.status(201).json(newClinic);
+    res.status(201).json(newHub);
   } catch (error) {
-    console.error('Error creating clinic:', error);
+    console.error('Error creating innovation hub:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
-// PUT update clinic
+// PUT update innovation hub
 router.put('/:id', async (req, res) => {
   try {
     const {
-      name, facilityType, facility_type, lga, zone, address, 
-      latitude, longitude, capacity, status,
+      name, facilityType, facility_type, lga, zone, address, latitude, longitude,
+      capacity, status,
       completionPercentage, completion_percentage,
       budgetAllocated, budget_allocated,
       budgetSpent, budget_spent,
       hasWater, has_water,
       hasPower, has_power,
-      services,
-      contactPhone, contact_phone,
-      contactEmail, contact_email
+      services, contactPhone, contact_phone, contactEmail, contact_email
     } = req.body;
     
-    const updatedClinic = await prisma.veterinaryClinic.update({
+    const updatedHub = await prisma.innovationHub.update({
       where: { id: req.params.id },
       data: {
         name,
@@ -114,22 +110,22 @@ router.put('/:id', async (req, res) => {
         contactEmail: contactEmail || contact_email
       }
     });
-    res.json(updatedClinic);
+    res.json(updatedHub);
   } catch (error) {
-    console.error('Error updating clinic:', error);
+    console.error('Error updating innovation hub:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
-// DELETE clinic
+// DELETE innovation hub
 router.delete('/:id', async (req, res) => {
   try {
-    await prisma.veterinaryClinic.delete({
+    await prisma.innovationHub.delete({
       where: { id: req.params.id }
     });
     res.status(204).end();
   } catch (error) {
-    console.error('Error deleting clinic:', error);
+    console.error('Error deleting innovation hub:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
