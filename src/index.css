@@ -1,0 +1,240 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Primary - Nigerian Agricultural Green */
+    --primary: 142 70% 32%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 142 60% 45%;
+    --primary-dark: 142 75% 22%;
+
+    /* Accent - Nigerian Flag Red */
+    --accent: 0 72% 50%;
+    --accent-foreground: 0 0% 100%;
+    --accent-light: 0 72% 60%;
+
+    /* Backgrounds */
+    --background: 0 0% 100%;
+    --foreground: 142 30% 12%;
+
+    /* Cards & Surfaces */
+    --card: 0 0% 100%;
+    --card-foreground: 142 30% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 142 30% 12%;
+
+    /* Secondary - Light green tint */
+    --secondary: 142 30% 96%;
+    --secondary-foreground: 142 70% 25%;
+
+    /* Muted */
+    --muted: 142 15% 94%;
+    --muted-foreground: 142 15% 40%;
+
+    /* Destructive */
+    --destructive: 0 72% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Borders & Inputs */
+    --border: 142 20% 88%;
+    --input: 142 20% 88%;
+    --ring: 142 70% 32%;
+
+    --radius: 0.75rem;
+
+    /* Custom gradients */
+    --gradient-hero: linear-gradient(
+      135deg,
+      hsl(142 70% 32%) 0%,
+      hsl(142 75% 22%) 100%
+    );
+    --gradient-card: linear-gradient(
+      180deg,
+      hsl(0 0% 100%) 0%,
+      hsl(142 30% 98%) 100%
+    );
+    --gradient-accent: linear-gradient(
+      135deg,
+      hsl(0 72% 50%) 0%,
+      hsl(0 72% 40%) 100%
+    );
+
+    /* Shadows */
+    --shadow-sm: 0 2px 8px -2px hsl(142 30% 12% / 0.08);
+    --shadow-md: 0 8px 24px -4px hsl(142 30% 12% / 0.12);
+    --shadow-lg: 0 16px 48px -8px hsl(142 30% 12% / 0.16);
+    --shadow-glow: 0 0 40px hsl(142 70% 32% / 0.2);
+
+    /* Sidebar */
+    --sidebar-background: 142 30% 98%;
+    --sidebar-foreground: 142 30% 12%;
+    --sidebar-primary: 142 70% 32%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 142 30% 94%;
+    --sidebar-accent-foreground: 142 70% 25%;
+    --sidebar-border: 142 20% 88%;
+    --sidebar-ring: 142 70% 32%;
+  }
+
+  .dark {
+    --primary: 142 60% 45%;
+    --primary-foreground: 142 30% 8%;
+    --primary-light: 142 55% 55%;
+    --primary-dark: 142 70% 32%;
+
+    --accent: 0 72% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --background: 142 30% 6%;
+    --foreground: 142 10% 95%;
+
+    --card: 142 25% 10%;
+    --card-foreground: 142 10% 95%;
+
+    --popover: 142 25% 10%;
+    --popover-foreground: 142 10% 95%;
+
+    --secondary: 142 25% 15%;
+    --secondary-foreground: 142 10% 95%;
+
+    --muted: 142 25% 15%;
+    --muted-foreground: 142 15% 60%;
+
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 142 25% 18%;
+    --input: 142 25% 18%;
+    --ring: 142 60% 45%;
+
+    --sidebar-background: 142 30% 8%;
+    --sidebar-foreground: 142 10% 95%;
+    --sidebar-primary: 142 60% 45%;
+    --sidebar-primary-foreground: 142 30% 8%;
+    --sidebar-accent: 142 25% 15%;
+    --sidebar-accent-foreground: 142 10% 95%;
+    --sidebar-border: 142 25% 18%;
+    --sidebar-ring: 142 60% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: "Poppins", system-ui, sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Poppins", system-ui, sans-serif;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: "Poppins", system-ui, sans-serif;
+  }
+
+  .font-body {
+    font-family: "Poppins", system-ui, sans-serif;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-hero);
+  }
+
+  .bg-hero-gradient {
+    background-image: var(--gradient-hero);
+  }
+
+  .bg-card-gradient {
+    background-image: var(--gradient-card);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .animate-fade-up {
+    animation: fadeUp 0.6s ease-out forwards;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.4s ease-out forwards;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.5);
+}

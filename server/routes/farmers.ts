@@ -1,0 +1,117 @@
+import { Router } from 'express';
+import prisma from '../lib/prisma';
+
+const router = Router();
+
+// GET all farmers
+router.get('/', async (req, res) => {
+  try {
+    const farmers = await prisma.farmer.findMany({
+      orderBy: { createdAt: 'desc' }
+    });
+    res.json(farmers);
+  } catch (error) {
+    console.error('Error fetching farmers:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// GET single farmer
+router.get('/:id', async (req, res) => {
+  try {
+    const farmer = await prisma.farmer.findUnique({
+      where: { id: req.params.id }
+    });
+    if (!farmer) {
+      return res.status(404).json({ error: 'Farmer not found' });
+    }
+    res.json(farmer);
+  } catch (error) {
+    console.error('Error fetching farmer:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// POST create farmer
+router.post('/', async (req, res) => {
+  try {
+    const { 
+      farmerId, farmer_id, 
+      firstName, first_name, 
+      lastName, last_name, 
+      phone, nin, lga, ward, community,
+      herdSize, herd_size,
+      livestockTypes, livestock_types,
+      status 
+    } = req.body;
+    
+    const newFarmer = await prisma.farmer.create({
+      data: {
+        farmerId: farmerId || farmer_id,
+        firstName: firstName || first_name,
+        lastName: lastName || last_name,
+        phone,
+        nin: nin || null,
+        lga,
+        ward,
+        community,
+        herdSize: herdSize ?? herd_size ?? 0,
+        livestockTypes: livestockTypes || livestock_types || [],
+        status: status || 'pending'
+      }
+    });
+    res.status(201).json(newFarmer);
+  } catch (error) {
+    console.error('Error creating farmer:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// PUT update farmer
+router.put('/:id', async (req, res) => {
+  try {
+    const { 
+      firstName, first_name, 
+      lastName, last_name, 
+      phone, nin, lga, ward, community,
+      herdSize, herd_size,
+      livestockTypes, livestock_types,
+      status 
+    } = req.body;
+    
+    const updatedFarmer = await prisma.farmer.update({
+      where: { id: req.params.id },
+      data: {
+        firstName: firstName || first_name,
+        lastName: lastName || last_name,
+        phone,
+        nin,
+        lga,
+        ward,
+        community,
+        herdSize: herdSize ?? herd_size,
+        livestockTypes: livestockTypes || livestock_types,
+        status
+      }
+    });
+    res.json(updatedFarmer);
+  } catch (error) {
+    console.error('Error updating farmer:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// DELETE farmer
+router.delete('/:id', async (req, res) => {
+  try {
+    await prisma.farmer.delete({
+      where: { id: req.params.id }
+    });
+    res.status(204).end();
+  } catch (error) {
+    console.error('Error deleting farmer:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+export default router;

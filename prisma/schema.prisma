@@ -1,0 +1,206 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============= ENUMS =============
+
+enum AppRole {
+  admin
+  moderator
+  user
+}
+
+enum FacilityStatus {
+  planned
+  under_construction
+  operational
+  rehabilitated
+}
+
+enum FacilityType {
+  lga_clinic
+  zonal_clinic
+  central_referral
+  ranch
+}
+
+// ============= MODELS =============
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  role      AppRole  @default(user)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  profile Profile?
+
+  @@map("users")
+}
+
+model Profile {
+  id        String   @id @default(uuid())
+  userId    String   @unique @map("user_id")
+  fullName  String?  @map("full_name")
+  avatarUrl String?  @map("avatar_url")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("profiles")
+}
+
+model ManagementMember {
+  id             String   @id @default(uuid())
+  name           String
+  role           String
+  imageUrl       String?  @map("image_url")
+  bio            String
+  isCommissioner Boolean  @default(false) @map("is_commissioner")
+  sortOrder      Int      @default(0) @map("sort_order")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@map("management_members")
+}
+
+model Farmer {
+  id            String   @id @default(uuid())
+  farmerId      String   @unique @map("farmer_id")
+  firstName     String   @map("first_name")
+  lastName      String   @map("last_name")
+  phone         String
+  nin           String?
+  lga           String
+  ward          String
+  community     String
+  herdSize      Int      @default(0) @map("herd_size")
+  livestockTypes String[] @map("livestock_types")
+  status        String   @default("pending")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@map("farmers")
+}
+
+model Ranch {
+  id                   String         @id @default(uuid())
+  name                 String
+  lga                  String
+  zone                 String?
+  address              String?
+  latitude             Float?
+  longitude            Float?
+  totalHectares        Float?         @map("total_hectares")
+  capacityCattle       Int?           @map("capacity_cattle")
+  status               FacilityStatus @default(planned)
+  completionPercentage Int?           @map("completion_percentage")
+  budgetAllocated      Float?         @map("budget_allocated")
+  budgetSpent          Float?         @map("budget_spent")
+  hasWater             Boolean?       @map("has_water")
+  hasPower             Boolean?       @map("has_power")
+  hasVeterinaryClinic  Boolean?       @map("has_veterinary_clinic")
+  hasFeedFacilities    Boolean?       @map("has_feed_facilities")
+  hasSchool            Boolean?       @map("has_school")
+  hasHealthCenter      Boolean?       @map("has_health_center")
+  createdAt            DateTime       @default(now()) @map("created_at")
+  updatedAt            DateTime       @updatedAt @map("updated_at")
+
+  @@map("ranches")
+}
+
+model VeterinaryClinic {
+  id                   String         @id @default(uuid())
+  name                 String
+  facilityType         FacilityType   @map("facility_type")
+  lga                  String
+  zone                 String?
+  address              String?
+  latitude             Float?
+  longitude            Float?
+  capacity             Int?
+  status               FacilityStatus @default(planned)
+  completionPercentage Int?           @map("completion_percentage")
+  budgetAllocated      Float?         @map("budget_allocated")
+  budgetSpent          Float?         @map("budget_spent")
+  hasWater             Boolean?       @map("has_water")
+  hasPower             Boolean?       @map("has_power")
+  services             String[]
+  contactPhone         String?        @map("contact_phone")
+  contactEmail         String?        @map("contact_email")
+  createdAt            DateTime       @default(now()) @map("created_at")
+  updatedAt            DateTime       @updatedAt @map("updated_at")
+
+  @@map("veterinary_clinics")
+}
+
+model NewsArticle {
+  id          String    @id @default(uuid())
+  title       String
+  slug        String    @unique
+  content     String
+  excerpt     String?
+  imageUrl    String?   @map("image_url")
+  category    String
+  isPublished Boolean   @default(false) @map("is_published")
+  publishedAt DateTime? @map("published_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  @@map("news_articles")
+}
+
+model Report {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  category    String   @default("general")
+  fileUrl     String?  @map("file_url")
+  isPublished Boolean  @default(false) @map("is_published")
+  uploadedBy  String?  @map("uploaded_by")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("reports")
+}
+
+model ContactSubmission {
+  id        String   @id @default(uuid())
+  fullName  String   @map("full_name")
+  email     String
+  phone     String?
+  subject   String
+  message   String
+  isRead    Boolean  @default(false) @map("is_read")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("contact_submissions")
+}
+
+model GrazingPermit {
+  id            String   @id @default(uuid())
+  receiptId     String   @unique @map("receipt_id")
+  nin           String
+  fullName      String   @map("full_name")
+  phone         String?
+  lga           String
+  ward          String
+  community     String?
+  address       String?
+  yardLength    Int      @map("yard_length")
+  amount        Float
+  paymentStatus String   @default("completed") @map("payment_status")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@map("grazing_permits")
+}

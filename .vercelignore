@@ -1,0 +1,11 @@
+# Ignore server files (only for local development)
+server/
+server.js
+
+# Node modules and env files
+node_modules/
+.env.local
+.env.development
+
+# Build artifacts
+dist/
