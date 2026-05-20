@@ -18,7 +18,7 @@ const navigation = [
   { name: "Home", href: "/" },
   { name: "Innovation Hubs", href: "/innovation-hubs" },
   { name: "Farm Estates", href: "/farm-estates" },
-  { name: "About Us", href: "/management" },
+  { name: "About Us", href: "/about" },
   { name: "Updates", href: "/news" },
 ];
 
@@ -48,7 +48,7 @@ export function Header() {
             />
             <div className="hidden sm:block">
               <p className="font-display font-semibold text-foreground text-lg leading-tight">
-                J-ATA
+                JATA
               </p>
               <p className="text-xs text-muted-foreground">Transformation Agency</p>
             </div>
@@ -91,10 +91,16 @@ export function Header() {
                   Farmer Portal
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  onClick={() => navigate("/map")}
+                  onClick={() => navigate("/startup")}
                   className="cursor-pointer"
                 >
-                  Interactive Map
+                  Startup Portal
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => navigate("/ppp/apply")}
+                  className="cursor-pointer"
+                >
+                  PPP Application
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -136,7 +142,6 @@ export function Header() {
                   {item.name}
                 </Link>
               ))}
-              <div className="flex flex-col gap-2 pt-4 border-t border-border mt-2">
                 <Button
                   variant="governmentPrimary"
                   className="w-full justify-start"
@@ -147,7 +152,46 @@ export function Header() {
                 >
                   Farmer Portal
                 </Button>
-              </div>
+                <Button
+                  variant="governmentPrimary"
+                  className="w-full justify-start"
+                  onClick={() => {
+                    navigate("/startup");
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  Startup Portal
+                </Button>
+                <Button
+                  variant="governmentPrimary"
+                  className="w-full justify-start"
+                  onClick={() => {
+                    navigate("/investor/dashboard");
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  Investor Dashboard
+                </Button>
+                <Button
+                  variant="governmentPrimary"
+                  className="w-full justify-start"
+                  onClick={() => {
+                    navigate("/mentor");
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  Mentor Portal
+                </Button>
+                <Button
+                  variant="governmentPrimary"
+                  className="w-full justify-start"
+                  onClick={() => {
+                    navigate("/ppp/apply");
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  PPP Application
+                </Button>
             </div>
           </div>
         )}

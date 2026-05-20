@@ -45,7 +45,8 @@ export default function AdminFarmers() {
   );
 
   return (
-    <AdminLayout title="Farmer Registry">
+    <div className="space-y-6">
+      <h1 className="text-2xl lg:text-3xl font-display font-bold text-foreground mb-6">Farmer Registry</h1>
       <div className="space-y-6">
         <Card variant="elevated">
           <CardHeader>
@@ -135,6 +136,6 @@ export default function AdminFarmers() {
           </CardContent>
         </Card>
       </div>
-    </AdminLayout>
+    </div>
   );
 }

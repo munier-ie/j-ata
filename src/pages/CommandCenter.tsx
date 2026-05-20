@@ -23,7 +23,7 @@ const CommandCenter = () => {
                 Data-Driven <span className="text-white">Transformation Control</span>
               </h1>
               <p className="text-xl opacity-90">
-                A high-level dashboard for J-ATA leadership to monitor all programs in real time. 
+                A high-level dashboard for JATA leadership to monitor all programs in real time. 
                 From farmer registration to yield forecasting—all in one place.
               </p>
               <div className="flex flex-wrap justify-center gap-4 pt-4">

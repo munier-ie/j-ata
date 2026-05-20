@@ -53,7 +53,7 @@ const pillars = [
   {
     icon: BarChart3,
     title: "Strategy, Data & Analytics",
-    description: "The 'Brain' of J-ATA, driving data-backed decisions through the Command & Control platform.",
+    description: "The 'Brain' of JATA, driving data-backed decisions through the Command & Control platform.",
     responsibilities: [
       "Integrated Command & Control center",
       "GIS mapping and remote sensing",

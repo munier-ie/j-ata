@@ -51,29 +51,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const signIn = async (email: string, password: string): Promise<{ error: string | null }> => {
-    try {
-      const response = await fetch(`${API_BASE}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
+    // Mock login for prototype
+    const mockUser = {
+      id: 'mock-id',
+      email: email || 'admin@example.com',
+      role: 'admin',
+      fullName: 'Mock Admin',
+      avatarUrl: null
+    };
 
-      const data = await response.json();
+    localStorage.setItem('auth_user', JSON.stringify(mockUser));
+    setUser(mockUser);
+    setIsAdmin(true);
 
-      if (!response.ok) {
-        return { error: data.error || 'Login failed' };
-      }
-
-      // Store user in localStorage
-      localStorage.setItem('auth_user', JSON.stringify(data.user));
-      setUser(data.user);
-      setIsAdmin(data.user.role === 'admin' || data.user.role === 'moderator');
-
-      return { error: null };
-    } catch (error) {
-      console.error('Login error:', error);
-      return { error: 'Network error. Please try again.' };
-    }
+    return { error: null };
   };
 
   const signOut = async () => {

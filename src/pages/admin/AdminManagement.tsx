@@ -128,7 +128,8 @@ export default function AdminManagement() {
   };
 
   return (
-    <AdminLayout title="Management">
+    <div className="space-y-6">
+      <h1 className="text-2xl lg:text-3xl font-display font-bold text-foreground mb-6">Management</h1>
       <div className="space-y-6">
         {/* Header with Add Button */}
         <div className="flex items-center justify-between">
@@ -315,6 +316,6 @@ export default function AdminManagement() {
           </div>
         )}
       </div>
-    </AdminLayout>
+    </div>
   );
 }

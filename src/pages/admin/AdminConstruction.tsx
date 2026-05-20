@@ -8,7 +8,7 @@ import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { farmEstatesApi, innovationHubsApi, FarmEstate, InnovationHub } from '@/lib/api';
 import { useToast } from '@/hooks/use-toast';
-import { Edit2, Save, X, Building2, Lightbulb } from 'lucide-react';
+import { Edit2, Save, X, Building2, Lightbulb, Rocket, Check, Ban, Coins } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -24,17 +24,43 @@ import {
 } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+interface StartupApp {
+  id: number;
+  startupName: string;
+  founderName: string;
+  email: string;
+  idea: string;
+  status: string;
+  feePaid: boolean;
+}
+
 export default function AdminConstruction() {
   const { toast } = useToast();
   const [estates, setEstates] = useState<FarmEstate[]>([]);
   const [hubs, setHubs] = useState<InnovationHub[]>([]);
+  const [applications, setApplications] = useState<StartupApp[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingItem, setEditingItem] = useState<{ type: 'estate'; data: FarmEstate } | { type: 'hub'; data: InnovationHub } | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
     fetchData();
+    // Load startup applications
+    const stored = localStorage.getItem('startup_applications');
+    if (stored) {
+      setApplications(JSON.parse(stored));
+    }
   }, []);
+
+  const handleStatusChange = (id: number, status: string) => {
+    const updated = applications.map(app => app.id === id ? { ...app, status } : app);
+    setApplications(updated);
+    localStorage.setItem('startup_applications', JSON.stringify(updated));
+    toast({
+      title: `Application ${status}`,
+      description: `Startup application has been marked as ${status}.`,
+    });
+  };
 
   const fetchData = async () => {
     try {
@@ -99,7 +125,8 @@ export default function AdminConstruction() {
   };
 
   return (
-    <AdminLayout title="Agricultural Assets Management">
+    <div className="space-y-6">
+      <h1 className="text-2xl lg:text-3xl font-display font-bold text-foreground mb-6">Agricultural Assets Management</h1>
       <div className="space-y-6">
         <Tabs defaultValue="estates" className="w-full">
           <TabsList className="mb-6">
@@ -110,6 +137,10 @@ export default function AdminConstruction() {
             <TabsTrigger value="hubs" className="gap-2">
               <Lightbulb className="w-4 h-4" />
               Innovation Hubs
+            </TabsTrigger>
+            <TabsTrigger value="applications" className="gap-2">
+              <Rocket className="w-4 h-4" />
+              Startup Applications
             </TabsTrigger>
           </TabsList>
 
@@ -165,6 +196,48 @@ export default function AdminConstruction() {
                     ))}
                   </div>
                 )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="applications">
+            <Card variant="elevated">
+              <CardHeader>
+                <CardTitle>Cohort Applications</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {applications.length === 0 ? (
+                    <p className="text-muted-foreground text-center py-4">No applications received yet.</p>
+                  ) : (
+                    applications.map((app) => (
+                      <div key={app.id} className="p-4 border border-border rounded-lg flex justify-between items-center">
+                        <div>
+                          <h3 className="font-semibold text-foreground">{app.startupName}</h3>
+                          <p className="text-sm text-muted-foreground">Founder: {app.founderName} ({app.email})</p>
+                          <p className="text-sm mt-1">{app.idea}</p>
+                          <div className="flex gap-2 mt-2">
+                            <Badge variant="outline" className={app.status === 'Accepted' ? 'bg-green-500/10 text-green-600' : app.status === 'Rejected' ? 'bg-red-500/10 text-red-600' : 'bg-yellow-500/10 text-yellow-600'}>
+                              {app.status}
+                            </Badge>
+                            <Badge variant="outline" className="bg-blue-500/10 text-blue-600">Fee Paid</Badge>
+                          </div>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button size="sm" variant="outline" className="text-green-600 hover:text-green-700" onClick={() => handleStatusChange(app.id, 'Accepted')} disabled={app.status === 'Accepted'}>
+                            <Check className="w-4 h-4 mr-1" /> Accept
+                          </Button>
+                          <Button size="sm" variant="outline" className="text-red-600 hover:text-red-700" onClick={() => handleStatusChange(app.id, 'Rejected')} disabled={app.status === 'Rejected'}>
+                            <Ban className="w-4 h-4 mr-1" /> Reject
+                          </Button>
+                          <Button size="sm" variant="outline" className="text-blue-600 hover:text-blue-700" onClick={() => handleStatusChange(app.id, 'Funds Allocated')}>
+                            <Coins className="w-4 h-4 mr-1" /> Allocate Funds
+                          </Button>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
@@ -259,7 +332,7 @@ export default function AdminConstruction() {
           )}
         </DialogContent>
       </Dialog>
-    </AdminLayout>
+    </div>
   );
 }
 

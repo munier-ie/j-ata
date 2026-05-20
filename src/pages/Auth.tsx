@@ -61,40 +61,20 @@ export default function Auth() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrors({});
-    
-    const result = loginSchema.safeParse({ email: loginEmail, password: loginPassword });
-    if (!result.success) {
-      const fieldErrors: Record<string, string> = {};
-      result.error.errors.forEach(err => {
-        if (err.path[0]) fieldErrors[err.path[0] as string] = err.message;
-      });
-      setErrors(fieldErrors);
-      return;
-    }
-
     setLoading(true);
     
-    const { error } = await signIn(loginEmail, loginPassword);
+    // Call mocked signIn to set state in useAuth
+    await signIn(loginEmail, loginPassword);
     
-    setLoading(false);
-
-    if (error) {
+    // Simulate instant login for any details
+    setTimeout(() => {
+      setLoading(false);
       toast({
-        title: 'Login Failed',
-        description: error,
-        variant: 'destructive'
+        title: 'Welcome back!',
+        description: 'You have successfully logged in (Prototype Mode).'
       });
-      return;
-    }
-
-    toast({
-      title: 'Welcome back!',
-      description: 'You have successfully logged in.'
-    });
-    
-    // Redirect to admin dashboard
-    navigate('/admin');
+      navigate('/admin');
+    }, 500);
   };
 
   return (

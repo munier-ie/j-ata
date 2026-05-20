@@ -189,10 +189,15 @@ const Contact = () => {
                         <Input
                           id="phone"
                           type="tel"
-                          placeholder="+234 800 000 0000"
+                          placeholder="08012345678"
                           value={formData.phone}
-                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          maxLength={20}
+                          onChange={(e) => {
+                            const value = e.target.value.replace(/\D/g, '');
+                            if (value.length <= 11) {
+                              setFormData({ ...formData, phone: value });
+                            }
+                          }}
+                          maxLength={11}
                         />
                       </div>
                       <div className="space-y-2">

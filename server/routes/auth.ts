@@ -46,6 +46,53 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// POST /api/auth/register
+router.post('/register', async (req, res) => {
+  try {
+    const { email, password, role, fullName } = req.body;
+
+    if (!email || !password || !role) {
+      return res.status(400).json({ error: 'Email, password, and role are required' });
+    }
+
+    const existingUser = await prisma.user.findUnique({
+      where: { email: email.toLowerCase() }
+    });
+
+    if (existingUser) {
+      return res.status(400).json({ error: 'User with this email already exists' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await prisma.user.create({
+      data: {
+        email: email.toLowerCase(),
+        password: hashedPassword,
+        role: role,
+        profile: fullName ? {
+          create: {
+            fullName
+          }
+        } : undefined
+      },
+      include: { profile: true }
+    });
+
+    res.status(201).json({
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+        fullName: user.profile?.fullName || null
+      }
+    });
+  } catch (error) {
+    console.error('Registration error:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 // GET /api/auth/me - Check current session (based on localStorage token/id)
 router.get('/me/:userId', async (req, res) => {
   try {

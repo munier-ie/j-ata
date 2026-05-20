@@ -17,7 +17,7 @@ const agencies = [
       "Extension staff performance tracking"
     ],
     contact: {
-      address: "J-ATA HQ, Dutse",
+      address: "JATA HQ, Dutse",
       phone: "+234 800 JATA 001"
     }
   },
@@ -34,7 +34,7 @@ const agencies = [
       "Program performance analytics"
     ],
     contact: {
-      address: "J-ATA Digital Ops Center, Dutse",
+      address: "JATA Digital Ops Center, Dutse",
       phone: "+234 800 JATA 002"
     }
   },

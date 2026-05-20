@@ -96,7 +96,7 @@ export function DigitalIDCard({
         {/* Footer / QR */}
         <div className="mt-auto pt-2 border-t border-white/10 flex justify-between items-end">
           <div className="text-[10px] text-green-400/80 max-w-[300px] leading-tight">
-             Jigawa Agricultural Transformation Agency (J-ATA), Jigawa State Government.
+             Jigawa Agricultural Transformation Agency (JATA), Jigawa State Government.
           </div>
           <div className="bg-white p-1 rounded-sm shadow-sm shrink-0">
              <QrCode className="w-8 h-8 text-green-900" strokeWidth={1.5} />

@@ -25,10 +25,10 @@ export default function Login() {
       setIsLoading(false);
       toast({
         title: "Login Successful",
-        description: "Welcome back to the Jigawa State Transformation Agency (J-ATA) portal!",
+        description: "Welcome back to the Jigawa State Transformation Agency (JATA) portal!",
       });
       navigate("/");
-    }, 1500);
+    }, 500);
   };
 
   const handleSignup = async (e: React.FormEvent) => {
@@ -60,7 +60,7 @@ export default function Login() {
             </div>
             <CardTitle className="text-2xl">Welcome Back</CardTitle>
             <CardDescription>
-              Access your Jigawa State Transformation Agency (J-ATA) account
+              Access your Jigawa State Transformation Agency (JATA) account
             </CardDescription>
           </CardHeader>
           <CardContent>

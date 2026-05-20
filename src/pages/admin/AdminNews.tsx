@@ -154,7 +154,8 @@ export default function AdminNews() {
   };
 
   return (
-    <AdminLayout title="News Management">
+    <div className="space-y-6">
+      <h1 className="text-2xl lg:text-3xl font-display font-bold text-foreground mb-6">News Management</h1>
       <div className="space-y-6">
         <div className="flex justify-end">
           <Dialog open={dialogOpen} onOpenChange={(open) => {
@@ -310,6 +311,6 @@ export default function AdminNews() {
           </CardContent>
         </Card>
       </div>
-    </AdminLayout>
+    </div>
   );
 }

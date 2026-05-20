@@ -48,10 +48,10 @@ export default function About() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl">
               <h1 className="font-display text-4xl sm:text-5xl font-bold text-primary-foreground mb-4">
-                About J-ATA
+                About JATA
               </h1>
               <p className="text-xl text-primary-foreground/80">
-                The Jigawa Agricultural Transformation Agency (J-ATA) is the digital heartbeat of Jigawa's farming revolution.
+                The Jigawa Agricultural Transformation Agency (JATA) is the digital heartbeat of Jigawa's farming revolution.
               </p>
             </div>
           </div>
@@ -67,7 +67,7 @@ export default function About() {
                     <div className="w-48 h-48 rounded-2xl overflow-hidden border-4 border-primary shadow-xl">
                       <img 
                         src="/director jata.png" 
-                        alt="Dr. Saifullahi Umar - Director General J-ATA" 
+                        alt="Dr. Saifullahi Umar - Director General JATA" 
                         className="w-full h-full object-cover"
                       />
                     </div>
@@ -81,7 +81,7 @@ export default function About() {
                   <h3 className="font-display text-2xl font-bold text-foreground">
                     Dr. Saifullahi Umar
                   </h3>
-                  <p className="text-sm text-muted-foreground">DG J-ATA and Council Secretary</p>
+                  <p className="text-sm text-muted-foreground">DG JATA and Council Secretary</p>
                 </div>
                 <div className="md:col-span-2 flex flex-col justify-center">
                   <h2 className="font-display text-2xl font-bold text-foreground mb-4">
@@ -89,7 +89,7 @@ export default function About() {
                   </h2>
                   <blockquote className="text-muted-foreground leading-relaxed space-y-4">
                     <p>
-                      "Welcome to the J-ATA Digital Hub — a strategic engine designed to transform 
+                      "Welcome to the JATA Digital Hub — a strategic engine designed to transform 
                       Jigawa's agricultural sector into a modern, data-driven agrarian economy. 
                       Our mission is to bridge the digital divide for our 1,435 extension agents 
                       and over 2 million farmers.
@@ -112,6 +112,32 @@ export default function About() {
                 </div>
               </div>
             </Card>
+          </div>
+        </section>
+
+        {/* Corporate Overview */}
+        <section className="py-16 bg-secondary/10">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div>
+                <h2 className="text-3xl font-bold font-display mb-4 text-foreground">Corporate Overview</h2>
+                <p className="text-muted-foreground mb-4 leading-relaxed">
+                  The Jigawa Agricultural Transformation Agency (Jigawa-ATA) is a strategic government body spearheading the transition from traditional, subsistence farming to a modern, commercialized, and technology-driven agri-food system in Jigawa State.
+                </p>
+                <p className="text-muted-foreground leading-relaxed">
+                  Founded in 2025, Jigawa-ATA's vision is to leverage the state's vast agricultural potential to enhance food security, create sustainable jobs, and empower rural communities. Operating on a lean, three-pillar model, Jigawa-ATA ensures its activities are data-driven (Analytics), efficiently executed on the ground (Delivery), and supported by robust administrative systems (Operations).
+                </p>
+              </div>
+              <div className="bg-primary/5 p-8 rounded-2xl border border-primary/10">
+                <h3 className="text-xl font-bold font-display mb-4 text-foreground">Our History</h3>
+                <p className="text-muted-foreground leading-relaxed text-sm">
+                  Established in 2025, Jigawa-ATA was inspired by successful African Agricultural Transformation Initiatives demonstrated at the Africa Food System Summit in Rwanda. These models, which transformed agricultural sectors in countries like Ethiopia, Sudan, Uganda, and Sierra Leone provided a blueprint for strategic, large-scale interventions.
+                </p>
+                <p className="text-muted-foreground leading-relaxed text-sm mt-2">
+                  The formation of Jigawa-ATA represents a direct commitment to adapting these proven approaches to Jigawa's unique context. Our mandate is to drive the transition from subsistence farming to a commercialized agricultural economy.
+                </p>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -145,7 +171,7 @@ export default function About() {
                   Project Objectives
                 </h2>
                 <p className="text-muted-foreground">
-                  The J-ATA Digital Platform is designed to achieve the following strategic objectives:
+                  The JATA Digital Platform is designed to achieve the following strategic objectives:
                 </p>
               </div>
 
@@ -178,12 +204,12 @@ export default function About() {
                     className="w-20 h-20 object-contain bg-background rounded-full p-2"
                   />
                   <div>
-                    <h2 className="font-display text-2xl font-bold">J-ATA</h2>
+                    <h2 className="font-display text-2xl font-bold">JATA</h2>
                     <p className="text-background/60">Jigawa Agricultural Transformation Agency</p>
                   </div>
                 </div>
                 <p className="text-background/80 leading-relaxed mb-6">
-                  The Jigawa Agricultural Transformation Agency (J-ATA) is responsible for the development, 
+                  The Jigawa Agricultural Transformation Agency (JATA) is responsible for the development, 
                   regulation, and promotion of the agricultural sector across all 27 Local Government 
                   Areas of Jigawa State.
                 </p>

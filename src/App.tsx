@@ -23,20 +23,36 @@ import Transparency from "./pages/Transparency";
 import NotFound from "./pages/NotFound";
 import FarmEstates from "./pages/FarmEstates";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
+import { AdminLayout } from "./components/admin/AdminLayout";
 
 // Lazy-loaded pages (heavy components with maps/charts)
-const Map = lazy(() => import("./pages/Map"));
+
 const SmartExtension = lazy(() => import("./pages/SmartExtension"));
 const CommandCenter = lazy(() => import("./pages/CommandCenter"));
 const DataHub = lazy(() => import("./pages/DataHub"));
 const InvestmentPortal = lazy(() => import("./pages/InvestmentPortal"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+const AdminStartupApplications = lazy(() => import("./pages/admin/AdminStartupApplications"));
 const AdminConstruction = lazy(() => import("./pages/admin/AdminConstruction"));
 const AdminBudget = lazy(() => import("./pages/admin/AdminBudget"));
 const AdminFarmers = lazy(() => import("./pages/admin/AdminFarmers"));
 const AdminReports = lazy(() => import("./pages/admin/AdminReports"));
 const AdminNews = lazy(() => import("./pages/admin/AdminNews"));
 const AdminManagement = lazy(() => import("./pages/admin/AdminManagement"));
+const AdminTraces = lazy(() => import("@/pages/admin/AdminTraces"));
+const RevenueDashboard = lazy(() => import("./pages/RevenueDashboard"));
+const ExportPortal = lazy(() => import("./pages/ExportPortal"));
+const StartupPortal = lazy(() => import("./pages/StartupPortal"));
+const StartupApplication = lazy(() => import("./pages/StartupApplication"));
+const InvestorDashboard = lazy(() => import("./pages/InvestorDashboard"));
+const MentorPortal = lazy(() => import("./pages/MentorPortal"));
+const PPPApplication = lazy(() => import("./pages/PPPApplication"));
+const Register = lazy(() => import("./pages/Register"));
+const InnovationSandbox = lazy(() => import("./pages/InnovationSandbox"));
+const ProjectPipeline = lazy(() => import("./pages/ProjectPipeline"));
+const ExportDashboard = lazy(() => import("./pages/ExportDashboard"));
+const Traceability = lazy(() => import("./pages/Traceability"));
+const WarehouseTracking = lazy(() => import("./pages/WarehouseTracking"));
 
 // Loading fallback component
 const PageLoader = () => (
@@ -70,20 +86,37 @@ const App = () => (
             <Route path="/farm-estates" element={<FarmEstates />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/transparency" element={<Transparency />} />
-            <Route path="/map" element={<Map />} />
+
             <Route path="/extension" element={<SmartExtension />} />
             <Route path="/command-center" element={<CommandCenter />} />
             <Route path="/data-hub" element={<DataHub />} />
             <Route path="/investors" element={<InvestmentPortal />} />
+            <Route path="/investor/dashboard" element={<InvestorDashboard />} />
+            <Route path="/mentor" element={<MentorPortal />} />
+            <Route path="/ppp/apply" element={<PPPApplication />} />
+            <Route path="/revenue" element={<RevenueDashboard />} />
+            <Route path="/export" element={<ExportPortal />} />
+            <Route path="/startup" element={<StartupPortal />} />
+            <Route path="/startup/apply" element={<StartupApplication />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/sandbox" element={<InnovationSandbox />} />
+            <Route path="/pipeline" element={<ProjectPipeline />} />
+            <Route path="/export/dashboard" element={<ExportDashboard />} />
+            <Route path="/traceability" element={<Traceability />} />
+            <Route path="/warehouse/tracking" element={<WarehouseTracking />} />
 
             {/* Admin Routes - Protected */}
-            <Route path="/admin" element={<ProtectedRoute requireAdmin><AdminDashboard /></ProtectedRoute>} />
-            <Route path="/admin/construction" element={<ProtectedRoute requireAdmin><AdminConstruction /></ProtectedRoute>} />
-            <Route path="/admin/budget" element={<ProtectedRoute requireAdmin><AdminBudget /></ProtectedRoute>} />
-            <Route path="/admin/farmers" element={<ProtectedRoute requireAdmin><AdminFarmers /></ProtectedRoute>} />
-            <Route path="/admin/reports" element={<ProtectedRoute requireAdmin><AdminReports /></ProtectedRoute>} />
-            <Route path="/admin/management" element={<ProtectedRoute requireAdmin><AdminManagement /></ProtectedRoute>} />
-            <Route path="/admin/news" element={<ProtectedRoute requireAdmin><AdminNews /></ProtectedRoute>} />
+            <Route path="/admin" element={<ProtectedRoute requireAdmin><AdminLayout /></ProtectedRoute>}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="startup-applications" element={<AdminStartupApplications />} />
+              <Route path="construction" element={<AdminConstruction />} />
+              <Route path="budget" element={<AdminBudget />} />
+              <Route path="farmers" element={<AdminFarmers />} />
+              <Route path="management" element={<AdminManagement />} />
+              <Route path="reports" element={<AdminReports />} />
+              <Route path="news" element={<AdminNews />} />
+              <Route path="traces" element={<AdminTraces />} />
+            </Route>
 
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

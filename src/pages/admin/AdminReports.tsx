@@ -122,7 +122,8 @@ export default function AdminReports() {
   };
 
   return (
-    <AdminLayout title="Reports Management">
+    <div className="space-y-6">
+      <h1 className="text-2xl lg:text-3xl font-display font-bold text-foreground mb-6">Reports Management</h1>
       <div className="space-y-6">
         <div className="flex justify-end">
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -254,6 +255,6 @@ export default function AdminReports() {
           </CardContent>
         </Card>
       </div>
-    </AdminLayout>
+    </div>
   );
 }

@@ -47,19 +47,19 @@ export const CommissionerSection = () => {
             <div className="relative">
                 <Quote className="absolute -top-4 -left-2 w-8 h-8 text-primary/20 transform -scale-x-100" />
                 <blockquote className="text-xl text-muted-foreground leading-relaxed italic relative z-10 pl-6">
-                    "Our goal is to digitally empower every extension agent to provide real-time field intelligence. J-ATA is transforming into a digital command center, ensuring that our agricultural transformation is backed by data and delivers real impact to our farmers."
+                    "Our goal is to digitally empower every extension agent to provide real-time field intelligence. JATA is transforming into a digital command center, ensuring that our agricultural transformation is backed by data and delivers real impact to our farmers."
                 </blockquote>
             </div>
 
             <div>
                 <h3 className="text-xl font-bold text-foreground">Dr. Saifullahi Umar</h3>
-                <p className="text-primary font-medium">Director General J-ATA and Council Secretary</p>
+                <p className="text-primary font-medium">Director General JATA and Council Secretary</p>
             </div>
 
             <div className="pt-4 flex flex-wrap justify-center lg:justify-start gap-4">
                 <Link to="/about">
                     <Button variant="governmentPrimary" className="gap-2">
-                        Read J-ATA Mandate
+                        Read JATA Mandate
                         <ArrowRight className="w-4 h-4" />
                     </Button>
                 </Link>

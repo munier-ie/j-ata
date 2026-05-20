@@ -67,7 +67,7 @@ const keyInitiatives = [
     targets: [
       "27 LGA-level training hubs",
       "7 zonal innovation centers",
-      "1 central J-ATA Digital Ops Center"
+      "1 central JATA Digital Ops Center"
     ],
     status: "In Progress",
     progress: 68

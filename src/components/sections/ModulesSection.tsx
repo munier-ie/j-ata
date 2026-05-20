@@ -22,7 +22,7 @@ const modules = [
     id: 2,
     icon: LayoutDashboard,
     title: "INTEGRATED AGRICULTURAL COMMAND & CONTROL PLATFORM",
-    description: "A high-level dashboard for J-ATA leadership to monitor all programs in real time, transforming J-ATA into a digital command center.",
+    description: "A high-level dashboard for JATA leadership to monitor all programs in real time, transforming JATA into a digital command center.",
     features: [
       "Farmer database management",
       "GIS farm mapping & Input subsidy tracking",
@@ -36,7 +36,7 @@ const modules = [
     id: 3,
     icon: Database,
     title: "AGRICULTURAL DATA HUB (The Brain)",
-    description: "A centralized intelligence system supporting J-ATA's soil mapping initiative, aggregating soil, weather, and farm data.",
+    description: "A centralized intelligence system supporting JATA's soil mapping initiative, aggregating soil, weather, and farm data.",
     features: [
       "Real-time soil intelligence",
       "Weather forecasting integration",

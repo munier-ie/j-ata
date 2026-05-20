@@ -46,7 +46,7 @@ const FarmEstates = () => {
                 Farm Estates & Clusters
               </h1>
               <p className="text-muted-foreground mt-2 text-lg">
-                Directory of J-ATA managed agricultural assets across Jigawa State.
+                Directory of JATA managed agricultural assets across Jigawa State.
               </p>
             </div>
 

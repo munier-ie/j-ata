@@ -9,7 +9,7 @@ export function CTASection() {
 
   const handleContactMinistry = () => {
     toast({
-      title: "Contact J-ATA",
+      title: "Contact JATA",
       description: "Call us at +234 770 000 0000 or email info@jata.jigawastate.gov.ng",
     });
   };
@@ -50,7 +50,7 @@ export function CTASection() {
               onClick={handleContactMinistry}
             >
               <Phone className="w-5 h-5" />
-              Contact J-ATA
+              Contact JATA
             </Button>
           </div>
 
@@ -60,7 +60,7 @@ export function CTASection() {
               Official Platform of
             </p>
             <p className="font-display text-lg text-primary-foreground">
-              Jigawa Agricultural Transformation Agency (J-ATA), Jigawa State
+              Jigawa Agricultural Transformation Agency (JATA), Jigawa State
             </p>
           </div>
         </div>

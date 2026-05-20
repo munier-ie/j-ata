@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react';
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { statsApi } from '@/lib/api';
-import { Building2, Users, FileText, Newspaper, TrendingUp, Lightbulb } from 'lucide-react';
+import { Building2, Users, FileText, Newspaper, TrendingUp, Lightbulb, Download, Globe, Sprout, Terminal } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 interface Stats {
   totalFarmEstates: number;
@@ -49,7 +51,13 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <AdminLayout title="J-ATA Command & Control">
+    <div className="space-y-6">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl lg:text-3xl font-display font-bold text-foreground">JATA Command & Control</h1>
+        <Button variant="outline" className="gap-2">
+          <Download className="h-4 w-4" /> Export Data
+        </Button>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {statCards.map((stat) => (
           <Card key={stat.title} variant="elevated">
@@ -81,8 +89,8 @@ export default function AdminDashboard() {
             <div className="flex items-center gap-6">
               <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-primary/20 shrink-0">
                 <img 
-                  src="/Hon.%20commissioner.png" 
-                  alt="DG J-ATA"
+                  src="/director%20jata.png" 
+                  alt="DG JATA"
                   width={80}
                   height={80}
                   className="w-full h-full object-cover"
@@ -90,7 +98,7 @@ export default function AdminDashboard() {
               </div>
               <div className="space-y-1">
                 <h3 className="font-display font-bold text-lg">Dr. Agricultural Director</h3>
-                <p className="text-muted-foreground">Director General, J-ATA</p>
+                <p className="text-muted-foreground">Director General, JATA</p>
                 <div className="flex items-center gap-2 mt-2">
                   <div className="px-2 py-1 rounded-full bg-green-500/10 text-green-600 text-xs font-medium flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
@@ -109,26 +117,34 @@ export default function AdminDashboard() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 gap-3">
-              <a href="/admin/construction" className="p-4 bg-secondary/50 rounded-lg hover:bg-secondary transition-colors text-center">
+              <Link to="/admin/construction" className="p-4 bg-secondary/50 rounded-lg hover:bg-secondary transition-colors text-center">
                 <Building2 className="h-6 w-6 mx-auto mb-2 text-primary" />
                 <p className="text-sm font-medium">Manage Assets</p>
-              </a>
-              <a href="/admin/news" className="p-4 bg-secondary/50 rounded-lg hover:bg-secondary transition-colors text-center">
-                <Newspaper className="h-6 w-6 mx-auto mb-2 text-primary" />
-                <p className="text-sm font-medium">Post Update</p>
-              </a>
-              <a href="/admin/reports" className="p-4 bg-secondary/50 rounded-lg hover:bg-secondary transition-colors text-center">
-                <FileText className="h-6 w-6 mx-auto mb-2 text-primary" />
-                <p className="text-sm font-medium">Data Insight</p>
-              </a>
-              <a href="/admin/farmers" className="p-4 bg-secondary/50 rounded-lg hover:bg-secondary transition-colors text-center">
+              </Link>
+              <Link to="/admin/farmers" className="p-4 bg-secondary/50 rounded-lg hover:bg-secondary transition-colors text-center">
                 <Users className="h-6 w-6 mx-auto mb-2 text-primary" />
                 <p className="text-sm font-medium">Farmer Database</p>
-              </a>
+              </Link>
+              <Link to="/export/dashboard" className="p-4 bg-secondary/50 rounded-lg hover:bg-secondary transition-colors text-center">
+                <Globe className="h-6 w-6 mx-auto mb-2 text-primary" />
+                <p className="text-sm font-medium">Export Dashboard</p>
+              </Link>
+              <Link to="/traceability" className="p-4 bg-secondary/50 rounded-lg hover:bg-secondary transition-colors text-center">
+                <Sprout className="h-6 w-6 mx-auto mb-2 text-primary" />
+                <p className="text-sm font-medium">Traceability</p>
+              </Link>
+              <Link to="/pipeline" className="p-4 bg-secondary/50 rounded-lg hover:bg-secondary transition-colors text-center">
+                <Building2 className="h-6 w-6 mx-auto mb-2 text-primary" />
+                <p className="text-sm font-medium">Project Pipeline</p>
+              </Link>
+              <Link to="/sandbox" className="p-4 bg-secondary/50 rounded-lg hover:bg-secondary transition-colors text-center">
+                <Terminal className="h-6 w-6 mx-auto mb-2 text-primary" />
+                <p className="text-sm font-medium">Sandbox</p>
+              </Link>
             </div>
           </CardContent>
         </Card>
       </div>
-    </AdminLayout>
+    </div>
   );
 }

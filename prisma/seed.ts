@@ -1,15 +1,8 @@
 import { PrismaClient, FacilityStatus, FacilityType } from '@prisma/client';
-import { PrismaPg } from '@prisma/adapter-pg';
-import { Pool } from 'pg';
 import bcrypt from 'bcryptjs';
 import 'dotenv/config';
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
-
-const adapter = new PrismaPg(pool);
-const prisma = new PrismaClient({ adapter });
+const prisma = new PrismaClient();
 
 async function main() {
   console.log('🌱 Starting database seed...\n');
@@ -157,7 +150,7 @@ async function main() {
       budgetSpent: 148000000,
       hasWater: true,
       hasPower: true,
-      services: ['Incubation', 'Training', 'Seed Testing', 'Soil Analysis', 'Digital Farming'],
+      services: ['Incubation', 'Training', 'Seed Testing', 'Soil Analysis', 'Digital Farming'].join(','),
       contactPhone: '+234 770 000 0000',
       contactEmail: 'dutse.hub@jata.ng'
     },
@@ -176,7 +169,7 @@ async function main() {
       budgetSpent: 78500000,
       hasWater: true,
       hasPower: true,
-      services: ['Extension Services', 'Fertilizer Distribution', 'Machinery Rental'],
+      services: ['Extension Services', 'Fertilizer Distribution', 'Machinery Rental'].join(','),
       contactPhone: '+234 770 000 0001',
       contactEmail: 'hadejia.service@jata.ng'
     }
@@ -207,7 +200,7 @@ async function main() {
       ward: 'Central Ward',
       community: 'Main Community',
       farmSize: Math.floor(Math.random() * 20) + 1,
-      cropTypes: selectedCrops,
+      cropTypes: selectedCrops.join(','),
       status: statuses[Math.floor(Math.random() * statuses.length)]
     });
   }
@@ -270,11 +263,9 @@ async function main() {
 main()
   .then(async () => {
     await prisma.$disconnect();
-    await pool.end();
   })
   .catch(async (e) => {
     console.error('❌ Seeding failed:', e);
     await prisma.$disconnect();
-    await pool.end();
     process.exit(1);
   });

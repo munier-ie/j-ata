@@ -5,7 +5,7 @@ import jigawaLogo from "@/assets/jigawa-logo.png";
 const quickLinks = [
   { name: "Farmers Database", href: "/farmer-registration" },
   { name: "Extension Platform", href: "#" },
-  { name: "About J-ATA", href: "/management" },
+  { name: "About JATA", href: "/management" },
   { name: "Updates", href: "/news" },
 ];
 
@@ -32,7 +32,7 @@ export function Footer() {
               />
               <div>
                 <p className="font-display font-semibold text-background text-lg leading-tight">
-                  J-ATA
+                  JATA
                 </p>
                 <p className="text-xs text-background/60">
                   Transformation Agency
@@ -40,7 +40,7 @@ export function Footer() {
               </div>
             </div>
             <p className="text-background/70 text-sm leading-relaxed">
-              The official digital platform of the Jigawa Agricultural Transformation Agency (J-ATA). 
+              The official digital platform of the Jigawa Agricultural Transformation Agency (JATA). 
               Modernizing agricultural administration for a sustainable future.
             </p>
             <div className="flex gap-3">
@@ -129,7 +129,7 @@ export function Footer() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-background/50 text-sm">
-              © {new Date().getFullYear()} Jigawa Agricultural Transformation Agency (J-ATA). All rights reserved.
+              © {new Date().getFullYear()} Jigawa Agricultural Transformation Agency (JATA). All rights reserved.
             </p>
             <div className="flex gap-6">
               <Link to="#" className="text-background/50 hover:text-primary text-sm transition-colors">

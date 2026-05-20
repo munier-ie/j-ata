@@ -1,12 +1,58 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Briefcase, Building2, MapPin, PieChart, FileText, Globe, ArrowUpRight } from "lucide-react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
 
 const InvestmentPortal = () => {
   const navigate = useNavigate();
+  const [appliedProjects, setAppliedProjects] = useState<number[]>([]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
+  const { toast } = useToast();
+  const [formState, setFormState] = useState({
+    companyName: "",
+    contactPerson: "",
+    email: "",
+    amount: ""
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormState({ ...formState, [e.target.id]: e.target.value });
+  };
+
+  const handleApply = (id: number) => {
+    setSelectedProjectId(id);
+    setIsDialogOpen(true);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Save to localStorage
+    const existing = JSON.parse(localStorage.getItem('investor_applications') || '[]');
+    existing.push({ ...formState, id: Date.now(), projectId: selectedProjectId, status: 'Pending', feePaid: true });
+    localStorage.setItem('investor_applications', JSON.stringify(existing));
+    
+    setAppliedProjects([...appliedProjects, selectedProjectId!]);
+    setIsDialogOpen(false);
+    toast({
+      title: "Application Submitted",
+      description: "Your investment application has been received. Fee of $100 charged.",
+    });
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -108,6 +154,99 @@ const InvestmentPortal = () => {
           </div>
         </section>
 
+        {/* Investment Opportunities Marketplace */}
+        <section className="container mx-auto px-4 py-24 border-t border-border/50">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">Active Opportunities</h2>
+            <p className="text-muted-foreground text-lg">
+              Direct access to pre-vetted investment projects in Jigawa State.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {[
+              {
+                id: 1,
+                title: "Maigatari Sesame Processing Hub",
+                location: "Maigatari LGA",
+                goal: "₦500M",
+                roi: "15-20%",
+                type: "PPP"
+              },
+              {
+                id: 2,
+                title: "Kazaure Tomato Processing Plant",
+                location: "Kazaure LGA",
+                goal: "₦350M",
+                roi: "18%",
+                type: "Private"
+              }
+            ].map((project) => (
+              <Card key={project.id} className="border-border/50 hover:shadow-xl transition-all">
+                <CardHeader>
+                  <div className="flex justify-between items-center">
+                    <CardTitle className="text-xl">{project.title}</CardTitle>
+                    <span className="px-3 py-1 bg-primary/10 text-primary text-xs rounded-full">
+                      {project.type}
+                    </span>
+                  </div>
+                  <CardDescription>{project.location}</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Funding Goal:</span>
+                    <span className="font-bold">{project.goal}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Expected ROI:</span>
+                    <span className="font-bold text-green-600">{project.roi}</span>
+                  </div>
+                  <Button 
+                    className="w-full mt-4" 
+                    onClick={() => handleApply(project.id)}
+                    variant={appliedProjects.includes(project.id) ? "secondary" : "default"}
+                  >
+                    {appliedProjects.includes(project.id) ? "Application Pending (Fee Paid)" : "Apply to Invest"}
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        {/* Investment Application Dialog */}
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Investor Onboarding</DialogTitle>
+              <DialogDescription>
+                Apply to invest in this project. Processing fee is $100.
+              </DialogDescription>
+            </DialogHeader>
+            <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+              <div className="space-y-2">
+                <Label htmlFor="companyName">Company Name</Label>
+                <Input id="companyName" value={formState.companyName} onChange={handleInputChange} required />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="contactPerson">Contact Person</Label>
+                <Input id="contactPerson" value={formState.contactPerson} onChange={handleInputChange} required />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" type="email" value={formState.email} onChange={handleInputChange} required />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="amount">Investment Amount ($)</Label>
+                <Input id="amount" type="number" value={formState.amount} onChange={handleInputChange} required />
+              </div>
+              <Button type="submit" className="w-full">
+                Pay $100 & Submit
+              </Button>
+            </form>
+          </DialogContent>
+        </Dialog>
+
         {/* Investor Support */}
         <section className="bg-secondary/30 py-24">
           <div className="container mx-auto px-4">
@@ -133,7 +272,7 @@ const InvestmentPortal = () => {
                       </div>
                     ))}
                   </div>
-                  <Button size="lg" className="px-12">Contact J-ATA Deal Room</Button>
+                  <Button size="lg" className="px-12">Contact JATA Deal Room</Button>
                 </div>
                 <div className="grid gap-4 relative z-10">
                   <Card className="bg-secondary/50 border-none">

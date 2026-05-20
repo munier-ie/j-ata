@@ -1,11 +1,14 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Check } from "lucide-react";
 import { StepNinVerification } from "@/components/registration/StepNinVerification";
 import { StepPersonalLevel } from "@/components/registration/StepPersonalLevel";
 import { StepLivestockDetails } from "@/components/registration/StepLivestockDetails";
 import { StepConfirmation } from "@/components/registration/StepConfirmation";
+import { Button } from "@/components/ui/button";
 import { StepSuccess } from "@/components/registration/StepSuccess";
 import { StepIndicator } from "@/components/registration/StepIndicator";
 import { HeroCarousel } from "@/components/sections/HeroCarousel";
@@ -55,7 +58,34 @@ export default function FarmerRegistration() {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<RegistrationData>(initialData);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [successData, setSuccessData] = useState<any>(null);
+  const [successData, setSuccessData] = useState<Record<string, unknown> | null>(null);
+  const [alreadyRegistered, setAlreadyRegistered] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem('farmer_registered') === 'true') {
+      setAlreadyRegistered(true);
+    }
+  }, []);
+
+  if (alreadyRegistered) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col">
+        <Header />
+        <main className="flex-grow container mx-auto px-4 pt-24 pb-12 flex flex-col items-center justify-center text-center">
+          <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mb-6">
+            <Check className="h-8 w-8 text-green-600" />
+          </div>
+          <h1 className="text-3xl font-bold text-foreground mb-2">Already Registered</h1>
+          <p className="text-muted-foreground max-w-md mb-8">
+            You have already registered as a farmer.
+          </p>
+          <Button onClick={() => navigate("/")}>Back to Home</Button>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   const handleNext = (data: Partial<RegistrationData>) => {
     // If completing Step 1 (NIN), pre-fill personal data from verification
@@ -100,6 +130,7 @@ export default function FarmerRegistration() {
     setSuccessData(finalData);
     setIsSubmitting(false);
     setCurrentStep(5); // Move to Success Step
+    localStorage.setItem('farmer_registered', 'true');
   };
 
   return (
@@ -109,7 +140,7 @@ export default function FarmerRegistration() {
         {/* Hero */}
         <HeroCarousel 
           title="Farmer Registration"
-          subtitle="Register as a farmer and receive your unique digital J-ATA ID."
+          subtitle="Register as a farmer and receive your unique digital JATA ID."
         >
              <span className="inline-block px-4 py-2 rounded-full bg-white/20 backdrop-blur-md text-white border border-white/10 text-sm font-medium mb-4">
                 Module 1

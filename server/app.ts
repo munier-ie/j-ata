@@ -11,6 +11,12 @@ import innovationHubsRoutes from './routes/innovation-hubs';
 import statsRoutes from './routes/stats';
 import reportsRoutes from './routes/reports';
 import authRoutes from './routes/auth';
+import startupsRoutes from './routes/startups';
+import mentorsRoutes from './routes/mentors';
+import investorsRoutes from './routes/investors';
+import pppRoutes from './routes/ppp';
+import investmentRoutes from './routes/investment';
+import exportRoutes from './routes/export';
 
 const app = express();
 
@@ -57,6 +63,12 @@ app.use('/api/innovation-hubs', innovationHubsRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/reports', reportsRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/startups', startupsRoutes);
+app.use('/api/mentors', mentorsRoutes);
+app.use('/api/investors', investorsRoutes);
+app.use('/api/ppp', pppRoutes);
+app.use('/api/investment', investmentRoutes);
+app.use('/api/export', exportRoutes);
 
 // ============= 404 Handler =============
 app.use('/api/*path', (req, res) => {

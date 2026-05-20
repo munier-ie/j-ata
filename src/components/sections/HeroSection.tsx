@@ -34,9 +34,10 @@ export function HeroSection() {
           muted
           loop
           playsInline
+          preload="auto"
           className="absolute inset-0 w-full h-full object-cover"
         >
-          <source src="/Turn_this_into_202601131605_xkfm7.mp4" type="video/mp4" />
+          <source src="/Create_video_with_images_202605150917.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-gradient-to-r from-foreground/90 via-foreground/70 to-foreground/40" />
       </div>
@@ -48,13 +49,13 @@ export function HeroSection() {
             <div className="space-y-4">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/20 border border-primary/30">
                 <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                <span className="text-sm font-medium text-primary">Official J-ATA Platform</span>
+                <span className="text-sm font-medium text-primary">Official JATA Platform</span>
               </div>
               
               <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
                 Jigawa Agricultural <br />
                 <span className="text-primary">Transformation Agency</span> <br />
-                (J-ATA)
+                (JATA)
               </h1>
               
               <p className="text-lg text-background/80 max-w-xl leading-relaxed">

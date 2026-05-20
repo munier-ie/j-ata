@@ -78,7 +78,7 @@ export default function InnovationHubs() {
   const handleAccessDashboard = () => {
     toast({
       title: "Extension Portal",
-      description: "Please login with your J-ATA credentials to access the extension system.",
+      description: "Please login with your JATA credentials to access the extension system.",
     });
     navigate("/login");
   };
@@ -159,7 +159,7 @@ export default function InnovationHubs() {
                     </div>
                     <div>
                       <CardTitle>Recent Programme Updates</CardTitle>
-                      <CardDescription>Stay informed about J-ATA initiatives in your area</CardDescription>
+                      <CardDescription>Stay informed about JATA initiatives in your area</CardDescription>
                     </div>
                   </div>
                 </CardHeader>
@@ -203,7 +203,7 @@ export default function InnovationHubs() {
                     </div>
                     <div>
                       <CardTitle>Extension Portal</CardTitle>
-                      <CardDescription>Digital tools for J-ATA field officers</CardDescription>
+                      <CardDescription>Digital tools for JATA field officers</CardDescription>
                     </div>
                   </div>
                 </CardHeader>

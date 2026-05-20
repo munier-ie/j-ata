@@ -33,7 +33,7 @@ const features = [
   {
     icon: BarChart3,
     title: "Real-Time Dashboards",
-    description: "Live analytics for J-ATA leadership to make data-driven transformation decisions."
+    description: "Live analytics for JATA leadership to make data-driven transformation decisions."
   },
   {
     icon: Bell,

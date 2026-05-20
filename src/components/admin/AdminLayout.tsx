@@ -1,5 +1,5 @@
 import { ReactNode, useEffect } from 'react';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useNavigate, Link, useLocation, Outlet } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { 
@@ -12,27 +12,26 @@ import {
   Menu,
   X,
   Users,
-  UserCog
+  UserCog,
+  Rocket
 } from 'lucide-react';
 import { useState } from 'react';
 import jigawaLogo from '@/assets/jigawa-logo.png';
 
-interface AdminLayoutProps {
-  children: ReactNode;
-  title: string;
-}
+
 
 const navItems = [
   { path: '/admin', label: 'Dashboard', icon: LayoutDashboard },
-  { path: '/admin/construction', label: 'Construction', icon: Building2 },
-  { path: '/admin/budget', label: 'Budget', icon: DollarSign },
-  { path: '/admin/farmers', label: 'Farmers', icon: Users },
-  { path: '/admin/management', label: 'Management', icon: UserCog },
-  { path: '/admin/reports', label: 'Reports', icon: FileText },
-  { path: '/admin/news', label: 'News', icon: Newspaper },
+  { path: '/admin/startup-applications', label: 'Startup Applications', icon: Rocket },
+  { path: '/admin/construction', label: 'Incubation Hub', icon: Building2 },
+  { path: '/admin/budget', label: 'Investment Projects', icon: DollarSign },
+  { path: '/admin/traces', label: 'Export & Traceability', icon: UserCog },
+  { path: '/admin/farmers', label: 'Farmers Database', icon: Users },
+  { path: '/admin/reports', label: 'Reports & Analytics', icon: FileText },
+  { path: '/admin/news', label: 'Platform News', icon: Newspaper },
 ];
 
-export function AdminLayout({ children, title }: AdminLayoutProps) {
+export function AdminLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, isAdmin, loading, signOut } = useAuth();
@@ -92,7 +91,7 @@ export function AdminLayout({ children, title }: AdminLayoutProps) {
                 <img src={jigawaLogo} alt="Jigawa State" className="h-10 w-10" />
                 <div>
                   <p className="font-display font-bold text-foreground">Admin Panel</p>
-                  <p className="text-xs text-muted-foreground">Jigawa J-ATA</p>
+                  <p className="text-xs text-muted-foreground">Jigawa JATA</p>
                 </div>
               </div>
             </div>
@@ -127,13 +126,13 @@ export function AdminLayout({ children, title }: AdminLayoutProps) {
                 <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20">
                   <img 
                     src="/director jata.png" 
-                    alt="DG J-ATA" 
+                    alt="DG JATA" 
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-foreground truncate">Dr. Saifullahi Umar</p>
-                  <p className="text-xs text-muted-foreground">Director General J-ATA</p>
+                  <p className="text-xs text-muted-foreground">Director General JATA</p>
                 </div>
               </div>
               <Button 
@@ -153,13 +152,9 @@ export function AdminLayout({ children, title }: AdminLayoutProps) {
           </div>
         </aside>
 
-        {/* Main content */}
         <main className="flex-1 min-h-screen overflow-y-auto">
           <div className="p-6 lg:p-8">
-            <h1 className="text-2xl lg:text-3xl font-display font-bold text-foreground mb-6">
-              {title}
-            </h1>
-            {children}
+            <Outlet />
           </div>
         </main>
       </div>
