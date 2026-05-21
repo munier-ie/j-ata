@@ -19,7 +19,7 @@ const roles = [
   {
     id: "startup",
     title: "AgTech Startup",
-    description: "Apply for the incubation program and access grants.",
+    description: "Apply for the startup accelerator and access grants.",
     icon: Rocket,
     path: "/startup/apply",
     color: "bg-blue-500/10 text-blue-600",

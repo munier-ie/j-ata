@@ -20,18 +20,11 @@ import { HeroCarousel } from "@/components/sections/HeroCarousel";
 
 const budgetBreakdown = [
   {
-    category: "Farm Estate Development",
-    amount: 8500000000,
-    percentage: 49,
+    category: "Agro-Industrial Processing Zones",
+    amount: 12700000000,
+    percentage: 73,
     icon: Building2,
-    description: "Establishment of mechanized farm estates with irrigation, power, and agribusiness facilities"
-  },
-  {
-    category: "Innovation Hub Network",
-    amount: 4200000000,
-    percentage: 24,
-    icon: Landmark,
-    description: "Development of agribusiness incubation hubs for technology transfer and startup support"
+    description: "Establishment of modern agricultural clusters with irrigation, storage, power, and processing assets"
   },
   {
     category: "Smart Extension Support",
@@ -51,26 +44,15 @@ const budgetBreakdown = [
 
 const keyInitiatives = [
   {
-    title: "Mechanized Farm Estates",
+    title: "Agro-Industrial Processing Zones",
     description: "Building modern agricultural clusters with complete infrastructure including irrigation, storage, and processing facilities.",
     targets: [
-      "10 model estates across all zones",
+      "10 model zones across all zones",
       "50,000+ hectares of managed farmland",
       "Support for 200,000+ smallholder farmers"
     ],
     status: "In Progress",
     progress: 55
-  },
-  {
-    title: "Agribusiness Innovation Hubs",
-    description: "Establishing technology transfer centers to bridge the gap between research and commercial farming.",
-    targets: [
-      "27 LGA-level training hubs",
-      "7 zonal innovation centers",
-      "1 central JATA Digital Ops Center"
-    ],
-    status: "In Progress",
-    progress: 68
   },
   {
     title: "Digital Extension Service",
@@ -89,7 +71,7 @@ const keyInitiatives = [
     targets: [
       "High-resolution mapping for 27 LGAs",
       "Automated NPK recommendation engine",
-      "Soil health tracking for farm estates"
+      "Soil health tracking for agricultural zones"
     ],
     status: "Active",
     progress: 42
@@ -114,7 +96,7 @@ const Programs = () => {
         {/* Hero Section */}
         <HeroCarousel 
           title="Programs & Investments"
-          subtitle="Historic ₦17.4 billion investment in agricultural transformation, farm estates, and digital extension infrastructure."
+          subtitle="Historic ₦17.4 billion investment in agricultural transformation, modern agro-processing hubs, and digital extension infrastructure."
         >
           <div className="flex flex-col gap-6">
             <Badge variant="secondary" className="w-fit bg-white/20 text-white border-0">

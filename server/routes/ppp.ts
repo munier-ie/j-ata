@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import prisma from '../lib/prisma';
+import prismaInstance from '../lib/prisma';
 
 const router = Router();
+const prisma = prismaInstance as any;
 
 // GET all PPP applications
 router.get('/', async (req, res) => {
   try {
-    // @ts-expect-error Prisma types may not have reloaded in IDE
     const applications = await prisma.pppApplication.findMany({
       orderBy: { createdAt: 'desc' }
     });
@@ -26,7 +26,6 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    // @ts-expect-error Prisma types may not have reloaded in IDE
     const application = await prisma.pppApplication.create({
       data: {
         companyName,

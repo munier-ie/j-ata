@@ -1,114 +1,101 @@
-import { Card } from "@/components/ui/card";
-import { TrendingUp, Users, Shield, BarChart3, Clock, Zap } from "lucide-react";
+import { TrendingUp, Users, Shield, BarChart3, QrCode, Smartphone, Cloud } from "lucide-react";
 
-const stats = [
+const metrics = [
   {
     icon: TrendingUp,
     value: "25%",
-    label: "Yield Increase",
-    description: "Projected crop yield growth through extension support"
+    label: "Yield increase",
+    description: "Projected growth through extension support",
   },
   {
     icon: Users,
     value: "1,435",
-    label: "Agents Deployed",
-    description: "Extension agents already trained and on the field"
+    label: "Agents deployed",
+    description: "Extension agents trained and in the field",
   },
   {
     icon: Shield,
     value: "100%",
     label: "Traceability",
-    description: "Full tracking of input subsidies and vouchers"
+    description: "Input subsidies and voucher tracking",
   },
   {
     icon: BarChart3,
     value: "Real-time",
-    label: "Agro-Intelligence",
-    description: "Live dashboards for data-driven policy decisions"
-  }
+    label: "Agro-intelligence",
+    description: "Live dashboards for policy decisions",
+  },
 ];
 
-const benefits = [
+const capabilities = [
   {
-    icon: Clock,
-    title: "Real-time Intelligence",
-    description: "Monitor crop health, weather patterns, and market prices instantly."
+    icon: QrCode,
+    title: "Farmer ID verification",
+    description: "Unique digital ID for every registered farmer in the field.",
   },
   {
-    icon: Zap,
-    title: "Faster Field Response",
-    description: "Empower extension agents to report and resolve farm issues immediately."
+    icon: Smartphone,
+    title: "Mobile-first operations",
+    description: "Extension agents report offline and sync when connected.",
   },
   {
-    icon: TrendingUp,
-    title: "Scale Agribusiness",
-    description: "Connect smallholders to high-value markets and processing zones."
+    icon: Cloud,
+    title: "Cloud-ready infrastructure",
+    description: "Scalable for government data centre or secure cloud deployment.",
   },
-  {
-    icon: Shield,
-    title: "Improve Accountability",
-    description: "Full audit trails for input distribution and farmer support programs."
-  }
 ];
 
 export function StatsSection() {
   return (
-    <section className="py-24 bg-foreground text-background">
+    <section className="py-16 lg:py-20 bg-foreground text-background border-t border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
-          {stats.map((stat, index) => (
-            <div 
-              key={index} 
-              className="text-center p-6 rounded-2xl bg-background/5 border border-background/10 animate-fade-up"
-              style={{ animationDelay: `${index * 0.1}s` }}
+        <div className="text-center max-w-2xl mx-auto mb-10">
+          <span className="text-xs font-semibold uppercase tracking-wider text-primary">
+            Impact proof
+          </span>
+          <h2 className="font-civic text-2xl sm:text-3xl font-bold mt-2">
+            Measurable transformation outcomes
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+          {metrics.map((stat) => (
+            <div
+              key={stat.label}
+              className="landing-card text-center p-5 bg-background/5 border border-background/15"
             >
-              <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center mx-auto mb-4">
-                <stat.icon className="w-6 h-6 text-primary" />
+              <div className="w-10 h-10 rounded-sm bg-primary/20 flex items-center justify-center mx-auto mb-3">
+                <stat.icon className="w-5 h-5 text-primary" />
               </div>
-              <p className="text-3xl sm:text-4xl font-display font-bold text-primary mb-2">
+              <p className="text-2xl sm:text-3xl font-semibold text-primary">
                 {stat.value}
               </p>
-              <p className="font-semibold text-background mb-1">{stat.label}</p>
-              <p className="text-sm text-background/60">{stat.description}</p>
+              <p className="text-sm font-medium mt-1">{stat.label}</p>
+              <p className="text-xs text-background/55 mt-1">{stat.description}</p>
             </div>
           ))}
         </div>
 
-        {/* Benefits */}
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="font-display text-3xl sm:text-4xl font-bold mb-4">
-              Strategic Value for{" "}
-              <span className="text-primary">Jigawa State</span>
-            </h2>
-            <p className="text-background/70 text-lg">
-              This platform positions Jigawa as a national leader in agricultural digital transformation.
-            </p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 gap-6">
-            {benefits.map((benefit, index) => (
-              <div 
-                key={index}
-                className="flex gap-4 p-6 rounded-xl bg-background/5 border border-background/10 hover:bg-background/10 transition-colors animate-fade-up"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center shrink-0">
-                  <benefit.icon className="w-6 h-6 text-primary-foreground" />
-                </div>
-                <div>
-                  <h3 className="font-display font-semibold text-lg text-background mb-2">
-                    {benefit.title}
-                  </h3>
-                  <p className="text-background/60 text-sm">
-                    {benefit.description}
-                  </p>
-                </div>
+        <div className="grid sm:grid-cols-3 gap-4 max-w-4xl mx-auto">
+          {capabilities.map((cap) => (
+            <div
+              key={cap.title}
+              className="landing-card flex gap-4 p-5 bg-background/5 border border-background/15"
+            >
+              <div className="w-10 h-10 rounded-sm bg-primary flex items-center justify-center shrink-0">
+                <cap.icon className="w-5 h-5 text-primary-foreground" />
               </div>
-            ))}
-          </div>
+              <div>
+                <h3 className="font-semibold text-sm">{cap.title}</h3>
+                <p className="text-xs text-background/60 mt-1">{cap.description}</p>
+              </div>
+            </div>
+          ))}
         </div>
+
+        <p className="text-center text-xs text-background/45 mt-10">
+          Source: JATA Command Center, 2026. Figures updated as field data is verified.
+        </p>
       </div>
     </section>
   );

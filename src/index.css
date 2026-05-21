@@ -79,6 +79,10 @@
     --sidebar-accent-foreground: 142 70% 25%;
     --sidebar-border: 142 20% 88%;
     --sidebar-ring: 142 70% 32%;
+
+    /* Landing page — civic institutional */
+    --hero-civic: 45 30% 97%;
+    --landing-radius: 0.5rem;
   }
 
   .dark {
@@ -188,6 +192,31 @@
   .animate-scale-in {
     animation: scaleIn 0.4s ease-out forwards;
   }
+
+  .font-civic {
+    font-family: "Playfair Display", Georgia, serif;
+  }
+
+  .bg-hero-civic {
+    background-color: hsl(var(--hero-civic));
+  }
+
+  .landing-card {
+    border-radius: var(--landing-radius);
+  }
+
+  .civic-stripe-bar {
+    height: 8px;
+    background: linear-gradient(
+      90deg,
+      hsl(var(--primary)) 0%,
+      hsl(var(--primary)) 33%,
+      hsl(0 0% 100%) 33%,
+      hsl(0 0% 100%) 66%,
+      hsl(var(--primary)) 66%,
+      hsl(var(--primary)) 100%
+    );
+  }
 }
 
 @keyframes fadeUp {
@@ -237,4 +266,94 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--primary) / 0.5);
+}
+
+/* ============= SYSTEM PRINT STYLES ============= */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  /* Reset global styles to default black-on-white */
+  html, body {
+    background-color: white !important;
+    background-image: none !important;
+    color: black !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    width: 210mm !important;
+    height: 297mm !important;
+  }
+
+  /* Completely hide all UI wrapper/navigation elements */
+  header, footer, nav, button, input, select, textarea, .print\:hidden, .print-hide {
+    display: none !important;
+  }
+
+  /* Remove browser margins and sizing from root containers */
+  #root, main, .container {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: none !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  /* Position and scale the printable certificate overlay to fill the A4 page perfectly */
+  .hidden.print\:block {
+    display: block !important;
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    margin: auto !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    padding: 20mm !important;
+    box-sizing: border-box !important;
+    background: white !important;
+    color: black !important;
+    border: 12px double hsl(142, 70%, 20%) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    page-break-inside: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  /* Fine-tune certificate typography & layout sizes under A4 print */
+  .hidden.print\:block img {
+    max-height: 24mm !important;
+    object-contain: true !important;
+  }
+
+  .hidden.print\:block h2 {
+    font-size: 20pt !important;
+    line-height: 1.2 !important;
+  }
+
+  .hidden.print\:block h1 {
+    font-size: 24pt !important;
+    line-height: 1.2 !important;
+  }
+
+  .hidden.print\:block p {
+    font-size: 11pt !important;
+    line-height: 1.5 !important;
+  }
+
+  .hidden.print\:block .text-xs {
+    font-size: 8pt !important;
+  }
+
+  .hidden.print\:block .text-lg {
+    font-size: 13pt !important;
+  }
+
+  .hidden.print\:block .text-md {
+    font-size: 11pt !important;
+  }
 }

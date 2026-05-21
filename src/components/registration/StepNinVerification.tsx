@@ -11,20 +11,13 @@ interface StepNinVerificationProps {
 }
 
 export function StepNinVerification({ onNext, initialData = "" }: StepNinVerificationProps) {
+  const [nin, setNin] = useState(initialData);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const { toast } = useToast();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
-    const nin = formData.get("nin") as string;
-
-    // Validation
-    if (!/^\d{11}$/.test(nin)) {
-      setError("NIN must be exactly 11 digits.");
-      return;
-    }
+  const triggerVerification = async (ninValue: string) => {
+    if (isLoading) return;
     setError("");
     setIsLoading(true);
 
@@ -40,10 +33,29 @@ export function StepNinVerification({ onNext, initialData = "" }: StepNinVerific
     
     // Pass simulated data found from NIN lookup
     onNext({ 
-      nin,
+      nin: ninValue,
       fullName: "Aminu Kano",
       phone: "08012345678"
     });
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, '');
+    setNin(value);
+    if (error) setError("");
+    
+    if (value.length === 11) {
+      triggerVerification(value);
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (nin.length !== 11) {
+      setError("NIN must be exactly 11 digits.");
+      return;
+    }
+    triggerVerification(nin);
   };
 
   return (
@@ -64,13 +76,10 @@ export function StepNinVerification({ onNext, initialData = "" }: StepNinVerific
             autoComplete="off"
             inputMode="numeric"
             placeholder="Enter your 11-digit NIN" 
-            defaultValue={initialData}
+            value={nin}
             maxLength={11}
-            onChange={(e) => {
-                const value = e.target.value.replace(/\D/g, '');
-                e.target.value = value;
-                if (error) setError("");
-            }}
+            disabled={isLoading}
+            onChange={handleInputChange}
             className={error ? "border-red-500" : ""}
           />
           {error && <p className="text-xs text-red-500">{error}</p>}

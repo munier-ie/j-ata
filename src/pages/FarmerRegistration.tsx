@@ -8,16 +8,19 @@ import { StepNinVerification } from "@/components/registration/StepNinVerificati
 import { StepPersonalLevel } from "@/components/registration/StepPersonalLevel";
 import { StepLivestockDetails } from "@/components/registration/StepLivestockDetails";
 import { StepConfirmation } from "@/components/registration/StepConfirmation";
+import { StepPayment } from "@/components/registration/StepPayment";
 import { Button } from "@/components/ui/button";
 import { StepSuccess } from "@/components/registration/StepSuccess";
 import { StepIndicator } from "@/components/registration/StepIndicator";
 import { HeroCarousel } from "@/components/sections/HeroCarousel";
+import { farmersApi, Farmer } from "@/lib/api";
 
 const steps = [
   { number: 1, title: "NIN Verification" },
   { number: 2, title: "Personal Information" },
   { number: 3, title: "Farm Assets" },
-  { number: 4, title: "Review & Confirm" },
+  { number: 4, title: "Payment" },
+  { number: 5, title: "Review & Confirm" },
 ];
 
 interface RegistrationData {
@@ -58,7 +61,7 @@ export default function FarmerRegistration() {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<RegistrationData>(initialData);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [successData, setSuccessData] = useState<Record<string, unknown> | null>(null);
+  const [successData, setSuccessData] = useState<Farmer | null>(null);
   const [alreadyRegistered, setAlreadyRegistered] = useState(false);
   const navigate = useNavigate();
 
@@ -114,23 +117,48 @@ export default function FarmerRegistration() {
   const handleSubmit = async () => {
     setIsSubmitting(true);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    
-    // Generate Farmer ID
-    const farmerId = `JGW-F-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
-    
-    const finalData = {
-        farmerId,
-        ...formData.personal,
-        ...formData.livestock,
-        nin: formData.nin
-    };
+    try {
+      // Generate standard JATA Farmer ID
+      const farmerId = `JGW-F-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+      
+      // Calculate farm size in Hectares by summing crop values
+      const farmSize = formData.livestock.types
+        .filter(type => ["rice", "wheat", "maize", "sesame", "tomato"].includes(type))
+        .reduce((sum, type) => sum + (formData.livestock.counts[type] || 0), 0);
 
-    setSuccessData(finalData);
-    setIsSubmitting(false);
-    setCurrentStep(5); // Move to Success Step
-    localStorage.setItem('farmer_registered', 'true');
+      // Map selected assets (crops & livestock) to human-readable strings with quantities
+      const cropTypes = formData.livestock.types.map(type => {
+        const count = formData.livestock.counts[type] || 0;
+        const label = type.charAt(0).toUpperCase() + type.slice(1);
+        if (["rice", "wheat", "maize", "sesame", "tomato"].includes(type)) {
+          return `${label} (${count} Ha)`;
+        }
+        return `${label} (${count})`;
+      });
+
+      // Call database API to create the farmer profile
+      const dbFarmer = await farmersApi.create({
+        farmerId,
+        firstName: formData.personal.firstName,
+        lastName: formData.personal.lastName,
+        phone: formData.personal.phone,
+        nin: formData.nin || null,
+        lga: formData.personal.lga,
+        ward: formData.personal.ward,
+        community: formData.personal.community,
+        farmSize,
+        cropTypes,
+        status: "pending",
+      });
+
+      setSuccessData(dbFarmer);
+      localStorage.setItem('farmer_registered', 'true');
+      setCurrentStep(6); // Move to Success Step
+    } catch (error) {
+      console.error("Failed to register farmer:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -157,7 +185,7 @@ export default function FarmerRegistration() {
                   <CardHeader>
                     <CardTitle className="text-xl">Registration Status</CardTitle>
                     <CardDescription>
-                       Step {currentStep > 4 ? 4 : currentStep} of 4
+                       Step {currentStep > 5 ? 5 : currentStep} of 5
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -192,6 +220,13 @@ export default function FarmerRegistration() {
                       />
                     )}
                     {currentStep === 4 && (
+                      <StepPayment 
+                        onNext={() => handleNext({})}
+                        onBack={handleBack}
+                        feeAmount={1550}
+                      />
+                    )}
+                    {currentStep === 5 && (
                       <StepConfirmation 
                         data={formData} 
                         onBack={handleBack} 
@@ -199,7 +234,7 @@ export default function FarmerRegistration() {
                         isSubmitting={isSubmitting}
                       />
                     )}
-                    {currentStep === 5 && (
+                    {currentStep === 6 && (
                       <StepSuccess data={successData} />
                     )}
                   </CardContent>

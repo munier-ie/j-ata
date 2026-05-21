@@ -125,7 +125,7 @@ export default function StartupApplication() {
               <CardHeader>
                 <CardTitle className="text-2xl font-bold flex items-center gap-2">
                   <Rocket className="h-6 w-6 text-primary" />
-                  Apply for Incubation
+                  Apply for Startup Cohort
                 </CardTitle>
                 <CardDescription>
                   Step {currentStep} of {steps.length}: {steps[currentStep-1].name}

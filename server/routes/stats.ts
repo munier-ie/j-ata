@@ -7,53 +7,22 @@ const router = Router();
 router.get('/', async (req, res) => {
   try {
     const [
-      totalFarmEstates,
-      totalInnovationHubs,
       totalFarmers,
       totalNews,
-      totalReports,
-      operationalFarmEstates
+      totalReports
     ] = await Promise.all([
-      prisma.farmEstate.count(),
-      prisma.innovationHub.count(),
       prisma.farmer.count(),
       prisma.newsArticle.count(),
-      prisma.report.count(),
-      prisma.farmEstate.count({ where: { status: 'operational' } })
+      prisma.report.count()
     ]);
 
     res.json({
-      totalFarmEstates,
-      totalInnovationHubs,
       totalFarmers,
       totalNews,
-      totalReports,
-      completedProjects: operationalFarmEstates
+      totalReports
     });
   } catch (error) {
     console.error('Error fetching stats:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-// GET detailed farm estate stats
-router.get('/farm-estates', async (req, res) => {
-  try {
-    const statuses = await prisma.farmEstate.groupBy({
-      by: ['status'],
-      _count: { status: true }
-    });
-    
-    const totalHectares = await prisma.farmEstate.aggregate({
-      _sum: { totalHectares: true }
-    });
-
-    res.json({
-      byStatus: statuses,
-      totalHectares: totalHectares._sum.totalHectares || 0
-    });
-  } catch (error) {
-    console.error('Error fetching farm estate stats:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });

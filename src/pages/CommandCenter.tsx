@@ -49,7 +49,7 @@ const CommandCenter = () => {
                 icon: BarChart3, 
                 value: "92%", 
                 label: "Target Completion",
-                desc: "Real-time tracking of subsidy distribution and farm estate development."
+                desc: "Real-time tracking of subsidy distribution and agricultural zone development."
               },
               { 
                 title: "Active Field Units", 

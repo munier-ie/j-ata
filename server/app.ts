@@ -5,9 +5,7 @@ import 'dotenv/config';
 // Import routes
 import managementRoutes from './routes/management';
 import farmersRoutes from './routes/farmers';
-import farmEstatesRoutes from './routes/farm-estates';
 import newsRoutes from './routes/news';
-import innovationHubsRoutes from './routes/innovation-hubs';
 import statsRoutes from './routes/stats';
 import reportsRoutes from './routes/reports';
 import authRoutes from './routes/auth';
@@ -57,9 +55,7 @@ app.get('/api/health', (req, res) => {
 // ============= API Routes =============
 app.use('/api/management', managementRoutes);
 app.use('/api/farmers', farmersRoutes);
-app.use('/api/farm-estates', farmEstatesRoutes);
 app.use('/api/news', newsRoutes);
-app.use('/api/innovation-hubs', innovationHubsRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/reports', reportsRoutes);
 app.use('/api/auth', authRoutes);

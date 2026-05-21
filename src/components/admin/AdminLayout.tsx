@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect, Suspense } from 'react';
 import { useNavigate, Link, useLocation, Outlet } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
@@ -23,7 +23,6 @@ import jigawaLogo from '@/assets/jigawa-logo.png';
 const navItems = [
   { path: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { path: '/admin/startup-applications', label: 'Startup Applications', icon: Rocket },
-  { path: '/admin/construction', label: 'Incubation Hub', icon: Building2 },
   { path: '/admin/budget', label: 'Investment Projects', icon: DollarSign },
   { path: '/admin/traces', label: 'Export & Traceability', icon: UserCog },
   { path: '/admin/farmers', label: 'Farmers Database', icon: Users },
@@ -154,7 +153,19 @@ export function AdminLayout() {
 
         <main className="flex-1 min-h-screen overflow-y-auto">
           <div className="p-6 lg:p-8">
-            <Outlet />
+            <Suspense fallback={
+              <div className="h-[60vh] flex items-center justify-center bg-background/30 backdrop-blur-sm rounded-xl border border-border/40 shadow-sm animate-pulse">
+                <div className="flex flex-col items-center gap-3">
+                  <div className="relative flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-r-2 border-emerald-500"></div>
+                    <div className="absolute animate-ping rounded-full h-8 w-8 bg-emerald-500/10"></div>
+                  </div>
+                  <p className="text-sm font-medium text-muted-foreground mt-2">Loading section...</p>
+                </div>
+              </div>
+            }>
+              <Outlet />
+            </Suspense>
           </div>
         </main>
       </div>

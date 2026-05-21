@@ -19,7 +19,6 @@ const server = app.listen(PORT, () => {
 ║   • GET  /api/health      - Health check                 ║
 ║   • CRUD /api/management  - Management members           ║
 ║   • CRUD /api/farmers     - Farmers                      ║
-║   • CRUD /api/farm-estates- Farm Estates                 ║
 ║   • CRUD /api/news        - News articles                ║
 ║   • CRUD /api/innovation-hubs- Innovation Hubs           ║
 ║   • GET  /api/stats       - Dashboard statistics         ║

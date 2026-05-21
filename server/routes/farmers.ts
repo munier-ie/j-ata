@@ -3,13 +3,24 @@ import prisma from '../lib/prisma';
 
 const router = Router();
 
+// Helper to normalize the response database model to frontend interface format
+const formatFarmerResponse = (farmer: any) => {
+  if (!farmer) return farmer;
+  return {
+    ...farmer,
+    cropTypes: typeof farmer.cropTypes === 'string'
+      ? (farmer.cropTypes ? farmer.cropTypes.split(',') : [])
+      : (Array.isArray(farmer.cropTypes) ? farmer.cropTypes : [])
+  };
+};
+
 // GET all farmers
 router.get('/', async (req, res) => {
   try {
     const farmers = await prisma.farmer.findMany({
       orderBy: { createdAt: 'desc' }
     });
-    res.json(farmers);
+    res.json(farmers.map(formatFarmerResponse));
   } catch (error) {
     console.error('Error fetching farmers:', error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -25,7 +36,7 @@ router.get('/:id', async (req, res) => {
     if (!farmer) {
       return res.status(404).json({ error: 'Farmer not found' });
     }
-    res.json(farmer);
+    res.json(formatFarmerResponse(farmer));
   } catch (error) {
     console.error('Error fetching farmer:', error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -45,6 +56,11 @@ router.post('/', async (req, res) => {
       status 
     } = req.body;
     
+    const cropTypesInput = cropTypes || crop_types || [];
+    const formattedCrops = Array.isArray(cropTypesInput)
+      ? cropTypesInput.join(',')
+      : (typeof cropTypesInput === 'string' ? cropTypesInput : '');
+
     const newFarmer = await prisma.farmer.create({
       data: {
         farmerId: farmerId || farmer_id,
@@ -56,11 +72,11 @@ router.post('/', async (req, res) => {
         ward,
         community,
         farmSize: farmSize ?? farm_size ?? 0,
-        cropTypes: cropTypes || crop_types || [],
+        cropTypes: formattedCrops,
         status: status || 'pending'
       }
     });
-    res.status(201).json(newFarmer);
+    res.status(201).json(formatFarmerResponse(newFarmer));
   } catch (error) {
     console.error('Error creating farmer:', error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -79,6 +95,11 @@ router.put('/:id', async (req, res) => {
       status 
     } = req.body;
     
+    const cropTypesInput = cropTypes || crop_types;
+    const formattedCrops = cropTypesInput !== undefined
+      ? (Array.isArray(cropTypesInput) ? cropTypesInput.join(',') : String(cropTypesInput))
+      : undefined;
+
     const updatedFarmer = await prisma.farmer.update({
       where: { id: req.params.id },
       data: {
@@ -90,11 +111,11 @@ router.put('/:id', async (req, res) => {
         ward,
         community,
         farmSize: farmSize ?? farm_size,
-        cropTypes: cropTypes || crop_types,
+        cropTypes: formattedCrops,
         status
       }
     });
-    res.json(updatedFarmer);
+    res.json(formatFarmerResponse(updatedFarmer));
   } catch (error) {
     console.error('Error updating farmer:', error);
     res.status(500).json({ error: 'Internal Server Error' });

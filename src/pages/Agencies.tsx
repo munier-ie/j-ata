@@ -59,10 +59,10 @@ const agencies = [
     icon: Users,
     name: "Investment & PPP Department",
     acronym: "IPD",
-    mandate: "Promoting agricultural investment and managing mechanized farm estates.",
+    mandate: "Promoting agricultural investment and managing mechanized agricultural zones.",
     functions: [
       "Investor deal room management",
-      "Farm estate allocation & tracking",
+      "Agricultural zone allocation & tracking",
       "PPP project coordination",
       "Agribusiness investment promotion",
       "Site selection & concierge services"

@@ -1,106 +1,144 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Sprout, Briefcase, CloudSun, CreditCard, BarChart3 } from "lucide-react";
 
 const pillars = [
   {
     icon: Sprout,
     title: "Production & Productivity",
-    description: "Driving large-scale agricultural output through mechanized farm estates and improved seed systems.",
+    description:
+      "Mechanized agricultural zones, seed systems, and input subsidy distribution.",
     responsibilities: [
-      "Mechanized Farm Estate management",
-      "Seed system strengthening programs",
-      "Soil health mapping & management",
-      "Input subsidy distribution systems",
-      "Yield forecasting and crop monitoring"
-    ]
+      "Agricultural zone management",
+      "Soil health mapping",
+      "Yield forecasting",
+    ],
   },
   {
     icon: Briefcase,
     title: "Agribusiness & Markets",
-    description: "Connecting smallholder farmers to high-value markets and fostering private sector investment.",
+    description: "Market linkage, investment promotion, and value chain development.",
     responsibilities: [
-      "Agribusiness innovation hub operations",
-      "Investment promotion and PPP projects",
-      "Market linkage and deal room management",
-      "Value chain development & processing",
-      "Agricultural investment promotion portal"
-    ]
+      "Innovation hub operations",
+      "PPP & deal room",
+      "Export traceability",
+    ],
   },
   {
     icon: CloudSun,
     title: "Climate Smart Agriculture",
-    description: "Building resilience through sustainable farming practices and climate-adaptive infrastructure.",
+    description: "Resilience infrastructure and climate-adaptive farming.",
     responsibilities: [
-      "Solar-powered irrigation clusters",
-      "Climate resilience training for farmers",
-      "Sustainable water management systems",
-      "Weather-indexed insurance systems",
-      "Climate-adaptive crop varieties promotion"
-    ]
+      "Solar irrigation clusters",
+      "Water management",
+      "Climate training",
+    ],
   },
   {
     icon: CreditCard,
     title: "Digital & Rural Finance",
-    description: "Leveraging digital technology to provide financial services to rural agricultural communities.",
+    description: "Digital payments, vouchers, and farmer financial identity.",
     responsibilities: [
-      "Digital payment systems for farmers",
-      "Credit linkage and risk management",
-      "Farmer registration & financial identity",
-      "Smart voucher and wallet systems",
-      "Rural financial literacy programs"
-    ]
+      "Smart voucher systems",
+      "Credit linkage",
+      "Rural financial literacy",
+    ],
   },
   {
     icon: BarChart3,
     title: "Strategy, Data & Analytics",
-    description: "The 'Brain' of JATA, driving data-backed decisions through the Command & Control platform.",
+    description: "Command center, GIS, and impact monitoring.",
     responsibilities: [
-      "Integrated Command & Control center",
-      "GIS mapping and remote sensing",
-      "Data hub & partner API management",
-      "Strategic planning and policy research",
-      "Impact monitoring & evaluation"
-    ]
-  }
+      "Command & control",
+      "Data hub APIs",
+      "M&E reporting",
+    ],
+  },
 ];
 
 export function DepartmentsPreview() {
   return (
-    <section className="container mx-auto px-4 py-16">
-      <h2 className="font-display text-3xl font-bold text-foreground mb-8 text-center animate-fade-up">
-        Our Operational Pillars
-      </h2>
-      <div className="grid gap-8">
-        {pillars.map((pillar, index) => (
-          <Card 
-            key={pillar.title} 
-            className="overflow-hidden border-border/50 hover:shadow-lg transition-shadow animate-fade-up"
-            style={{ animationDelay: `${index * 0.1}s` }}
-          >
-            <div className="grid md:grid-cols-3 gap-6">
-              <CardHeader className="bg-secondary/50 md:col-span-1">
-                <div className="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                  <pillar.icon className="w-8 h-8 text-primary" />
-                </div>
-                <CardTitle className="font-display text-xl">{pillar.title}</CardTitle>
-                <CardDescription className="text-muted-foreground">
+    <section className="py-16 lg:py-20 bg-background border-t border-border">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-2xl mx-auto mb-10">
+          <span className="text-xs font-semibold uppercase tracking-wider text-primary">
+            Directorates
+          </span>
+          <h2 className="font-civic text-2xl sm:text-3xl font-bold text-foreground mt-2">
+            Strategic operational pillars
+          </h2>
+        </div>
+
+        {/* Desktop: bordered column cards */}
+        <div className="hidden lg:grid lg:grid-cols-5 gap-4">
+          {pillars.map((pillar) => (
+            <div
+              key={pillar.title}
+              className="landing-card border border-border border-l-4 border-l-primary bg-card p-5 flex flex-col"
+            >
+              <div className="w-10 h-10 rounded-sm bg-primary/10 flex items-center justify-center mb-4">
+                <pillar.icon className="w-5 h-5 text-primary" />
+              </div>
+              <h3 className="font-semibold text-sm text-foreground leading-snug">
+                {pillar.title}
+              </h3>
+              <p className="text-xs text-muted-foreground mt-2 flex-1">
+                {pillar.description}
+              </p>
+              <ul className="mt-4 space-y-1.5 pt-4 border-t border-border">
+                {pillar.responsibilities.map((r) => (
+                  <li key={r} className="text-xs text-muted-foreground">
+                    · {r}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        {/* Tablet: horizontal scroll */}
+        <div className="hidden md:flex lg:hidden gap-4 overflow-x-auto pb-2 snap-x">
+          {pillars.map((pillar) => (
+            <div
+              key={pillar.title}
+              className="landing-card snap-start shrink-0 w-64 border border-border border-l-4 border-l-primary bg-card p-5"
+            >
+              <pillar.icon className="w-6 h-6 text-primary mb-3" />
+              <h3 className="font-semibold text-sm">{pillar.title}</h3>
+              <p className="text-xs text-muted-foreground mt-2">
+                {pillar.description}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* Mobile: accordion */}
+        <Accordion type="single" collapsible className="md:hidden w-full">
+          {pillars.map((pillar, i) => (
+            <AccordionItem key={pillar.title} value={`pillar-${i}`} className="border-border">
+              <AccordionTrigger className="text-left font-semibold hover:no-underline py-4">
+                <span className="flex items-center gap-3">
+                  <pillar.icon className="w-5 h-5 text-primary shrink-0" />
+                  {pillar.title}
+                </span>
+              </AccordionTrigger>
+              <AccordionContent>
+                <p className="text-sm text-muted-foreground mb-3">
                   {pillar.description}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="md:col-span-2 pt-6">
-                <h4 className="font-semibold text-foreground mb-4">Core Focus Areas:</h4>
-                <ul className="grid sm:grid-cols-2 gap-3">
-                  {pillar.responsibilities.map((resp, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
-                      {resp}
-                    </li>
+                </p>
+                <ul className="space-y-1 text-sm text-muted-foreground">
+                  {pillar.responsibilities.map((r) => (
+                    <li key={r}>· {r}</li>
                   ))}
                 </ul>
-              </CardContent>
-            </div>
-          </Card>
-        ))}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
       </div>
     </section>
   );

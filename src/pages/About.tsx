@@ -33,7 +33,7 @@ const objectives = [
   "Digitally empower the 1,435 extension agents already deployed",
   "Implement an integrated agricultural command & control platform",
   "Establish a centralized agricultural data hub (The Brain)",
-  "Scale mechanized farm estates and agribusiness innovation hubs",
+  "Scale mechanized agricultural processing zones and agribusiness innovation hubs",
   "Automate input subsidy tracking and voucher systems",
   "Provide real-time soil intelligence and weather forecasting"
 ];

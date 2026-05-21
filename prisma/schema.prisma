@@ -21,19 +21,6 @@ enum AppRole {
   mentor
 }
 
-enum FacilityStatus {
-  planned
-  under_construction
-  operational
-  rehabilitated
-}
-
-enum FacilityType {
-  innovation_hub
-  service_center
-  farm_estate
-}
-
 // ============= MODELS =============
 
 model User {
@@ -49,6 +36,7 @@ model User {
   incubatorApplications IncubatorApplication[]
   mentorProfile         MentorProfile?
   investorProfile       InvestorProfile?
+  exportApplications    ExportApplication[]
 
   @@map("users")
 }
@@ -99,54 +87,6 @@ model Farmer {
   batches   ProductBatch[]
 
   @@map("farmers")
-}
-
-model FarmEstate {
-  id                   String         @id @default(uuid())
-  name                 String
-  lga                  String
-  zone                 String?
-  address              String?
-  latitude             Float?
-  longitude            Float?
-  totalHectares        Float?         @map("total_hectares")
-  status               FacilityStatus @default(planned)
-  completionPercentage Int?           @map("completion_percentage")
-  budgetAllocated      Float?         @map("budget_allocated")
-  budgetSpent          Float?         @map("budget_spent")
-  hasWater             Boolean?       @map("has_water")
-  hasPower             Boolean?       @map("has_power")
-  hasAccessRoad        Boolean?       @map("has_access_road")
-  hasStorageFacility   Boolean?       @map("has_storage_facility")
-  createdAt            DateTime       @default(now()) @map("created_at")
-  updatedAt            DateTime       @updatedAt @map("updated_at")
-
-  @@map("farm_estates")
-}
-
-model InnovationHub {
-  id                   String         @id @default(uuid())
-  name                 String
-  facilityType         FacilityType   @map("facility_type")
-  lga                  String
-  zone                 String?
-  address              String?
-  latitude             Float?
-  longitude            Float?
-  capacity             Int?
-  status               FacilityStatus @default(planned)
-  completionPercentage Int?           @map("completion_percentage")
-  budgetAllocated      Float?         @map("budget_allocated")
-  budgetSpent          Float?         @map("budget_spent")
-  hasWater             Boolean?       @map("has_water")
-  hasPower             Boolean?       @map("has_power")
-  services             String
-  contactPhone         String?        @map("contact_phone")
-  contactEmail         String?        @map("contact_email")
-  createdAt            DateTime       @default(now()) @map("created_at")
-  updatedAt            DateTime       @updatedAt @map("updated_at")
-
-  @@map("innovation_hubs")
 }
 
 model NewsArticle {
@@ -413,4 +353,31 @@ model Warehouse {
   updatedAt         DateTime @updatedAt @map("updated_at")
 
   @@map("warehouses")
+}
+
+model ExportApplication {
+  id              String   @id @default(uuid())
+  userId          String?  @map("user_id")
+  applicationNo   String   @unique @map("application_no")
+  fullName        String   @map("full_name")
+  email           String
+  phone           String
+  companyName     String   @map("company_name")
+  rcNumber        String   @map("rc_number")
+  businessAddress String   @map("business_address")
+  commodityType   String   @map("commodity_type")
+  paymentStatus   String   @default("pending") @map("payment_status")
+  paymentAmount   Float    @default(15200.0) @map("payment_amount")
+  status          String   @default("pending") // pending, approved, rejected, expired
+  issuedAt        DateTime? @map("issued_at")
+  expiryDate      DateTime? @map("expiry_date")
+  certificateNo   String?  @unique @map("certificate_no")
+  signatoryName   String?  @map("signatory_name")
+  signatoryTitle  String?  @map("signatory_title")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("export_applications")
 }

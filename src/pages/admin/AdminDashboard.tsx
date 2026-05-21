@@ -2,27 +2,21 @@ import { useEffect, useState } from 'react';
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { statsApi } from '@/lib/api';
-import { Building2, Users, FileText, Newspaper, TrendingUp, Lightbulb, Download, Globe, Sprout, Terminal } from 'lucide-react';
+import { Building2, Users, FileText, Newspaper, TrendingUp, Lightbulb, Download, Globe, Sprout, Terminal, Rocket } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 
 interface Stats {
-  totalFarmEstates: number;
-  totalInnovationHubs: number;
   totalFarmers: number;
   totalNews: number;
   totalReports: number;
-  completedProjects: number;
 }
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState<Stats>({
-    totalFarmEstates: 0,
-    totalInnovationHubs: 0,
     totalFarmers: 0,
     totalNews: 0,
-    totalReports: 0,
-    completedProjects: 0
+    totalReports: 0
   });
   const [loading, setLoading] = useState(true);
 
@@ -42,11 +36,8 @@ export default function AdminDashboard() {
   };
 
   const statCards = [
-    { title: 'Farm Estates', value: stats.totalFarmEstates, icon: Building2, color: 'bg-blue-500' },
-    { title: 'Innovation Hubs', value: stats.totalInnovationHubs, icon: Lightbulb, color: 'bg-green-500' },
     { title: 'Registered Farmers', value: stats.totalFarmers, icon: Users, color: 'bg-amber-500' },
     { title: 'News Articles', value: stats.totalNews, icon: Newspaper, color: 'bg-purple-500' },
-    { title: 'Completed Projects', value: stats.completedProjects, icon: TrendingUp, color: 'bg-emerald-500' },
     { title: 'Published Reports', value: stats.totalReports, icon: FileText, color: 'bg-rose-500' },
   ];
 
@@ -117,9 +108,9 @@ export default function AdminDashboard() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 gap-3">
-              <Link to="/admin/construction" className="p-4 bg-secondary/50 rounded-lg hover:bg-secondary transition-colors text-center">
-                <Building2 className="h-6 w-6 mx-auto mb-2 text-primary" />
-                <p className="text-sm font-medium">Manage Assets</p>
+              <Link to="/admin/startup-applications" className="p-4 bg-secondary/50 rounded-lg hover:bg-secondary transition-colors text-center">
+                <Rocket className="h-6 w-6 mx-auto mb-2 text-primary" />
+                <p className="text-sm font-medium">Startup Apps</p>
               </Link>
               <Link to="/admin/farmers" className="p-4 bg-secondary/50 rounded-lg hover:bg-secondary transition-colors text-center">
                 <Users className="h-6 w-6 mx-auto mb-2 text-primary" />

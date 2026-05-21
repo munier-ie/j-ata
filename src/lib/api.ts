@@ -188,102 +188,13 @@ export const newsApi = {
 
 // ============= Stats =============
 export interface DashboardStats {
-  totalFarmEstates: number;
-  totalInnovationHubs: number;
   totalFarmers: number;
   totalNews: number;
   totalReports: number;
-  completedProjects: number;
 }
 
 export const statsApi = {
   get: () => apiRequest<DashboardStats>("/stats"),
-};
-
-// ============= Farm Estates =============
-export interface FarmEstate {
-  id: string;
-  name: string;
-  lga: string;
-  zone: string | null;
-  address: string | null;
-  latitude: number | null;
-  longitude: number | null;
-  totalHectares: number | null;
-  status: string;
-  completionPercentage: number | null;
-  budgetAllocated: number | null;
-  budgetSpent: number | null;
-  hasWater: boolean;
-  hasPower: boolean;
-  hasAccessRoad: boolean;
-  hasStorageFacility: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export const farmEstatesApi = {
-  getAll: () => apiRequest<FarmEstate[]>("/farm-estates"),
-
-  create: (data: Partial<FarmEstate>) =>
-    apiRequest<FarmEstate>("/farm-estates", {
-      method: "POST",
-      body: data as Record<string, unknown>,
-    }),
-
-  update: (id: string, data: Partial<FarmEstate>) =>
-    apiRequest<FarmEstate>(`/farm-estates/${id}`, {
-      method: "PUT",
-      body: data as Record<string, unknown>,
-    }),
-
-  delete: (id: string) =>
-    apiRequest<void>(`/farm-estates/${id}`, { method: "DELETE" }),
-};
-
-// ============= Innovation Hubs =============
-export interface InnovationHub {
-  id: string;
-  name: string;
-  facilityType: string;
-  lga: string;
-  zone: string | null;
-  address: string | null;
-  latitude: number | null;
-  longitude: number | null;
-  capacity: number | null;
-  status: string;
-  completionPercentage: number | null;
-  budgetAllocated: number | null;
-  budgetSpent: number | null;
-  hasWater: boolean | null;
-  hasPower: boolean | null;
-  services: string[];
-  contactPhone: string | null;
-  contactEmail: string | null;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export const innovationHubsApi = {
-  getAll: () => apiRequest<InnovationHub[]>("/innovation-hubs"),
-
-  getById: (id: string) => apiRequest<InnovationHub>(`/innovation-hubs/${id}`),
-
-  create: (data: Partial<InnovationHub>) =>
-    apiRequest<InnovationHub>("/innovation-hubs", {
-      method: "POST",
-      body: data as Record<string, unknown>,
-    }),
-
-  update: (id: string, data: Partial<InnovationHub>) =>
-    apiRequest<InnovationHub>(`/innovation-hubs/${id}`, {
-      method: "PUT",
-      body: data as Record<string, unknown>,
-    }),
-
-  delete: (id: string) =>
-    apiRequest<void>(`/innovation-hubs/${id}`, { method: "DELETE" }),
 };
 
 // ============= Reports =============
@@ -331,3 +242,59 @@ export const reportsApi = {
   delete: (id: string) =>
     apiRequest<void>(`/reports/${id}`, { method: "DELETE" }),
 };
+
+// ============= Export & Traceability =============
+export interface ExportApplication {
+  id: string;
+  userId: string | null;
+  applicationNo: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  companyName: string;
+  rcNumber: string;
+  businessAddress: string;
+  commodityType: string;
+  paymentStatus: 'pending' | 'paid';
+  paymentAmount: number;
+  status: 'pending' | 'approved' | 'rejected' | 'expired';
+  issuedAt: string | null;
+  expiryDate: string | null;
+  certificateNo: string | null;
+  signatoryName: string | null;
+  signatoryTitle: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export const exportApi = {
+  getApplications: () => apiRequest<ExportApplication[]>("/export/applications"),
+  getApplication: (id: string) => apiRequest<ExportApplication>(`/export/applications/${id}`),
+  createApplication: (data: {
+    fullName: string;
+    email: string;
+    phone: string;
+    companyName: string;
+    rcNumber: string;
+    businessAddress: string;
+    commodityType: string;
+    userId?: string;
+  }) => apiRequest<ExportApplication>("/export/applications", {
+    method: "POST",
+    body: data as any
+  }),
+  payApplicationFee: (id: string) => apiRequest<ExportApplication>(`/export/applications/${id}/pay`, {
+    method: "POST"
+  }),
+  issueCertificate: (id: string, signatoryName?: string, signatoryTitle?: string) => apiRequest<ExportApplication>(`/export/applications/${id}/issue`, {
+    method: "POST",
+    body: { signatoryName, signatoryTitle }
+  }),
+  rejectApplication: (id: string) => apiRequest<ExportApplication>(`/export/applications/${id}/reject`, {
+    method: "POST"
+  }),
+  renewCertificate: (id: string) => apiRequest<ExportApplication>(`/export/applications/${id}/renew`, {
+    method: "POST"
+  })
+};
+

@@ -1,18 +1,18 @@
-import { PrismaClient, FacilityStatus, FacilityType } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import 'dotenv/config';
 
-const prisma = new PrismaClient();
+const prismaInstance = new PrismaClient();
+const prisma = prismaInstance as any;
 
 async function main() {
   console.log('🌱 Starting database seed...\n');
 
   console.log('🗑️  Clearing existing data...');
+  await prisma.exportApplication.deleteMany();
   await prisma.contactSubmission.deleteMany();
   await prisma.report.deleteMany();
   await prisma.newsArticle.deleteMany();
-  await prisma.innovationHub.deleteMany();
-  await prisma.farmEstate.deleteMany();
   await prisma.farmer.deleteMany();
   await prisma.managementMember.deleteMany();
   await prisma.profile.deleteMany();
@@ -86,100 +86,8 @@ async function main() {
   }
   console.log(`   ✓ Created ${managementMembers.length} management members`);
 
-  // ============= FARM ESTATES =============
-  console.log('🏞️  Seeding farm estates...');
   const jigawaLGAs = ['Dutse', 'Hadejia', 'Kazaure', 'Gumel', 'Birnin Kudu', 'Ringim', 'Jahun', 'Maigatari'];
   
-  const farmEstates = [
-    {
-      name: 'Dutse Commercial Cluster',
-      lga: 'Dutse',
-      zone: 'Dutse Zone',
-      address: 'Along Dutse-Kano Road',
-      latitude: 11.7566,
-      longitude: 9.3387,
-      totalHectares: 5000,
-      status: 'operational' as FacilityStatus,
-      completionPercentage: 100,
-      budgetAllocated: 500000000,
-      budgetSpent: 485000000,
-      hasWater: true,
-      hasPower: true,
-      hasAccessRoad: true,
-      hasStorageFacility: true
-    },
-    {
-      name: 'Hadejia Irrigation Farm Estate',
-      lga: 'Hadejia',
-      zone: 'Hadejia Zone',
-      address: 'Hadejia Town, off Nguru Road',
-      latitude: 12.4530,
-      longitude: 10.0444,
-      totalHectares: 3500,
-      status: 'operational' as FacilityStatus,
-      completionPercentage: 100,
-      budgetAllocated: 350000000,
-      budgetSpent: 342000000,
-      hasWater: true,
-      hasPower: true,
-      hasAccessRoad: true,
-      hasStorageFacility: true
-    }
-  ];
-
-  for (const estate of farmEstates) {
-    await prisma.farmEstate.create({ data: estate });
-  }
-  console.log(`   ✓ Created ${farmEstates.length} farm estates`);
-
-  // ============= INNOVATION HUBS =============
-  console.log('🏥 Seeding innovation hubs...');
-  const innovationHubs = [
-    {
-      name: 'Dutse Agribusiness Innovation Hub',
-      facilityType: 'innovation_hub' as FacilityType,
-      lga: 'Dutse',
-      zone: 'Dutse Zone',
-      address: 'J-ATA Headquarters Complex, Dutse',
-      latitude: 11.7566,
-      longitude: 9.3387,
-      capacity: 500,
-      status: 'operational' as FacilityStatus,
-      completionPercentage: 100,
-      budgetAllocated: 150000000,
-      budgetSpent: 148000000,
-      hasWater: true,
-      hasPower: true,
-      services: ['Incubation', 'Training', 'Seed Testing', 'Soil Analysis', 'Digital Farming'].join(','),
-      contactPhone: '+234 770 000 0000',
-      contactEmail: 'dutse.hub@jata.ng'
-    },
-    {
-      name: 'Hadejia Agro Service Center',
-      facilityType: 'service_center' as FacilityType,
-      lga: 'Hadejia',
-      zone: 'Hadejia Zone',
-      address: 'Near Hadejia Emirate Council',
-      latitude: 12.4530,
-      longitude: 10.0444,
-      capacity: 200,
-      status: 'operational' as FacilityStatus,
-      completionPercentage: 100,
-      budgetAllocated: 80000000,
-      budgetSpent: 78500000,
-      hasWater: true,
-      hasPower: true,
-      services: ['Extension Services', 'Fertilizer Distribution', 'Machinery Rental'].join(','),
-      contactPhone: '+234 770 000 0001',
-      contactEmail: 'hadejia.service@jata.ng'
-    }
-  ];
-
-  for (const hub of innovationHubs) {
-    await prisma.innovationHub.create({ data: hub });
-  }
-  console.log(`   ✓ Created ${innovationHubs.length} innovation hubs`);
-
   // ============= FARMERS =============
   console.log('🧑‍🌾 Seeding farmers...');
   const cropOptions = ['Rice', 'Wheat', 'Sesame', 'Hibiscus', 'Maize', 'Sorghum'];
@@ -256,6 +164,61 @@ async function main() {
     await prisma.report.create({ data: report });
   }
   console.log(`   ✓ Created ${reports.length} reports`);
+
+  // ============= EXPORT APPLICATIONS =============
+  console.log('📦 Seeding export applications...');
+  const exportApplications = [
+    {
+      applicationNo: 'JATA-EXP-2026-0001',
+      fullName: 'Bello Haruna',
+      email: 'bello@harunafarms.com',
+      phone: '08098765432',
+      companyName: 'Haruna Agro-Allied Limited',
+      rcNumber: 'RC-983742',
+      businessAddress: '12 Hadejia Road, Dutse, Jigawa State',
+      commodityType: 'Sesame',
+      paymentStatus: 'paid',
+      paymentAmount: 15200.0,
+      status: 'approved',
+      issuedAt: new Date('2026-01-10'),
+      expiryDate: new Date('2027-01-10'),
+      certificateNo: 'JATA-EXP-CERT-22837'
+    },
+    {
+      applicationNo: 'JATA-EXP-2026-0002',
+      fullName: 'Aisha Aliyu',
+      email: 'aisha@jigawaexporters.org',
+      phone: '08123456789',
+      companyName: 'Jigawa Hibiscus Exporters',
+      rcNumber: 'RC-104928',
+      businessAddress: 'Sector A, Industrial Layout, Hadejia, Jigawa State',
+      commodityType: 'Hibiscus',
+      paymentStatus: 'paid',
+      paymentAmount: 15200.0,
+      status: 'pending'
+    },
+    {
+      applicationNo: 'JATA-EXP-2026-0003',
+      fullName: 'Garba Shehu',
+      email: 'garba@gumjigawa.com',
+      phone: '09011122233',
+      companyName: 'Sahel Gum Arabic Enterprise',
+      rcNumber: 'RC-482019',
+      businessAddress: 'Gum Arabic Depot, Kazaure, Jigawa State',
+      commodityType: 'Gum Arabic',
+      paymentStatus: 'paid',
+      paymentAmount: 15200.0,
+      status: 'expired',
+      issuedAt: new Date('2025-05-15'),
+      expiryDate: new Date('2026-05-15'),
+      certificateNo: 'JATA-EXP-CERT-11942'
+    }
+  ];
+
+  for (const app of exportApplications) {
+    await prisma.exportApplication.create({ data: app });
+  }
+  console.log(`   ✓ Created ${exportApplications.length} export applications`);
 
   console.log('\n✅ Database seeding completed successfully!');
 }

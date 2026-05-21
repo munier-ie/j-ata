@@ -16,6 +16,7 @@ export default {
       fontFamily: {
         display: ["'Poppins'", "system-ui", "sans-serif"],
         body: ["'Poppins'", "system-ui", "sans-serif"],
+        civic: ["'Playfair Display'", "Georgia", "serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -54,6 +55,7 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        "hero-civic": "hsl(var(--hero-civic))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

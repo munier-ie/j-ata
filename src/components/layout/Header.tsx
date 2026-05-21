@@ -16,8 +16,10 @@ import { useAuth } from "@/hooks/useAuth";
 
 const navigation = [
   { name: "Home", href: "/" },
-  { name: "Innovation Hubs", href: "/innovation-hubs" },
-  { name: "Farm Estates", href: "/farm-estates" },
+  { name: "Farmer Registration", href: "/farmer-registration" },
+  { name: "Startup Portal", href: "/startup" },
+  { name: "PPP Portal", href: "/ppp/apply" },
+  { name: "Export & Traceability", href: "/export" },
   { name: "About Us", href: "/about" },
   { name: "Updates", href: "/news" },
 ];
@@ -102,6 +104,12 @@ export function Header() {
                 >
                   PPP Application
                 </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => navigate("/export")}
+                  className="cursor-pointer"
+                >
+                  Export & Traceability
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 
@@ -146,26 +154,6 @@ export function Header() {
                   variant="governmentPrimary"
                   className="w-full justify-start"
                   onClick={() => {
-                    navigate("/farmer-registration");
-                    setMobileMenuOpen(false);
-                  }}
-                >
-                  Farmer Portal
-                </Button>
-                <Button
-                  variant="governmentPrimary"
-                  className="w-full justify-start"
-                  onClick={() => {
-                    navigate("/startup");
-                    setMobileMenuOpen(false);
-                  }}
-                >
-                  Startup Portal
-                </Button>
-                <Button
-                  variant="governmentPrimary"
-                  className="w-full justify-start"
-                  onClick={() => {
                     navigate("/investor/dashboard");
                     setMobileMenuOpen(false);
                   }}
@@ -181,16 +169,6 @@ export function Header() {
                   }}
                 >
                   Mentor Portal
-                </Button>
-                <Button
-                  variant="governmentPrimary"
-                  className="w-full justify-start"
-                  onClick={() => {
-                    navigate("/ppp/apply");
-                    setMobileMenuOpen(false);
-                  }}
-                >
-                  PPP Application
                 </Button>
             </div>
           </div>

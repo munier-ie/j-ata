@@ -1,130 +1,179 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Smartphone, LayoutDashboard, Database, Briefcase, ArrowRight } from "lucide-react";
+import {
+  Smartphone,
+  LayoutDashboard,
+  Database,
+  Briefcase,
+  ShieldCheck,
+  ArrowRight,
+  ChevronRight,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 const modules = [
   {
-    id: 1,
+    id: "extension",
     icon: Smartphone,
-    title: "SMART EXTENSION & FARMER SUPPORT SYSTEM",
-    description: "Digitally empower the 1,435 extension agents already deployed to provide faster response to farm issues and real-time field intelligence.",
-    features: [
-      "Extension Agent Mobile App",
-      "Field data reporting system",
-      "Pest & disease reporting tool",
-      "Farmer advisory notifications (SMS/USSD)"
-    ],
-    color: "border-l-primary",
-    href: "/extension"
+    title: "Smart Extension",
+    shortTitle: "Extension & Farmer Support",
+    description:
+      "Digitally empower 1,435 extension agents with mobile reporting and farmer advisories.",
+    bullets: ["Agent mobile app", "Pest & disease reporting"],
+    href: "/extension",
+    featured: true,
   },
   {
-    id: 2,
+    id: "command",
     icon: LayoutDashboard,
-    title: "INTEGRATED AGRICULTURAL COMMAND & CONTROL PLATFORM",
-    description: "A high-level dashboard for JATA leadership to monitor all programs in real time, transforming JATA into a digital command center.",
-    features: [
-      "Farmer database management",
-      "GIS farm mapping & Input subsidy tracking",
-      "Crop monitoring & yield forecasting",
-      "Irrigation tracking (including solar systems)"
-    ],
-    color: "border-l-accent",
-    href: "/command-center"
+    title: "Command & Control",
+    shortTitle: "Leadership dashboard",
+    description: "Real-time monitoring of programmes, subsidies, and field operations.",
+    bullets: ["Farmer database", "GIS farm mapping"],
+    href: "/command-center",
+    featured: false,
   },
   {
-    id: 3,
+    id: "data",
     icon: Database,
-    title: "AGRICULTURAL DATA HUB (The Brain)",
-    description: "A centralized intelligence system supporting JATA's soil mapping initiative, aggregating soil, weather, and farm data.",
-    features: [
-      "Real-time soil intelligence",
-      "Weather forecasting integration",
-      "Fertilizer & crop recommendation engine",
-      "Data APIs for partners and startups"
-    ],
-    color: "border-l-primary-light",
-    href: "/data-hub"
+    title: "Data Hub",
+    shortTitle: "Agricultural intelligence",
+    description: "Soil, weather, and crop data APIs for partners and policy teams.",
+    bullets: ["Soil intelligence", "Partner APIs"],
+    href: "/data-hub",
+    featured: false,
   },
   {
-    id: 4,
+    id: "invest",
     icon: Briefcase,
-    title: "Agricultural Investment Promotion Portal",
-    description: "Support private investors with an 'InvestJigawa for Agriculture' opportunity portal and deal room.",
-    features: [
-      "Invest-in-Jigawa opportunity portal",
-      "Farm estate availability map",
-      "Deal room / investor data room",
-      "PPP project tracking & approvals workflow"
-    ],
-    color: "border-l-primary",
-    href: "/investors"
-  }
+    title: "Investment Portal",
+    shortTitle: "Invest in Jigawa agriculture",
+    description: "Opportunity listings, deal room, and PPP project tracking.",
+    bullets: ["Deal room", "PPP workflow"],
+    href: "/investors",
+    featured: false,
+  },
+  {
+    id: "export",
+    icon: ShieldCheck,
+    title: "Export & Traceability",
+    shortTitle: "Yield Certification & Trade",
+    description: "Official state export licensing, CAC validation, and secure certificate registry.",
+    bullets: ["TSA Administrative Levy", "QR-enabled Certificates"],
+    href: "/export",
+    featured: false,
+  },
 ];
+
+function MockDashboardStrip({ variant }: { variant: "extension" | "default" }) {
+  return (
+    <div
+      className={cn(
+        "mt-4 h-16 rounded-sm border border-border/80 overflow-hidden flex gap-1 p-1.5",
+        variant === "extension" ? "bg-primary/5" : "bg-muted/80"
+      )}
+      aria-hidden
+    >
+      <div className="flex-1 rounded-sm bg-primary/15" />
+      <div className="w-1/3 rounded-sm bg-background border border-border/60 flex flex-col gap-1 p-1">
+        <div className="h-1.5 w-full bg-primary/30 rounded-sm" />
+        <div className="h-1.5 w-2/3 bg-muted-foreground/20 rounded-sm" />
+        <div className="h-1.5 w-1/2 bg-muted-foreground/20 rounded-sm" />
+      </div>
+    </div>
+  );
+}
 
 export function ModulesSection() {
   const navigate = useNavigate();
+  const featured = modules.find((m) => m.featured)!;
+  const others = modules.filter((m) => !m.featured);
 
   return (
-    <section className="py-24 bg-secondary/30">
+    <section id="modules" className="py-16 lg:py-24 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-block px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
-            Platform Modules
+        <div className="max-w-2xl mb-10">
+          <span className="text-xs font-semibold uppercase tracking-wider text-primary">
+            Digital platform
           </span>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6">
-            Four Integrated Modules,{" "}
-            <span className="text-primary">One Unified Platform</span>
+          <h2 className="font-civic text-2xl sm:text-4xl font-bold text-foreground mt-2 mb-3">
+            Five modules, one operating system
           </h2>
-          <p className="text-muted-foreground text-lg">
-            A comprehensive digital infrastructure designed to modernize every aspect of 
-            agricultural governance and transformation in Jigawa State.
+          <p className="text-muted-foreground">
+            Integrated tools for field teams, leadership, data partners, and investors.
           </p>
         </div>
 
-        {/* Module Cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {modules.map((module, index) => (
-            <Card 
-              key={module.id} 
-              variant="module"
-              className={`${module.color} animate-fade-up`}
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <CardHeader>
-                <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                  <module.icon className="w-7 h-7 text-primary" />
-                </div>
-                <CardTitle className="text-xl">{module.title}</CardTitle>
-                <CardDescription className="text-base">
-                  {module.description}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
-                  {module.features.map((feature, i) => (
-                    <li key={i} className="flex items-center gap-3 text-sm text-muted-foreground">
-                      <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                        <div className="w-2 h-2 rounded-full bg-primary" />
-                      </div>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-              <CardFooter>
-                <Button 
-                  variant="outline" 
-                  className="w-full group"
-                  onClick={() => navigate(module.href)}
+        <div className="grid lg:grid-cols-2 gap-4">
+          <button
+            type="button"
+            onClick={() => navigate(featured.href)}
+            className="landing-card text-left p-6 lg:p-8 border border-border bg-card hover:border-primary/40 transition-colors group lg:row-span-2"
+          >
+            <div className="w-12 h-12 rounded-sm bg-primary/10 flex items-center justify-center mb-4">
+              <featured.icon className="w-6 h-6 text-primary" />
+            </div>
+            <h3 className="font-civic text-xl lg:text-2xl font-bold text-foreground">
+              {featured.title}
+            </h3>
+            <p className="text-sm text-muted-foreground mt-2 max-w-md">
+              {featured.description}
+            </p>
+            <ul className="mt-4 space-y-2">
+              {featured.bullets.map((b) => (
+                <li
+                  key={b}
+                  className="flex items-center gap-2 text-sm text-muted-foreground"
                 >
-                  Learn More
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
+                  <ChevronRight className="w-4 h-4 text-primary shrink-0" />
+                  {b}
+                </li>
+              ))}
+            </ul>
+            <MockDashboardStrip variant="extension" />
+            <span className="inline-flex items-center gap-1 text-sm font-medium text-primary mt-4 group-hover:gap-2 transition-all">
+              Open module
+              <ArrowRight className="w-4 h-4" />
+            </span>
+          </button>
+
+          <div className="grid sm:grid-cols-2 gap-4">
+            {others.map((module) => (
+              <button
+                key={module.id}
+                type="button"
+                onClick={() => navigate(module.href)}
+                className="landing-card text-left p-5 border border-border bg-card hover:border-primary/40 transition-colors group"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-sm bg-primary/10 flex items-center justify-center shrink-0">
+                    <module.icon className="w-5 h-5 text-primary" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-semibold text-foreground">{module.title}</h3>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      {module.shortTitle}
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-2 line-clamp-2">
+                      {module.description}
+                    </p>
+                    <MockDashboardStrip variant="default" />
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-primary shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-8 text-center lg:text-left">
+          <Button
+            variant="outline"
+            className="rounded-sm"
+            onClick={() => navigate("/command-center")}
+          >
+            View Command Center overview
+          </Button>
         </div>
       </div>
     </section>
