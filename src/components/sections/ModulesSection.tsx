@@ -56,7 +56,7 @@ const modules = [
   {
     id: "export",
     icon: ShieldCheck,
-    title: "Export & Traceability",
+    title: "Export License",
     shortTitle: "Yield Certification & Trade",
     description: "Official state export licensing, CAC validation, and secure certificate registry.",
     bullets: ["TSA Administrative Levy", "QR-enabled Certificates"],

@@ -248,7 +248,7 @@ model InvestorProfile {
   @@map("investor_profiles")
 }
 
-// --- Export & Traceability ---
+// --- Export License ---
 
 model ProductBatch {
   id          String   @id @default(uuid())

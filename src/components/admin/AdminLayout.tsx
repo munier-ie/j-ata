@@ -2,12 +2,12 @@ import { ReactNode, useEffect, Suspense } from 'react';
 import { useNavigate, Link, useLocation, Outlet } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
-import { 
-  LayoutDashboard, 
-  Building2, 
-  DollarSign, 
-  FileText, 
-  Newspaper, 
+import {
+  LayoutDashboard,
+  Building2,
+  DollarSign,
+  FileText,
+  Newspaper,
   LogOut,
   Menu,
   X,
@@ -24,7 +24,7 @@ const navItems = [
   { path: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { path: '/admin/startup-applications', label: 'Startup Applications', icon: Rocket },
   { path: '/admin/budget', label: 'Investment Projects', icon: DollarSign },
-  { path: '/admin/traces', label: 'Export & Traceability', icon: UserCog },
+  { path: '/admin/traces', label: 'Export License', icon: UserCog },
   { path: '/admin/farmers', label: 'Farmers Database', icon: Users },
   { path: '/admin/reports', label: 'Reports & Analytics', icon: FileText },
   { path: '/admin/news', label: 'Platform News', icon: Newspaper },
@@ -106,8 +106,8 @@ export function AdminLayout() {
                     onClick={() => setSidebarOpen(false)}
                     className={`
                       flex items-center gap-3 px-4 py-3 rounded-lg transition-colors
-                      ${isActive 
-                        ? 'bg-primary text-primary-foreground' 
+                      ${isActive
+                        ? 'bg-primary text-primary-foreground'
                         : 'text-muted-foreground hover:bg-secondary hover:text-foreground'
                       }
                     `}
@@ -123,9 +123,9 @@ export function AdminLayout() {
             <div className="p-4 border-t border-border">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20">
-                  <img 
-                    src="/director jata.png" 
-                    alt="DG JATA" 
+                  <img
+                    src="/director jata.png"
+                    alt="DG JATA"
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -134,9 +134,9 @@ export function AdminLayout() {
                   <p className="text-xs text-muted-foreground">Director General JATA</p>
                 </div>
               </div>
-              <Button 
-                variant="outline" 
-                className="w-full justify-start" 
+              <Button
+                variant="outline"
+                className="w-full justify-start"
                 onClick={handleSignOut}
               >
                 <LogOut className="h-4 w-4 mr-2" />
@@ -172,7 +172,7 @@ export function AdminLayout() {
 
       {/* Mobile overlay */}
       {sidebarOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-foreground/50 z-40 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />

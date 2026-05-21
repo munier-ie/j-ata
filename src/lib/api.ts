@@ -243,7 +243,7 @@ export const reportsApi = {
     apiRequest<void>(`/reports/${id}`, { method: "DELETE" }),
 };
 
-// ============= Export & Traceability =============
+// ============= Export License =============
 export interface ExportApplication {
   id: string;
   userId: string | null;
@@ -295,6 +295,10 @@ export const exportApi = {
   }),
   renewCertificate: (id: string) => apiRequest<ExportApplication>(`/export/applications/${id}/renew`, {
     method: "POST"
+  }),
+  updateSignatory: (id: string, signatoryName: string, signatoryTitle: string) => apiRequest<ExportApplication>(`/export/applications/${id}/update-signatory`, {
+    method: "POST",
+    body: { signatoryName, signatoryTitle }
   })
 };
 

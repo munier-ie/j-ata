@@ -19,7 +19,7 @@ const navigation = [
   { name: "Farmer Registration", href: "/farmer-registration" },
   { name: "Startup Portal", href: "/startup" },
   { name: "PPP Portal", href: "/ppp/apply" },
-  { name: "Export & Traceability", href: "/export" },
+  { name: "Export License", href: "/export" },
   { name: "About Us", href: "/about" },
   { name: "Updates", href: "/news" },
 ];
@@ -108,7 +108,7 @@ export function Header() {
                   onClick={() => navigate("/export")}
                   className="cursor-pointer"
                 >
-                  Export & Traceability
+                  Export License
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -150,26 +150,26 @@ export function Header() {
                   {item.name}
                 </Link>
               ))}
-                <Button
-                  variant="governmentPrimary"
-                  className="w-full justify-start"
-                  onClick={() => {
-                    navigate("/investor/dashboard");
-                    setMobileMenuOpen(false);
-                  }}
-                >
-                  Investor Dashboard
-                </Button>
-                <Button
-                  variant="governmentPrimary"
-                  className="w-full justify-start"
-                  onClick={() => {
-                    navigate("/mentor");
-                    setMobileMenuOpen(false);
-                  }}
-                >
-                  Mentor Portal
-                </Button>
+              <Button
+                variant="governmentPrimary"
+                className="w-full justify-start"
+                onClick={() => {
+                  navigate("/investor/dashboard");
+                  setMobileMenuOpen(false);
+                }}
+              >
+                Investor Dashboard
+              </Button>
+              <Button
+                variant="governmentPrimary"
+                className="w-full justify-start"
+                onClick={() => {
+                  navigate("/mentor");
+                  setMobileMenuOpen(false);
+                }}
+              >
+                Mentor Portal
+              </Button>
             </div>
           </div>
         )}

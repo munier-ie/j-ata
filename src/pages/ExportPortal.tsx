@@ -1,4 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { jsPDF } from "jspdf";
+import { toPng } from "html-to-image";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
@@ -168,8 +170,47 @@ const ExportPortal = () => {
     }
   };
 
-  const printCertificate = () => {
-    window.print();
+  const certificateRef = useRef<HTMLDivElement>(null);
+  const [generatingPdf, setGeneratingPdf] = useState(false);
+
+  const generatePDF = async () => {
+    if (!certificateRef.current) return;
+    setGeneratingPdf(true);
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 150));
+
+      const dataUrl = await toPng(certificateRef.current, {
+        quality: 0.98,
+        pixelRatio: 2,
+        style: {
+          transform: 'scale(1)',
+          transformOrigin: 'top left',
+        }
+      });
+
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
+      });
+
+      pdf.addImage(dataUrl, "PNG", 0, 0, 210, 297, undefined, "FAST");
+      const filename = `Certificate_${selectedCert?.certificateNo || "JATA"}.pdf`;
+      pdf.save(filename);
+      toast({
+        title: "Success",
+        description: "Your certificate PDF has been generated and downloaded.",
+      });
+    } catch (error) {
+      console.error("PDF generation failed:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to generate PDF. Please try again.",
+      });
+    } finally {
+      setGeneratingPdf(false);
+    }
   };
 
   return (
@@ -181,120 +222,138 @@ const ExportPortal = () => {
       {/* Hide elements during print */}
       <main className="flex-1 container mx-auto px-4 pt-24 pb-12 print:pt-0 print:pb-0">
         
-        {/* Certificate Printing Overlay (visible ONLY when printing) */}
+        {/* Certificate Printing Overlay (hidden off-screen for clean PDF generation capture) */}
         {selectedCert && (
-          <div className="hidden print:block w-[790px] h-[1120px] p-12 bg-white text-black border-[12px] border-double border-emerald-800 rounded-lg relative mx-auto font-serif">
-            {/* Header Government Seal & Info */}
-            <div className="text-center space-y-3">
-              <div className="w-24 h-24 mx-auto flex items-center justify-center">
-                <img 
-                  src={jigawaLogo} 
-                  alt="Jigawa State Government Logo" 
-                  className="w-24 h-24 object-contain"
-                />
-              </div>
-              <h2 className="text-3xl font-extrabold tracking-wide uppercase text-emerald-800">
-                Jigawa Agricultural Transformation Agency
-              </h2>
-              <p className="text-sm font-semibold tracking-widest text-muted-foreground uppercase">
-                Official State Government Certification
-              </p>
-              <div className="w-full h-1 bg-gradient-to-r from-emerald-800 via-yellow-500 to-emerald-800 my-4" />
-            </div>
-
-            {/* Certificate Title */}
-            <div className="text-center my-10 space-y-2">
-              <h1 className="text-4xl font-extrabold text-emerald-900 tracking-wide uppercase">
-                Exporter's Registration Certificate
-              </h1>
-              <p className="text-lg italic text-gray-700">This is to certify that the agricultural yield exporter</p>
-            </div>
-
-            {/* Exporter Info */}
-            <div className="space-y-6 px-6 text-center">
-              <div className="border-b-2 border-dashed border-gray-400 pb-2">
-                <h3 className="text-3xl font-bold uppercase tracking-wider text-black">
-                  {selectedCert.companyName}
-                </h3>
-                <p className="text-xs tracking-widest uppercase text-gray-500 mt-1">Official Registered Exporter Name</p>
+          <div style={{ position: "absolute", left: "-9999px", top: "-9999px" }} className="print:hidden">
+            <div 
+              ref={certificateRef}
+              className="w-[790px] h-[1120px] bg-white text-black border-[12px] border-double border-emerald-800 rounded-lg relative font-serif flex flex-col"
+              style={{ padding: '36px 40px 28px' }}
+            >
+              {/* Header Government Seal & Info */}
+              <div className="text-center space-y-1">
+                <div className="w-20 h-20 mx-auto flex items-center justify-center">
+                  <img 
+                    src={jigawaLogo} 
+                    alt="Jigawa State Government Logo" 
+                    className="w-20 h-20 object-contain"
+                  />
+                </div>
+                <h2 className="text-2xl font-extrabold tracking-wide uppercase text-emerald-800">
+                  Jigawa Agricultural Transformation Agency
+                </h2>
+                <p className="text-xs font-semibold tracking-widest text-gray-500 uppercase">
+                  Official State Government Certification
+                </p>
+                <div className="w-full h-1 bg-gradient-to-r from-emerald-800 via-yellow-500 to-emerald-800 mt-2" />
               </div>
 
-              <div className="grid grid-cols-2 gap-6 text-left my-8">
-                <div className="space-y-1">
-                  <span className="text-xs uppercase font-extrabold text-gray-500">Corporate RC Number</span>
-                  <p className="text-lg font-bold font-mono text-black">{selectedCert.rcNumber}</p>
-                </div>
-                <div className="space-y-1">
-                  <span className="text-xs uppercase font-extrabold text-gray-500">Certified Representative</span>
-                  <p className="text-lg font-bold text-black">{selectedCert.fullName}</p>
-                </div>
-                <div className="space-y-1 col-span-2">
-                  <span className="text-xs uppercase font-extrabold text-gray-500">Registered Office Address</span>
-                  <p className="text-md font-semibold text-black">{selectedCert.businessAddress}</p>
-                </div>
-                <div className="space-y-1">
-                  <span className="text-xs uppercase font-extrabold text-gray-500">Export Commodity Grade</span>
-                  <p className="text-lg font-bold text-emerald-800">{selectedCert.commodityType} (Premium Yield)</p>
-                </div>
-                <div className="space-y-1">
-                  <span className="text-xs uppercase font-extrabold text-gray-500">Certificate Status</span>
-                  <p className="text-lg font-extrabold uppercase text-emerald-600">JATA Verified & Active</p>
-                </div>
-              </div>
-            </div>
-
-            <p className="text-sm leading-relaxed text-gray-600 text-center px-12 my-10">
-              Is officially authorized to export certified yield outside the territory of Jigawa State and the Federal Republic of Nigeria. This registration is subject to the provisions of the Jigawa Agricultural Transformation Mandate.
-            </p>
-
-            {/* Dates & Signature Area */}
-            <div className="grid grid-cols-3 gap-6 border-t border-gray-300 pt-8 mt-12 text-center items-end px-6">
-              <div className="space-y-1">
-                <span className="text-xs uppercase font-bold text-gray-500">Given on this Date</span>
-                <p className="text-md font-bold text-black">{selectedCert.issuedAt ? new Date(selectedCert.issuedAt).toLocaleDateString() : 'N/A'}</p>
+              {/* Certificate Title */}
+              <div className="text-center mt-5 mb-3 space-y-1">
+                <h1 className="text-3xl font-extrabold text-emerald-900 tracking-wide uppercase">
+                  Exporter's Registration Certificate
+                </h1>
               </div>
 
-              {/* Secure QR / Seal */}
-              <div className="flex flex-col items-center justify-center">
-                <div className="w-20 h-20 bg-emerald-800 text-white rounded-full flex items-center justify-center font-bold relative border-4 border-yellow-500 shadow-md">
-                  <div className="absolute inset-2 border border-dotted border-white rounded-full flex items-center justify-center text-xs uppercase font-extrabold tracking-wider">
-                    JATA
+              {/* Exporter Info */}
+              <div className="px-8 text-center flex-1 flex flex-col justify-center space-y-6">
+                
+                {/* Certify statement */}
+                <div className="space-y-1.5">
+                  <p className="text-base italic text-emerald-800 font-semibold font-serif">This is to certify that</p>
+                  <h3 className="text-3xl font-extrabold uppercase tracking-wide text-black font-serif my-2 leading-tight">
+                    {selectedCert.companyName}
+                  </h3>
+                  <p className="text-xs uppercase tracking-widest text-gray-400 font-sans font-bold">Official Registered Exporter Name</p>
+                </div>
+
+                {/* Elegant separator flourish */}
+                <div className="flex items-center justify-center space-x-2 my-1">
+                  <div className="w-16 h-0.5 bg-gradient-to-r from-transparent to-emerald-800/20" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-800/30" />
+                  <div className="w-16 h-0.5 bg-gradient-to-l from-transparent to-emerald-800/20" />
+                </div>
+
+                {/* Main Declaration Sentence */}
+                <p className="text-sm text-gray-700 leading-relaxed font-serif max-w-xl mx-auto px-4">
+                  having met all mandatory regulatory conditions, is officially registered as a certified exporter of agricultural yield under the
+                  <span className="font-extrabold text-emerald-900 block mt-1 uppercase tracking-wide font-sans text-xs">Jigawa Agricultural Transformation Agency</span>
+                </p>
+
+                {/* Clean Registry Details (Purely Typographical, No Boxes or Tables) */}
+                <div className="w-full max-w-lg mx-auto py-3 px-2 border-t border-b border-emerald-800/10 font-sans text-xs text-gray-800 space-y-3 mt-4 text-left">
+                  <div className="flex justify-between items-end border-b border-gray-100 pb-2">
+                    <div>
+                      <span className="text-[9px] uppercase font-bold text-gray-400 block tracking-wider leading-none">Corporate RC Number</span>
+                      <span className="font-bold text-black font-mono text-sm leading-none mt-1 block">{selectedCert.rcNumber}</span>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-[9px] uppercase font-bold text-gray-400 block tracking-wider leading-none">Certified Representative</span>
+                      <span className="font-bold text-black text-sm leading-none mt-1 block">{selectedCert.fullName}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="border-b border-gray-100 pb-2">
+                    <span className="text-[9px] uppercase font-bold text-gray-400 block tracking-wider leading-none">Registered Office Address</span>
+                    <span className="font-semibold text-black text-xs leading-normal mt-1 block">{selectedCert.businessAddress}</span>
+                  </div>
+                  
+                  <div className="flex justify-between items-end">
+                    <div>
+                      <span className="text-[9px] uppercase font-bold text-gray-400 block tracking-wider leading-none">Export Commodity Grade</span>
+                      <span className="font-bold text-emerald-800 text-sm leading-none mt-1 block">{selectedCert.commodityType} (Premium Grade)</span>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-[9px] uppercase font-bold text-gray-400 block tracking-wider leading-none">Certificate Status</span>
+                      <span className="font-extrabold text-emerald-600 uppercase text-sm leading-none mt-1 block">JATA Verified & Active</span>
+                    </div>
                   </div>
                 </div>
-                <span className="text-[10px] uppercase font-bold text-gray-500 mt-2 font-mono">{selectedCert.certificateNo}</span>
+
+                {/* Authorization decree */}
+                <p className="text-[10px] leading-relaxed text-gray-500 italic max-w-md mx-auto pt-2 font-serif">
+                  Is officially authorized to export certified yield outside the territory of Jigawa State in accordance with the provisions of the Jigawa Agricultural Transformation Mandate.
+                </p>
               </div>
 
-              <div className="space-y-1">
-                <span className="text-xs uppercase font-bold text-gray-500 text-red-600">Valid Till (Expiry)</span>
-                <p className="text-md font-bold text-black text-red-600">{selectedCert.expiryDate ? new Date(selectedCert.expiryDate).toLocaleDateString() : 'N/A'}</p>
-              </div>
-            </div>
+              {/* Dates & Seal Row */}
+              <div className="grid grid-cols-3 gap-4 border-t border-gray-300 pt-5 mt-4 text-center items-end px-6">
+                <div className="space-y-0.5">
+                  <span className="text-xs uppercase font-bold text-gray-500">Given on this Date</span>
+                  <p className="text-sm font-bold text-black">{selectedCert.issuedAt ? new Date(selectedCert.issuedAt).toLocaleDateString() : 'N/A'}</p>
+                </div>
 
-            {/* Stamp & Signatures */}
-            <div className="mt-16 flex flex-col items-center justify-center space-y-6">
-              {/* Centered Official State Seal */}
-              <div className="flex flex-col items-center">
-                <div className="w-20 h-20 rounded-full border-2 border-dashed border-emerald-700 flex items-center justify-center text-[8px] font-mono text-emerald-700 font-extrabold leading-none text-center p-2 bg-emerald-50/50">
-                  OFFICIAL STATE SEAL
+                {/* Secure QR / Seal */}
+                <div className="flex flex-col items-center justify-center">
+                  <div className="w-16 h-16 bg-emerald-800 text-white rounded-full flex items-center justify-center font-bold relative border-4 border-yellow-500 shadow-md">
+                    <div className="absolute inset-1.5 border border-dotted border-white rounded-full flex items-center justify-center text-[10px] uppercase font-extrabold tracking-wider">
+                      JATA
+                    </div>
+                  </div>
+                  <span className="text-[9px] uppercase font-bold text-gray-500 mt-1.5 font-mono">{selectedCert.certificateNo}</span>
                 </div>
-                <span className="text-[10px] uppercase font-bold text-gray-400 mt-1">JATA SECRETARIAT</span>
+
+                <div className="space-y-0.5">
+                  <span className="text-xs uppercase font-bold text-red-600">Valid Till (Expiry)</span>
+                  <p className="text-sm font-bold text-red-600">{selectedCert.expiryDate ? new Date(selectedCert.expiryDate).toLocaleDateString() : 'N/A'}</p>
+                </div>
               </div>
-              
-              {/* Single Signature Block Below Seal */}
-              <div className="w-80 space-y-1 text-center">
-                {/* Sign line space */}
-                <div className="h-12 flex items-end justify-center">
-                  {/* Space to sign */}
-                </div>
-                <div className="w-full h-0.5 bg-gray-400" />
-                <div className="pt-2">
-                  <p className="font-serif italic text-emerald-800 font-extrabold text-lg leading-none">
-                    {selectedCert.signatoryName || "Dr. Munier-ie"}
-                  </p>
-                  <p className="text-[10px] text-gray-500 font-sans mt-1 font-semibold">
-                    {selectedCert.signatoryTitle || "Director General, J-ATA"}
-                  </p>
-                  <p className="text-[9px] uppercase font-bold text-gray-400 mt-1">Authorized Signature</p>
+
+              {/* Signature Block */}
+              <div className="mt-6 flex flex-col items-center justify-center">
+                <div className="w-72 text-center">
+                  {/* Space for physical signature */}
+                  <div className="h-10" />
+                  <div className="w-full h-0.5 bg-gray-400" />
+                  <div className="pt-1.5">
+                    <p className="font-serif italic text-emerald-800 font-extrabold text-base leading-none">
+                      {selectedCert.signatoryName || "Dr. Munier-ie"}
+                    </p>
+                    <p className="text-[10px] text-gray-500 font-sans mt-0.5 font-semibold">
+                      {selectedCert.signatoryTitle || "Director General, J-ATA"}
+                    </p>
+                    <p className="text-[8px] uppercase font-bold text-gray-400 mt-0.5">Authorized Signature</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -811,8 +870,18 @@ const ExportPortal = () => {
                       <CardDescription className="text-emerald-200/80">Preview and download your official JATA certification.</CardDescription>
                     </div>
                     <div className="flex gap-2">
-                      <Button size="sm" onClick={printCertificate} className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold gap-1.5">
-                        <Printer className="w-4 h-4" /> Print / PDF
+                      <Button 
+                        size="sm" 
+                        onClick={generatePDF} 
+                        disabled={generatingPdf} 
+                        className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold gap-1.5"
+                      >
+                        {generatingPdf ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <Printer className="w-4 h-4" />
+                        )}
+                        Print Certificate
                       </Button>
                       <Button size="sm" variant="ghost" onClick={() => setSelectedCert(null)} className="text-white hover:bg-white/10">
                         Close Preview
@@ -846,49 +915,69 @@ const ExportPortal = () => {
                       </div>
 
                       {/* Core Statement */}
-                      <div className="text-center space-y-1 my-4">
+                      <div className="text-center space-y-1 my-3">
                         <h5 className="text-[12px] uppercase font-bold text-emerald-700 tracking-wider leading-none">
                           Exporter's Registration Certificate
                         </h5>
-                        <p className="text-[9px] italic text-gray-600 leading-none">This is to certify that</p>
                       </div>
 
                       {/* Exporter Block */}
-                      <div className="text-center space-y-4">
-                        <div className="border-b border-dashed border-gray-400 pb-1 max-w-[80%] mx-auto">
-                          <h6 className="text-[16px] font-extrabold uppercase tracking-wide text-black leading-tight">
+                      <div className="text-center space-y-3 px-2 my-2">
+                        
+                        <div className="space-y-0.5">
+                          <p className="text-[9px] italic text-emerald-800 font-semibold leading-none">This is to certify that</p>
+                          <h6 className="text-[16px] font-extrabold uppercase tracking-wide text-black my-1 font-serif leading-tight">
                             {selectedCert.companyName}
                           </h6>
+                          <p className="text-[7px] uppercase tracking-widest text-gray-400 font-sans leading-none font-bold">Official Registered Exporter Name</p>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-3 text-left text-[9px] max-w-[90%] mx-auto font-sans text-gray-800 leading-relaxed pt-2">
-                          <div>
-                            <span className="font-bold text-[7px] uppercase tracking-wider text-gray-400 block leading-none">CAC RC Code</span>
-                            <span className="font-mono font-bold text-black text-[10px]">{selectedCert.rcNumber}</span>
+                        {/* Elegant separator flourish */}
+                        <div className="flex items-center justify-center space-x-1.5 my-1">
+                          <div className="w-12 h-[0.5px] bg-gradient-to-r from-transparent to-emerald-800/20" />
+                          <div className="w-1.5 h-1.5 rounded-full bg-emerald-800/30" />
+                          <div className="w-12 h-[0.5px] bg-gradient-to-l from-transparent to-emerald-800/20" />
+                        </div>
+
+                        <p className="text-[8.5px] text-gray-700 leading-relaxed max-w-sm mx-auto">
+                          having met all mandatory regulatory conditions, is officially registered as a certified exporter of agricultural yield under the 
+                          <span className="font-bold text-emerald-950 block mt-0.5 uppercase tracking-wide">Jigawa Agricultural Transformation Agency</span>
+                        </p>
+
+                        <div className="w-full max-w-sm mx-auto py-2 px-3 border-t border-b border-emerald-800/10 font-sans text-[7.5px] text-gray-800 space-y-1.5 mt-2 text-left">
+                          <div className="flex justify-between items-end border-b border-gray-100 pb-1">
+                            <div>
+                              <span className="text-[6px] uppercase font-bold text-gray-400 block tracking-wider leading-none">Corporate RC Number</span>
+                              <span className="font-bold text-black font-mono text-[8px] leading-none mt-0.5 block">{selectedCert.rcNumber}</span>
+                            </div>
+                            <div className="text-right">
+                              <span className="text-[6px] uppercase font-bold text-gray-400 block tracking-wider leading-none">Certified Representative</span>
+                              <span className="font-bold text-black text-[8px] leading-none mt-0.5 block">{selectedCert.fullName}</span>
+                            </div>
                           </div>
-                          <div>
-                            <span className="font-bold text-[7px] uppercase tracking-wider text-gray-400 block leading-none">Representative</span>
-                            <span className="font-bold text-black">{selectedCert.fullName}</span>
+                          
+                          <div className="border-b border-gray-100 pb-1">
+                            <span className="text-[6px] uppercase font-bold text-gray-400 block tracking-wider leading-none">Registered Office Address</span>
+                            <span className="font-semibold text-black text-[7.5px] leading-normal mt-0.5 block">{selectedCert.businessAddress}</span>
                           </div>
-                          <div className="col-span-2">
-                            <span className="font-bold text-[7px] uppercase tracking-wider text-gray-400 block leading-none">Registered Office Address</span>
-                            <span className="font-medium text-black">{selectedCert.businessAddress}</span>
-                          </div>
-                          <div>
-                            <span className="font-bold text-[7px] uppercase tracking-wider text-gray-400 block leading-none">Commodity Focus</span>
-                            <span className="font-bold text-emerald-800 text-[10px]">{selectedCert.commodityType} (Grade A)</span>
-                          </div>
-                          <div>
-                            <span className="font-bold text-[7px] uppercase tracking-wider text-gray-400 block leading-none">Registry Status</span>
-                            <span className="font-extrabold text-emerald-600 uppercase">JATA Verified</span>
+                          
+                          <div className="flex justify-between items-end">
+                            <div>
+                              <span className="text-[6px] uppercase font-bold text-gray-400 block tracking-wider leading-none">Export Commodity Grade</span>
+                              <span className="font-bold text-emerald-800 text-[8px] leading-none mt-0.5 block">{selectedCert.commodityType} (Premium Grade)</span>
+                            </div>
+                            <div className="text-right">
+                              <span className="text-[6px] uppercase font-bold text-gray-400 block tracking-wider leading-none">Certificate Status</span>
+                              <span className="font-extrabold text-emerald-600 uppercase text-[8px] leading-none mt-0.5 block">JATA Verified & Active</span>
+                            </div>
                           </div>
                         </div>
+
+                        {/* Disclaimer text */}
+                        <p className="text-[7.5px] leading-relaxed text-gray-500 italic max-w-xs mx-auto pt-1">
+                          Is officially authorized to export certified yield outside the territory of Jigawa State in accordance with the provisions of the Jigawa Agricultural Transformation Mandate.
+                        </p>
                       </div>
-
-                      {/* Disclaimer text */}
-                      <p className="text-[7px] leading-relaxed text-gray-500 text-center px-6 mt-4">
-                        Is officially logged under the JATA Trade Directory mandate and authorized to transact export trading across regional limits. Validity is bound to terms of registration.
-                      </p>
 
                       {/* Signature Row */}
                       <div className="grid grid-cols-3 gap-2 pt-4 mt-4 border-t border-gray-200 text-center items-end text-[8px]">
@@ -914,13 +1003,9 @@ const ExportPortal = () => {
                       </div>
 
                       {/* Mini Stamp & Signature Section */}
-                      <div className="mt-4 flex flex-col items-center justify-center space-y-2 border-t border-gray-200 pt-3">
-                        {/* Centered Seal */}
-                        <div className="flex flex-col items-center">
-                          <span className="border border-dotted border-emerald-700 px-1 py-0.5 rounded text-[4px] bg-emerald-50/20 text-emerald-700 font-extrabold uppercase scale-90">SEAL</span>
-                        </div>
+                      <div className="mt-4 flex flex-col items-center justify-center space-y-2 pt-3">
                         
-                        {/* Single Signature Block below Seal */}
+                        {/* Single Signature Block */}
                         <div className="w-48 text-center space-y-0.5">
                           {/* Space to sign */}
                           <div className="h-6 flex items-end justify-center">

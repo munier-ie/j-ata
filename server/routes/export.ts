@@ -185,6 +185,38 @@ router.post('/applications/:id/issue', async (req, res) => {
   }
 });
 
+// POST update signatory details for an approved certificate
+router.post('/applications/:id/update-signatory', async (req, res) => {
+  try {
+    const { signatoryName, signatoryTitle } = req.body;
+
+    const application = await prisma.exportApplication.findUnique({
+      where: { id: req.params.id }
+    });
+
+    if (!application) {
+      return res.status(404).json({ error: 'Application not found' });
+    }
+
+    if (application.status !== 'approved') {
+      return res.status(400).json({ error: 'Application is not approved' });
+    }
+
+    const updatedApplication = await prisma.exportApplication.update({
+      where: { id: req.params.id },
+      data: {
+        signatoryName: signatoryName || 'Dr. Munier-ie',
+        signatoryTitle: signatoryTitle || 'Director General, J-ATA'
+      }
+    });
+
+    res.json(updatedApplication);
+  } catch (error) {
+    console.error('Error updating signatory details:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 // POST admin reject application
 router.post('/applications/:id/reject', async (req, res) => {
   try {

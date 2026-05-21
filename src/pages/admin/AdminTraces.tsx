@@ -19,7 +19,8 @@ import {
   DollarSign,
   Building,
   Award,
-  CalendarCheck
+  CalendarCheck,
+  Save
 } from 'lucide-react';
 import {
   Dialog,
@@ -110,6 +111,29 @@ export default function AdminTraces() {
       toast({
         title: "Failed to Reject",
         description: "Database update error.",
+        variant: "destructive"
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleUpdateSignatory = async (id: string) => {
+    setSubmitting(true);
+    try {
+      await exportApi.updateSignatory(id, signatoryName, signatoryTitle);
+      toast({
+        title: "Signatory Updated",
+        description: "The certificate signatory details have been updated successfully.",
+        className: "bg-green-600 text-white border-none"
+      });
+      setSelectedApp(null);
+      fetchApplications();
+    } catch (error) {
+      console.error(error);
+      toast({
+        title: "Failed to Update Signatory",
+        description: "There was a problem updating the signatory details.",
         variant: "destructive"
       });
     } finally {
@@ -346,14 +370,14 @@ export default function AdminTraces() {
       {/* Details / Review / Verify Dialog */}
       {selectedApp && (
         <Dialog open={!!selectedApp} onOpenChange={() => setSelectedApp(null)}>
-          <DialogContent className="max-w-xl">
+          <DialogContent className="max-w-2xl w-[95vw] sm:w-full overflow-y-auto max-h-[90vh]">
             <DialogHeader>
               <DialogTitle className="text-xl font-bold">Certification Details</DialogTitle>
               <DialogDescription>Review application credentials and verify business compliance details.</DialogDescription>
             </DialogHeader>
 
             <div className="space-y-6 my-4 border-y border-border py-4">
-              <div className="grid grid-cols-2 gap-4 text-sm">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                 <div>
                   <span className="text-xs font-semibold text-muted-foreground uppercase">Application Number</span>
                   <p className="font-mono font-bold text-foreground mt-0.5">{selectedApp.applicationNo}</p>
@@ -362,7 +386,7 @@ export default function AdminTraces() {
                   <span className="text-xs font-semibold text-muted-foreground uppercase">Export Commodity Type</span>
                   <p className="font-bold text-emerald-600 mt-0.5">{selectedApp.commodityType}</p>
                 </div>
-                <div className="col-span-2">
+                <div className="col-span-1 sm:col-span-2">
                   <span className="text-xs font-semibold text-muted-foreground uppercase">Official Registered Company</span>
                   <p className="font-extrabold text-foreground text-md mt-0.5">{selectedApp.companyName}</p>
                 </div>
@@ -382,7 +406,7 @@ export default function AdminTraces() {
                   <span className="text-xs font-semibold text-muted-foreground uppercase">Phone Number</span>
                   <p className="mt-0.5 font-medium">{selectedApp.phone}</p>
                 </div>
-                <div className="col-span-2">
+                <div className="col-span-1 sm:col-span-2">
                   <span className="text-xs font-semibold text-muted-foreground uppercase">Office Location</span>
                   <p className="mt-0.5 font-medium">{selectedApp.businessAddress}</p>
                 </div>
@@ -396,24 +420,28 @@ export default function AdminTraces() {
                       <span className="text-xs font-semibold text-muted-foreground uppercase text-red-500">License Expiration</span>
                       <p className="font-bold text-red-500 mt-0.5">{selectedApp.expiryDate ? new Date(selectedApp.expiryDate).toLocaleDateString() : 'N/A'}</p>
                     </div>
-                    <div>
-                      <span className="text-xs font-semibold text-muted-foreground uppercase">Signatory Name</span>
-                      <p className="font-bold text-foreground mt-0.5">{selectedApp.signatoryName || "N/A"}</p>
-                    </div>
-                    <div>
-                      <span className="text-xs font-semibold text-muted-foreground uppercase">Signatory Title</span>
-                      <p className="font-bold text-foreground mt-0.5">{selectedApp.signatoryTitle || "N/A"}</p>
-                    </div>
                   </>
                 )}
               </div>
             </div>
 
-            {selectedApp.status === "pending" && (
-              <div className="space-y-3 p-4 bg-emerald-500/5 border border-emerald-500/10 rounded-xl my-4 text-sm">
-                <h4 className="font-bold text-emerald-800 dark:text-emerald-400">Signatory Authority</h4>
-                <p className="text-xs text-muted-foreground">Assign the authorized official name and title to sign this certificate.</p>
-                <div className="grid grid-cols-2 gap-4 mt-2">
+            {(selectedApp.status === "pending" || selectedApp.status === "approved") && (
+              <div className={`space-y-3 p-4 rounded-xl my-4 text-sm ${
+                selectedApp.status === "approved" 
+                  ? "bg-amber-500/5 border border-amber-500/15" 
+                  : "bg-emerald-500/5 border border-emerald-500/10"
+              }`}>
+                <h4 className={`font-bold ${
+                  selectedApp.status === "approved" 
+                    ? "text-amber-800 dark:text-amber-400" 
+                    : "text-emerald-800 dark:text-emerald-400"
+                }`}>Signatory Authority (DG)</h4>
+                <p className="text-xs text-muted-foreground">
+                  {selectedApp.status === "approved" 
+                    ? "Edit the signatory details below to correct any typos on the issued certificate." 
+                    : "Assign the authorized official name and title to sign this certificate."}
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
                   <div className="space-y-1">
                     <label htmlFor="signatoryName" className="text-xs font-medium text-muted-foreground">Signatory Name</label>
                     <Input 
@@ -436,22 +464,22 @@ export default function AdminTraces() {
               </div>
             )}
 
-            <DialogFooter className="flex justify-between sm:justify-between w-full">
-              <div>
+            <DialogFooter className="flex flex-col-reverse sm:flex-row sm:flex-wrap gap-2 sm:justify-between items-stretch sm:items-center w-full mt-6">
+              <div className="flex justify-center sm:justify-start">
                 {selectedApp.status === "pending" && (
                   <Button 
                     variant="ghost" 
                     onClick={() => handleReject(selectedApp.id)} 
                     disabled={submitting} 
-                    className="text-red-600 hover:text-red-700 hover:bg-red-50 font-bold"
+                    className="text-red-600 hover:text-red-700 hover:bg-red-50 font-bold w-full sm:w-auto"
                   >
                     {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <><XCircle className="w-4 h-4 mr-2" /> Decline Application</>}
                   </Button>
                 )}
               </div>
               
-              <div className="flex gap-2">
-                <Button variant="outline" onClick={() => setSelectedApp(null)} disabled={submitting}>
+              <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2">
+                <Button variant="outline" onClick={() => setSelectedApp(null)} disabled={submitting} className="w-full sm:w-auto">
                   Cancel
                 </Button>
                 
@@ -459,9 +487,18 @@ export default function AdminTraces() {
                   <Button 
                     onClick={() => handleIssue(selectedApp.id)} 
                     disabled={submitting}
-                    className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold"
+                    className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold w-full sm:w-auto"
                   >
                     {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <><CheckCircle className="w-4 h-4 mr-2" /> Verify & Issue Certificate</>}
+                  </Button>
+                )}
+                {selectedApp.status === "approved" && (
+                  <Button 
+                    onClick={() => handleUpdateSignatory(selectedApp.id)} 
+                    disabled={submitting}
+                    className="bg-amber-600 hover:bg-amber-500 text-white font-bold w-full sm:w-auto"
+                  >
+                    {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Save className="w-4 h-4 mr-2" /> Update Signatory</>}
                   </Button>
                 )}
               </div>
