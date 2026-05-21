@@ -76,7 +76,8 @@ app.use((err: Error, req: express.Request, res: express.Response, next: express.
   console.error('Server Error:', err);
   res.status(500).json({ 
     error: 'Internal Server Error',
-    message: process.env.NODE_ENV !== 'production' ? err.message : undefined
+    message: err.message,
+    stack: err.stack
   });
 });
 

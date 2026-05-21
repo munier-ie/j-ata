@@ -21,9 +21,9 @@ router.get('/', async (req, res) => {
       orderBy: { createdAt: 'desc' }
     });
     res.json(farmers.map(formatFarmerResponse));
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching farmers:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Internal Server Error', message: error.message, stack: error.stack });
   }
 });
 
@@ -37,9 +37,9 @@ router.get('/:id', async (req, res) => {
       return res.status(404).json({ error: 'Farmer not found' });
     }
     res.json(formatFarmerResponse(farmer));
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching farmer:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Internal Server Error', message: error.message, stack: error.stack });
   }
 });
 
@@ -79,9 +79,9 @@ router.post('/', async (req, res) => {
       }
     });
     res.status(201).json(formatFarmerResponse(newFarmer));
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error creating farmer:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Internal Server Error', message: error.message, stack: error.stack });
   }
 });
 

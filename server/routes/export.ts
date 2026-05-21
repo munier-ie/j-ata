@@ -56,9 +56,9 @@ router.get('/applications', async (req, res) => {
       orderBy: { createdAt: 'desc' }
     });
     res.json(applications);
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching export applications:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Internal Server Error', message: error.message, stack: error.stack });
   }
 });
 
@@ -116,9 +116,9 @@ router.post('/applications', async (req, res) => {
     });
 
     res.status(201).json(newApplication);
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error creating export application:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Internal Server Error', message: error.message, stack: error.stack });
   }
 });
 
