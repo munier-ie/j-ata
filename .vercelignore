@@ -1,5 +1,4 @@
 # Ignore server files (only for local development)
-server/
 server.js
 
 # Node modules and env files
