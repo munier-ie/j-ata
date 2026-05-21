@@ -9,6 +9,8 @@ async function main() {
   console.log('🌱 Starting database seed...\n');
 
   console.log('🗑️  Clearing existing data...');
+  await prisma.veterinaryClinic.deleteMany();
+  await prisma.ranch.deleteMany();
   await prisma.exportApplication.deleteMany();
   await prisma.contactSubmission.deleteMany();
   await prisma.report.deleteMany();
@@ -219,6 +221,182 @@ async function main() {
     await prisma.exportApplication.create({ data: app });
   }
   console.log(`   ✓ Created ${exportApplications.length} export applications`);
+
+  // ============= VETERINARY CLINICS =============
+  console.log('🏥 Seeding veterinary clinics...');
+  const veterinaryClinics = [
+    {
+      name: 'Dutse Central Veterinary Clinic',
+      lga: 'Dutse',
+      zone: 'Jigawa Central',
+      address: 'Opposite State Secretariat, Dutse',
+      status: 'operational',
+      capacity: 500,
+      facilityType: 'General Clinic',
+      completionPercentage: 100,
+      contactEmail: 'dutse.vet@jata.gov.ng',
+      contactPhone: '08031234567',
+      hasPower: true,
+      hasWater: true,
+      services: 'Vaccination,Surgery,Consultation,Diagnostics',
+      budgetAllocated: 45000000.0,
+      budgetSpent: 42500000.0,
+      latitude: 11.7022,
+      longitude: 9.3340
+    },
+    {
+      name: 'Hadejia Zonal Veterinary Hospital',
+      lga: 'Hadejia',
+      zone: 'Jigawa Northeast',
+      address: 'Hospital Road, Hadejia',
+      status: 'rehabilitated',
+      capacity: 800,
+      facilityType: 'Zonal Hospital',
+      completionPercentage: 100,
+      contactEmail: 'hadejia.vet@jata.gov.ng',
+      contactPhone: '08032223344',
+      hasPower: true,
+      hasWater: true,
+      services: 'Vaccination,Surgery,Emergency Care,Inpatient,Diagnostics',
+      budgetAllocated: 75000000.0,
+      budgetSpent: 75000000.0,
+      latitude: 12.4506,
+      longitude: 10.0404
+    },
+    {
+      name: 'Kazaure Extension Veterinary Center',
+      lga: 'Kazaure',
+      zone: 'Jigawa Northwest',
+      address: 'Kazaure-Kano Road, Kazaure',
+      status: 'under_construction',
+      capacity: 300,
+      facilityType: 'Extension Center',
+      completionPercentage: 65,
+      contactEmail: 'kazaure.vet@jata.gov.ng',
+      contactPhone: '08035556677',
+      hasPower: false,
+      hasWater: true,
+      services: 'Vaccination,Consultation',
+      budgetAllocated: 30000000.0,
+      budgetSpent: 19500000.0,
+      latitude: 12.6475,
+      longitude: 8.4101
+    },
+    {
+      name: 'Gumel Livestock Health Post',
+      lga: 'Gumel',
+      zone: 'Jigawa North',
+      address: 'Near Livestock Market, Gumel',
+      status: 'planned',
+      capacity: 200,
+      facilityType: 'Health Post',
+      completionPercentage: 15,
+      contactEmail: 'gumel.vet@jata.gov.ng',
+      contactPhone: '08039998877',
+      hasPower: false,
+      hasWater: false,
+      services: 'Vaccination,Consultation',
+      budgetAllocated: 20000000.0,
+      budgetSpent: 3000000.0,
+      latitude: 12.6269,
+      longitude: 9.3881
+    }
+  ];
+
+  for (const clinic of veterinaryClinics) {
+    await prisma.veterinaryClinic.create({ data: clinic });
+  }
+  console.log(`   ✓ Created ${veterinaryClinics.length} veterinary clinics`);
+
+  // ============= RANCHES =============
+  console.log('🤠 Seeding ranches...');
+  const ranches = [
+    {
+      name: 'Birnin Kudu Model Grazing Reserve',
+      lga: 'Birnin Kudu',
+      zone: 'Jigawa South',
+      address: 'Birnin Kudu Reserve Area',
+      status: 'operational',
+      totalHectares: 2500.0,
+      capacityCattle: 15000,
+      completionPercentage: 95,
+      hasFeedFacilities: true,
+      hasSchool: true,
+      hasHealthCenter: true,
+      hasVeterinaryClinic: true,
+      hasPower: true,
+      hasWater: true,
+      budgetAllocated: 250000000.0,
+      budgetSpent: 237500000.0,
+      latitude: 11.4586,
+      longitude: 9.4784
+    },
+    {
+      name: 'Jahun Commercial Cattle Ranch',
+      lga: 'Jahun',
+      zone: 'Jigawa East',
+      address: 'Jahun-Kiyawa Road, Jahun',
+      status: 'under_construction',
+      totalHectares: 1800.0,
+      capacityCattle: 10000,
+      completionPercentage: 70,
+      hasFeedFacilities: true,
+      hasSchool: false,
+      hasHealthCenter: true,
+      hasVeterinaryClinic: false,
+      hasPower: true,
+      hasWater: true,
+      budgetAllocated: 180000000.0,
+      budgetSpent: 126000000.0,
+      latitude: 11.9619,
+      longitude: 9.6247
+    },
+    {
+      name: 'Maigatari Border Grazing Reserve',
+      lga: 'Maigatari',
+      zone: 'Jigawa Northeast',
+      address: 'Border Livestock Corridor, Maigatari',
+      status: 'rehabilitated',
+      totalHectares: 3000.0,
+      capacityCattle: 20000,
+      completionPercentage: 100,
+      hasFeedFacilities: true,
+      hasSchool: true,
+      hasHealthCenter: true,
+      hasVeterinaryClinic: true,
+      hasPower: true,
+      hasWater: true,
+      budgetAllocated: 320000000.0,
+      budgetSpent: 320000000.0,
+      latitude: 12.8094,
+      longitude: 9.4442
+    },
+    {
+      name: 'Ringim Dairy and Grazing Reserve',
+      lga: 'Ringim',
+      zone: 'Jigawa Southwest',
+      address: 'Ringim Reserve Forest',
+      status: 'planned',
+      totalHectares: 1200.0,
+      capacityCattle: 8000,
+      completionPercentage: 10,
+      hasFeedFacilities: false,
+      hasSchool: false,
+      hasHealthCenter: false,
+      hasVeterinaryClinic: false,
+      hasPower: false,
+      hasWater: true,
+      budgetAllocated: 110000000.0,
+      budgetSpent: 11000000.0,
+      latitude: 12.1558,
+      longitude: 9.1556
+    }
+  ];
+
+  for (const ranch of ranches) {
+    await prisma.ranch.create({ data: ranch });
+  }
+  console.log(`   ✓ Created ${ranches.length} ranches`);
 
   console.log('\n✅ Database seeding completed successfully!');
 }

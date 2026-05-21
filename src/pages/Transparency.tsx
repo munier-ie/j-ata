@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { 
@@ -46,26 +45,22 @@ const Transparency = () => {
   const { data: clinics, isLoading: clinicsLoading } = useQuery({
     queryKey: ['veterinary-clinics'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('veterinary_clinics')
-        .select('*')
-        .order('name');
-      
-      if (error) throw error;
-      return data;
+      const response = await fetch('/api/transparency/clinics');
+      if (!response.ok) {
+        throw new Error('Failed to fetch clinics');
+      }
+      return response.json();
     }
   });
 
   const { data: ranches, isLoading: ranchesLoading } = useQuery({
     queryKey: ['ranches'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('ranches')
-        .select('*')
-        .order('name');
-      
-      if (error) throw error;
-      return data;
+      const response = await fetch('/api/transparency/ranches');
+      if (!response.ok) {
+        throw new Error('Failed to fetch ranches');
+      }
+      return response.json();
     }
   });
 

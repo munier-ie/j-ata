@@ -382,3 +382,54 @@ model ExportApplication {
 
   @@map("export_applications")
 }
+
+model Ranch {
+  id                    String   @id @default(uuid())
+  address               String?
+  budgetAllocated       Float?   @map("budget_allocated")
+  budgetSpent           Float?   @map("budget_spent")
+  capacityCattle        Int?     @map("capacity_cattle")
+  completionPercentage  Int?     @map("completion_percentage")
+  hasFeedFacilities     Boolean? @map("has_feed_facilities")
+  hasHealthCenter       Boolean? @map("has_health_center")
+  hasPower              Boolean? @map("has_power")
+  hasSchool             Boolean? @map("has_school")
+  hasVeterinaryClinic   Boolean? @map("has_veterinary_clinic")
+  hasWater              Boolean? @map("has_water")
+  latitude              Float?
+  lga                   String
+  longitude             Float?
+  name                  String
+  status                String   @default("planned") // planned, under_construction, operational, rehabilitated
+  totalHectares         Float?   @map("total_hectares")
+  createdAt             DateTime @default(now()) @map("created_at")
+  updatedAt             DateTime @updatedAt @map("updated_at")
+  zone                  String?
+
+  @@map("ranches")
+}
+
+model VeterinaryClinic {
+  id                    String   @id @default(uuid())
+  address               String?
+  budgetAllocated       Float?   @map("budget_allocated")
+  budgetSpent           Float?   @map("budget_spent")
+  capacity              Int?
+  completionPercentage  Int?     @map("completion_percentage")
+  contactEmail          String?  @map("contact_email")
+  contactPhone          String?  @map("contact_phone")
+  facilityType          String   @map("facility_type")
+  hasPower              Boolean? @map("has_power")
+  hasWater              Boolean? @map("has_water")
+  latitude              Float?
+  lga                   String
+  longitude             Float?
+  name                  String
+  services              String?  // Comma-separated list for DB compatibility
+  status                String   @default("planned") // planned, under_construction, operational, rehabilitated
+  createdAt             DateTime @default(now()) @map("created_at")
+  updatedAt             DateTime @updatedAt @map("updated_at")
+  zone                  String?
+
+  @@map("veterinary_clinics")
+}

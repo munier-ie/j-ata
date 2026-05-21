@@ -13,8 +13,10 @@ import startupsRoutes from './routes/startups';
 import mentorsRoutes from './routes/mentors';
 import investorsRoutes from './routes/investors';
 import pppRoutes from './routes/ppp';
-import investmentRoutes from './routes/investment';
 import exportRoutes from './routes/export';
+import transparencyRoutes from './routes/transparency';
+import contactRoutes from './routes/contact';
+import investmentRoutes from './routes/investment';
 
 const app = express();
 
@@ -65,6 +67,8 @@ app.use('/api/investors', investorsRoutes);
 app.use('/api/ppp', pppRoutes);
 app.use('/api/investment', investmentRoutes);
 app.use('/api/export', exportRoutes);
+app.use('/api/transparency', transparencyRoutes);
+app.use('/api/contact', contactRoutes);
 
 // ============= 404 Handler =============
 app.use('/api/*path', (req, res) => {

@@ -8,7 +8,6 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
 import { HeroCarousel } from "@/components/sections/HeroCarousel";
 
@@ -73,17 +72,24 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      const { error } = await supabase
-        .from('contact_submissions')
-        .insert({
-          full_name: formData.fullName.trim(),
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          fullName: formData.fullName.trim(),
           email: formData.email.trim(),
           phone: formData.phone.trim() || null,
           subject: formData.subject,
           message: formData.message.trim()
-        });
+        })
+      });
 
-      if (error) throw error;
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Failed to send message');
+      }
 
       toast({
         title: "Message Sent!",
