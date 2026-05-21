@@ -14,6 +14,7 @@ import { StepSuccess } from "@/components/registration/StepSuccess";
 import { StepIndicator } from "@/components/registration/StepIndicator";
 import { HeroCarousel } from "@/components/sections/HeroCarousel";
 import { farmersApi, Farmer } from "@/lib/api";
+import { useToast } from "@/hooks/use-toast";
 
 const steps = [
   { number: 1, title: "NIN Verification" },
@@ -33,6 +34,7 @@ interface RegistrationData {
     lga: string;
     ward: string;
     community: string;
+    passportUrl?: string;
   };
   livestock: {
     types: string[];
@@ -50,6 +52,7 @@ const initialData: RegistrationData = {
     lga: "",
     ward: "",
     community: "",
+    passportUrl: "",
   },
   livestock: {
     types: [],
@@ -64,6 +67,7 @@ export default function FarmerRegistration() {
   const [successData, setSuccessData] = useState<Farmer | null>(null);
   const [alreadyRegistered, setAlreadyRegistered] = useState(false);
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   useEffect(() => {
     if (localStorage.getItem('farmer_registered') === 'true') {
@@ -148,6 +152,7 @@ export default function FarmerRegistration() {
         community: formData.personal.community,
         farmSize,
         cropTypes,
+        passportUrl: formData.personal.passportUrl || null,
         status: "pending",
       });
 
@@ -156,6 +161,11 @@ export default function FarmerRegistration() {
       setCurrentStep(6); // Move to Success Step
     } catch (error) {
       console.error("Failed to register farmer:", error);
+      toast({
+        title: "Registration Error",
+        description: "Failed to register farmer. Please try again.",
+        variant: "destructive",
+      });
     } finally {
       setIsSubmitting(false);
     }

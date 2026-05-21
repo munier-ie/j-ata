@@ -173,7 +173,7 @@ router.post('/applications/:id/issue', async (req, res) => {
         issuedAt,
         expiryDate,
         certificateNo,
-        signatoryName: signatoryName || 'Dr. Munier-ie',
+        signatoryName: signatoryName || 'Dr. Saifullahi Umar',
         signatoryTitle: signatoryTitle || 'Director General, J-ATA'
       }
     });
@@ -205,7 +205,7 @@ router.post('/applications/:id/update-signatory', async (req, res) => {
     const updatedApplication = await prisma.exportApplication.update({
       where: { id: req.params.id },
       data: {
-        signatoryName: signatoryName || 'Dr. Munier-ie',
+        signatoryName: signatoryName || 'Dr. Saifullahi Umar',
         signatoryTitle: signatoryTitle || 'Director General, J-ATA'
       }
     });

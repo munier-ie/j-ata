@@ -41,12 +41,12 @@ export default function AdminTraces() {
   // Selection state for detail modal
   const [selectedApp, setSelectedApp] = useState<ExportApplication | null>(null);
   const [submitting, setSubmitting] = useState(false);
-  const [signatoryName, setSignatoryName] = useState("Dr. Munier-ie");
+  const [signatoryName, setSignatoryName] = useState("Dr. Saifullahi Umar");
   const [signatoryTitle, setSignatoryTitle] = useState("Director General, J-ATA");
 
   useEffect(() => {
     if (selectedApp) {
-      setSignatoryName(selectedApp.signatoryName || "Dr. Munier-ie");
+      setSignatoryName(selectedApp.signatoryName || "Dr. Saifullahi Umar");
       setSignatoryTitle(selectedApp.signatoryTitle || "Director General, J-ATA");
     }
   }, [selectedApp]);
@@ -448,7 +448,7 @@ export default function AdminTraces() {
                       id="signatoryName"
                       value={signatoryName}
                       onChange={(e) => setSignatoryName(e.target.value)}
-                      placeholder="Dr. Munier-ie"
+                      placeholder="Dr. Saifullahi Umar"
                     />
                   </div>
                   <div className="space-y-1">

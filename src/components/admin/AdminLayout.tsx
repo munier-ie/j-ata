@@ -26,7 +26,6 @@ const navItems = [
   { path: '/admin/budget', label: 'Investment Projects', icon: DollarSign },
   { path: '/admin/traces', label: 'Export License', icon: UserCog },
   { path: '/admin/farmers', label: 'Farmers Database', icon: Users },
-  { path: '/admin/reports', label: 'Reports & Analytics', icon: FileText },
   { path: '/admin/news', label: 'Platform News', icon: Newspaper },
 ];
 

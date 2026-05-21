@@ -12,6 +12,7 @@ interface DigitalIDCardProps {
   livestockCount?: number;
   issueDate?: string;
   className?: string;
+  passportUrl?: string | null;
 }
 
 export function DigitalIDCard({
@@ -22,6 +23,7 @@ export function DigitalIDCard({
   livestockCount,
   issueDate = new Date().toLocaleDateString(),
   className,
+  passportUrl,
 }: DigitalIDCardProps) {
   return (
     <Card 
@@ -64,7 +66,11 @@ export function DigitalIDCard({
           {/* Avatar Area */}
           <div className="shrink-0 relative">
             <div className="w-20 h-20 rounded-xl bg-gradient-to-br from-gray-100 to-gray-300 border-2 border-white/20 shadow-lg flex items-center justify-center overflow-hidden">
+              {passportUrl ? (
+                <img src={passportUrl} alt={name} className="w-full h-full object-cover" />
+              ) : (
                 <span className="text-4xl">👨🏾‍🌾</span>
+              )}
             </div>
           </div>
 

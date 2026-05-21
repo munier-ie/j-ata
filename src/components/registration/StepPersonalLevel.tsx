@@ -20,6 +20,7 @@ interface PersonalInfoData {
   lga: string;
   ward: string;
   community: string;
+  passportUrl?: string;
 }
 
 interface StepPersonalLevelProps {
@@ -32,6 +33,18 @@ interface StepPersonalLevelProps {
 export function StepPersonalLevel({ onNext, onBack, initialData = {}, disableInputs = false }: StepPersonalLevelProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [phoneError, setPhoneError] = useState("");
+    const [passportPreview, setPassportPreview] = useState<string>(initialData.passportUrl || "");
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setPassportPreview(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+      }
+    };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,6 +72,7 @@ export function StepPersonalLevel({ onNext, onBack, initialData = {}, disableInp
       lga: formData.get("lga") as string,
       ward: formData.get("ward") as string,
       community: formData.get("community") as string,
+      passportUrl: passportPreview,
     };
     onNext(data);
   };
@@ -78,6 +92,41 @@ export function StepPersonalLevel({ onNext, onBack, initialData = {}, disableInp
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Passport Upload Block */}
+        <div className="flex flex-col sm:flex-row items-center gap-6 p-5 rounded-2xl border border-dashed border-border/80 bg-secondary/10 shadow-sm">
+          <div className="shrink-0 relative">
+            <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-gray-100 to-gray-200 border-2 border-primary/20 shadow-inner flex items-center justify-center overflow-hidden">
+              {passportPreview ? (
+                <img src={passportPreview} alt="Passport Preview" className="w-full h-full object-cover" />
+              ) : (
+                <span className="text-4xl text-gray-400">👨🏾‍🌾</span>
+              )}
+            </div>
+          </div>
+          <div className="flex-1 space-y-2 text-center sm:text-left">
+            <Label htmlFor="passport" className="text-base font-semibold text-foreground">Passport Photograph</Label>
+            <p className="text-xs text-muted-foreground">Upload a clear front-facing photograph. This will be embedded in your official JATA Digital ID card.</p>
+            <div className="flex justify-center sm:justify-start">
+              <Input
+                id="passport"
+                name="passport"
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleFileChange}
+              />
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => document.getElementById('passport')?.click()}
+                className="text-xs font-semibold border-primary/30 hover:bg-primary/5 hover:text-primary transition-all duration-200"
+              >
+                Choose Photo File
+              </Button>
+            </div>
+          </div>
+        </div>
         <div className="grid sm:grid-cols-2 gap-6">
           <div className="space-y-2">
             <Label htmlFor="firstName">First Name</Label>

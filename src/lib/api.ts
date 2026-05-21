@@ -108,6 +108,7 @@ export interface Farmer {
   farmSize: number;
   cropTypes: string[];
   status: string;
+  passportUrl: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -130,6 +131,7 @@ export const farmersApi = {
         farm_size: data.farmSize,
         crop_types: data.cropTypes,
         status: data.status,
+        passport_url: data.passportUrl,
       },
     }),
 

@@ -53,7 +53,8 @@ router.post('/', async (req, res) => {
       phone, nin, lga, ward, community,
       farmSize, farm_size,
       cropTypes, crop_types,
-      status 
+      status,
+      passportUrl, passport_url
     } = req.body;
     
     const cropTypesInput = cropTypes || crop_types || [];
@@ -73,6 +74,7 @@ router.post('/', async (req, res) => {
         community,
         farmSize: farmSize ?? farm_size ?? 0,
         cropTypes: formattedCrops,
+        passportUrl: passportUrl || passport_url || null,
         status: status || 'pending'
       }
     });
@@ -92,7 +94,8 @@ router.put('/:id', async (req, res) => {
       phone, nin, lga, ward, community,
       farmSize, farm_size,
       cropTypes, crop_types,
-      status 
+      status,
+      passportUrl, passport_url
     } = req.body;
     
     const cropTypesInput = cropTypes || crop_types;
@@ -112,6 +115,7 @@ router.put('/:id', async (req, res) => {
         community,
         farmSize: farmSize ?? farm_size,
         cropTypes: formattedCrops,
+        passportUrl: passportUrl !== undefined ? passportUrl : (passport_url !== undefined ? passport_url : undefined),
         status
       }
     });

@@ -12,6 +12,7 @@ interface ConfirmationData {
     lga: string;
     ward: string;
     community: string;
+    passportUrl?: string;
   };
   livestock: {
     types: string[];
@@ -64,29 +65,42 @@ export function StepConfirmation({ data, onBack, onSubmit, isSubmitting }: StepC
                 </div>
                 <div className="space-y-3 w-full">
                     <p className="font-medium">Personal Information</p>
-                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 text-sm">
-                        <div>
-                            <span className="text-muted-foreground block">Full Name</span>
-                            <span className="font-medium">{data.personal.firstName} {data.personal.lastName}</span>
+                    <div className="flex flex-col sm:flex-row gap-6">
+                      {data.personal.passportUrl && (
+                        <div className="shrink-0">
+                          <img 
+                            src={data.personal.passportUrl} 
+                            alt="Passport Preview" 
+                            className="w-24 h-24 rounded-xl object-cover border-2 border-primary/20 shadow-md"
+                          />
                         </div>
-                         <div>
-                            <span className="text-muted-foreground block">Phone Number</span>
-                            <span className="font-medium">{data.personal.phone}</span>
-                            {data.personal.altPhone && (
-                                <span className="text-xs text-muted-foreground block mt-1">Alt: {data.personal.altPhone}</span>
-                            )}
-                        </div>
-                    </div>
-                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 text-sm">
-                        <div className="flex items-start gap-1">
-                            <MapPin className="w-3 h-3 text-muted-foreground mt-1" />
+                      )}
+                      <div className="flex-grow space-y-3">
+                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 text-sm">
                             <div>
-                                <span className="text-muted-foreground block">Location</span>
-                                <span className="font-medium block">{data.personal.community}, {data.personal.ward}</span>
-                                <span className="text-xs text-muted-foreground uppercase">{data.personal.lga} LGA</span>
+                                <span className="text-muted-foreground block">Full Name</span>
+                                <span className="font-medium">{data.personal.firstName} {data.personal.lastName}</span>
+                            </div>
+                             <div>
+                                <span className="text-muted-foreground block">Phone Number</span>
+                                <span className="font-medium">{data.personal.phone}</span>
+                                {data.personal.altPhone && (
+                                    <span className="text-xs text-muted-foreground block mt-1">Alt: {data.personal.altPhone}</span>
+                                )}
                             </div>
                         </div>
-                     </div>
+                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 text-sm">
+                            <div className="flex items-start gap-1">
+                                <MapPin className="w-3 h-3 text-muted-foreground mt-1" />
+                                <div>
+                                    <span className="text-muted-foreground block">Location</span>
+                                    <span className="font-medium block">{data.personal.community}, {data.personal.ward}</span>
+                                    <span className="text-xs text-muted-foreground uppercase">{data.personal.lga} LGA</span>
+                                </div>
+                            </div>
+                         </div>
+                      </div>
+                    </div>
                 </div>
              </div>
           </CardContent>

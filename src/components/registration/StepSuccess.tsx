@@ -60,6 +60,7 @@ export function StepSuccess({ data }: StepSuccessProps) {
                         lga={data.lga}
                         ward={data.ward}
                         issueDate={new Date().toLocaleDateString()}
+                        passportUrl={data.passportUrl}
                     />
                 </div>
             </div>

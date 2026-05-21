@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -69,20 +69,21 @@ model ManagementMember {
 }
 
 model Farmer {
-  id        String   @id @default(uuid())
-  farmerId  String   @unique @map("farmer_id")
-  firstName String   @map("first_name")
-  lastName  String   @map("last_name")
-  phone     String
-  nin       String?
-  lga       String
-  ward      String
-  community String
-  farmSize  Float    @default(0) @map("farm_size")
-  cropTypes String @map("crop_types")
-  status    String   @default("pending")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id          String   @id @default(uuid())
+  farmerId    String   @unique @map("farmer_id")
+  firstName   String   @map("first_name")
+  lastName    String   @map("last_name")
+  phone       String
+  nin         String?
+  lga         String
+  ward        String
+  community   String
+  farmSize    Float    @default(0) @map("farm_size")
+  cropTypes   String   @map("crop_types")
+  passportUrl String?  @map("passport_url")
+  status      String   @default("pending")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
 
   batches   ProductBatch[]
 

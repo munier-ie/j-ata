@@ -347,7 +347,7 @@ const ExportPortal = () => {
                   <div className="w-full h-0.5 bg-gray-400" />
                   <div className="pt-1.5">
                     <p className="font-serif italic text-emerald-800 font-extrabold text-base leading-none">
-                      {selectedCert.signatoryName || "Dr. Munier-ie"}
+                      {selectedCert.signatoryName || "Dr. Saifullahi Umar"}
                     </p>
                     <p className="text-[10px] text-gray-500 font-sans mt-0.5 font-semibold">
                       {selectedCert.signatoryTitle || "Director General, J-ATA"}
@@ -696,11 +696,11 @@ const ExportPortal = () => {
                     >
                       {loading ? (
                         <>
-                          <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Submitting...
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Proceeding...
                         </>
                       ) : (
                         <>
-                          Submit Draft <ArrowRight className="w-4 h-4 ml-2" />
+                          Proceed To Payment <ArrowRight className="w-4 h-4 ml-2" />
                         </>
                       )}
                     </Button>
@@ -1014,7 +1014,7 @@ const ExportPortal = () => {
                           <div className="w-full h-[0.5px] bg-gray-300" />
                           <div className="pt-1">
                             <p className="italic font-bold text-emerald-800 text-[7px] leading-none">
-                              {selectedCert.signatoryName || "Dr. Munier-ie"}
+                              {selectedCert.signatoryName || "Dr. Saifullahi Umar"}
                             </p>
                             <p className="leading-none text-gray-400 text-[6px] mt-0.5 font-semibold">
                               {selectedCert.signatoryTitle || "Director General, J-ATA"}

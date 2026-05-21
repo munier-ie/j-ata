@@ -143,6 +143,7 @@ export default function AdminFarmers() {
                 <Table>
                   <TableHeader>
                     <TableRow>
+                      <TableHead className="w-12">Photo</TableHead>
                       <TableHead>Farmer ID</TableHead>
                       <TableHead>Name</TableHead>
                       <TableHead>Phone</TableHead>
@@ -156,6 +157,19 @@ export default function AdminFarmers() {
                   <TableBody>
                     {filteredFarmers.map((farmer) => (
                       <TableRow key={farmer.id} className="group hover:bg-muted/30 transition-colors">
+                        <TableCell className="w-12">
+                          {farmer.passportUrl ? (
+                            <img 
+                              src={farmer.passportUrl} 
+                              alt={`${farmer.firstName} ${farmer.lastName}`}
+                              className="w-10 h-10 rounded-full object-cover border border-emerald-500/20 shrink-0 shadow-sm transition-transform duration-200 group-hover:scale-105"
+                            />
+                          ) : (
+                            <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 shrink-0 text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+                              {farmer.firstName[0]}{farmer.lastName[0]}
+                            </div>
+                          )}
+                        </TableCell>
                         <TableCell className="font-mono text-sm font-semibold text-emerald-600 dark:text-emerald-400">
                           {farmer.farmerId}
                         </TableCell>
@@ -258,8 +272,19 @@ export default function AdminFarmers() {
           {selectedFarmer && (
             <div className="space-y-6 pt-4">
               {/* Header Profile Summary */}
-              <div className="flex items-center justify-between p-4 bg-secondary/30 rounded-xl border border-border/50">
-                <div className="space-y-1">
+              <div className="flex flex-col sm:flex-row items-center gap-4 p-4 bg-secondary/30 rounded-xl border border-border/50">
+                {selectedFarmer.passportUrl ? (
+                  <img 
+                    src={selectedFarmer.passportUrl} 
+                    alt={`${selectedFarmer.firstName} ${selectedFarmer.lastName}`}
+                    className="w-16 h-16 rounded-lg object-cover border border-border shrink-0 shadow-sm"
+                  />
+                ) : (
+                  <div className="w-16 h-16 rounded-lg bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 shrink-0">
+                    <span className="text-3xl">👨🏾‍🌾</span>
+                  </div>
+                )}
+                <div className="flex-1 text-center sm:text-left space-y-1">
                   <h3 className="font-display font-bold text-lg text-foreground">
                     {selectedFarmer.firstName} {selectedFarmer.lastName}
                   </h3>
@@ -269,10 +294,10 @@ export default function AdminFarmers() {
                 </div>
                 <Badge className={
                   selectedFarmer.status === 'approved' || selectedFarmer.status === 'active'
-                  ? 'bg-emerald-50 text-white border-none'
+                  ? 'bg-emerald-500 hover:bg-emerald-600 text-white border-none'
                   : selectedFarmer.status === 'pending'
-                  ? 'bg-amber-500 text-white border-none'
-                  : 'bg-slate-500 text-white border-none'
+                  ? 'bg-amber-500 hover:bg-amber-600 text-white border-none'
+                  : 'bg-slate-500 hover:bg-slate-600 text-white border-none'
                 }>
                   {selectedFarmer.status}
                 </Badge>
