@@ -2,12 +2,16 @@
 // In development: uses localhost:3001/api (from dev server)
 // In production (Vercel): uses /api (Vercel serverless functions)
 const getApiBase = () => {
-  // Check if we're in production (Vercel)
-  if (import.meta.env.PROD || window.location.hostname !== "localhost") {
-    return "/api"; // Production: use Vercel serverless functions
+  // If an explicit API URL is configured (e.g. on Netlify targeting a separate backend), use it
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
   }
-  // Development: use local Express server
-  return import.meta.env.VITE_API_URL || "http://localhost:3001/api";
+  // In production (Vercel): use co-located /api endpoint
+  if (import.meta.env.PROD || window.location.hostname !== "localhost") {
+    return "/api"; 
+  }
+  // Development default: use local Express server
+  return "http://localhost:3001/api";
 };
 
 const API_BASE = getApiBase();
